@@ -118,6 +118,39 @@ const goldenShower: WeaponData = {
     strategy:
       "作為輔助武器使用！開戰時先用黃金雨攻擊 Boss 2-3 秒確保施加減益，然後切換到主武器輸出。即使不是法師職業也應該準備一把，它能顯著提升整體 DPS。穿透特性讓它對毀滅者等多體節 Boss 特別有效。",
   },
+
+  // 武器機制
+  mechanics: {
+    // 操作機制
+    input: {
+      autoReuse: true,
+      channeling: false,
+      useTurn: true,
+    },
+    // 資源消耗
+    resource: {
+      manaCost: 7,
+    },
+    // 彈道與物理
+    projectile: {
+      piercing: -1, // 無限穿透
+      velocity: 13,
+      tileIgnore: false,
+      homing: false,
+    },
+    // 戰鬥效果
+    combat: {
+      debuffs: [
+        {
+          name: "靈液",
+          nameEn: "Ichor",
+          icon: "https://terraria.wiki.gg/images/e/e5/Ichor.png",
+          duration: 10,
+          effect: "降低 15 點防禦",
+        },
+      ],
+    },
+  },
 }
 
 export default goldenShower

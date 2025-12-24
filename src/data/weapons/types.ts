@@ -63,6 +63,106 @@ export interface DetailedDescription {
 }
 
 // ==========================================
+// 武器機制類型 (Weapon Mechanics)
+// ==========================================
+
+/**
+ * 操作機制 - 決定玩家按滑鼠時的手感
+ */
+export interface InputMechanics {
+  /** 自動揮舞/連發 - 按住左鍵持續攻擊 */
+  autoReuse: boolean;
+  /** 持續引導 - 需按住維持效果（雷射、溜溜球） */
+  channeling?: boolean;
+  /** 攻擊轉向 - 攻擊動作中是否可轉身 */
+  useTurn?: boolean;
+}
+
+/**
+ * 彈藥消耗設定
+ */
+export interface AmmoConfig {
+  /** 彈藥類型 (Bullet, Arrow, Dart, Rocket, etc.) */
+  type: string;
+  /** 省彈機率 (0-100)，100 = 無限彈藥 */
+  saveChance?: number;
+}
+
+/**
+ * 資源消耗 - 決定使用的成本
+ */
+export interface ResourceConsumption {
+  /** 魔力消耗 */
+  manaCost?: number;
+  /** 彈藥消耗設定 */
+  ammo?: AmmoConfig;
+  /** 是否為消耗品（投擲類武器） */
+  consumable?: boolean;
+}
+
+/**
+ * 彈道與物理 - 決定攻擊如何擊中敵人
+ */
+export interface ProjectilePhysics {
+  /** 穿透數 (-1 = 無限穿透) */
+  piercing?: number;
+  /** 反彈次數 */
+  bounces?: number;
+  /** 穿牆 (忽略地形碰撞) */
+  tileIgnore?: boolean;
+  /** 追蹤能力 */
+  homing?: boolean | 'weak' | 'strong';
+  /** 飛行速度 */
+  velocity?: number;
+}
+
+/**
+ * 減益效果
+ */
+export interface Debuff {
+  /** 減益名稱 */
+  name: string;
+  /** 減益英文名 */
+  nameEn: string;
+  /** 圖示 URL */
+  icon?: string;
+  /** 持續時間（秒） */
+  duration?: number;
+  /** 每秒傷害 (DoT) */
+  damagePerSecond?: number;
+  /** 特殊效果描述 */
+  effect?: string;
+}
+
+/**
+ * 戰鬥效果 - 攻擊命中後會發生什麼
+ */
+export interface CombatEffects {
+  /** 施加的減益效果 */
+  debuffs?: Debuff[];
+  /** 吸血比例 (0-1) */
+  lifeSteal?: number;
+  /** 真近戰 - 劍刃本體造成傷害 */
+  trueMelee?: boolean;
+  /** 額外效果描述 */
+  specialEffects?: string[];
+}
+
+/**
+ * 武器機制 - 完整的操作與效果資訊
+ */
+export interface WeaponMechanics {
+  /** 操作機制 */
+  input: InputMechanics;
+  /** 資源消耗 */
+  resource?: ResourceConsumption;
+  /** 彈道與物理 */
+  projectile?: ProjectilePhysics;
+  /** 戰鬥效果 */
+  combat?: CombatEffects;
+}
+
+// ==========================================
 // 武器資料完整類型（其他欄位暫用 any）
 // ==========================================
 
@@ -86,5 +186,7 @@ export interface WeaponData {
   meta: WeaponMeta;
   /** 詳細描述 */
   detailedDescription: DetailedDescription;
+  /** 武器機制（選填） */
+  mechanics?: WeaponMechanics;
 }
 

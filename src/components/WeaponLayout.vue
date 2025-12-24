@@ -1,5 +1,5 @@
 <script setup>
-import { ExternalLink, Swords, Target, Clock, Wind, Star, Sparkles, TrendingUp, Package, Hammer, Trophy, ChevronRight } from 'lucide-vue-next'
+import { ExternalLink, Swords, Target, Clock, Wind, Star, Sparkles, TrendingUp, Package, Hammer, Trophy, ChevronRight, Repeat, Crosshair, Flame, Heart, Zap, CircleDot, ArrowRight, Shield } from 'lucide-vue-next'
 import DocLayout from '@/layouts/DocLayout.vue'
 
 /**
@@ -196,6 +196,184 @@ const classIcons = {
             </div>
           </div>
         </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+           Mechanics Section - 武器機制
+           ======================================== -->
+      <section v-if="weapon.mechanics" class="section-card">
+        <h2 id="mechanics" class="section-heading">
+          <Zap :size="20" class="section-heading__icon" />
+          <span>武器機制</span>
+        </h2>
+        
+        <div class="mechanics-grid">
+          <!-- 操作機制 -->
+          <div class="mechanics-category">
+            <h3 class="mechanics-category__title">
+              <Repeat :size="16" />
+              操作機制
+            </h3>
+            <div class="mechanics-tags">
+              <span 
+                v-if="weapon.mechanics.input.autoReuse" 
+                class="mechanics-tag mechanics-tag--positive"
+              >
+                <Repeat :size="14" />
+                自動連發
+              </span>
+              <span 
+                v-else 
+                class="mechanics-tag mechanics-tag--neutral"
+              >
+                單次攻擊
+              </span>
+              <span 
+                v-if="weapon.mechanics.input.channeling" 
+                class="mechanics-tag mechanics-tag--info"
+              >
+                <CircleDot :size="14" />
+                持續引導
+              </span>
+              <span 
+                v-if="weapon.mechanics.input.useTurn" 
+                class="mechanics-tag mechanics-tag--neutral"
+              >
+                可轉向攻擊
+              </span>
+            </div>
+          </div>
+          
+          <!-- 資源消耗 -->
+          <div v-if="weapon.mechanics.resource" class="mechanics-category">
+            <h3 class="mechanics-category__title">
+              <Sparkles :size="16" />
+              資源消耗
+            </h3>
+            <div class="mechanics-tags">
+              <span 
+                v-if="weapon.mechanics.resource.manaCost" 
+                class="mechanics-tag mechanics-tag--mana"
+              >
+                <Star :size="14" />
+                {{ weapon.mechanics.resource.manaCost }} 魔力
+              </span>
+              <span 
+                v-if="weapon.mechanics.resource.ammo" 
+                class="mechanics-tag mechanics-tag--ammo"
+              >
+                彈藥: {{ weapon.mechanics.resource.ammo.type }}
+                <template v-if="weapon.mechanics.resource.ammo.saveChance === 100">
+                  <span class="mechanics-tag__highlight">∞ 無限</span>
+                </template>
+                <template v-else-if="weapon.mechanics.resource.ammo.saveChance">
+                  ({{ weapon.mechanics.resource.ammo.saveChance }}% 省彈)
+                </template>
+              </span>
+              <span 
+                v-if="weapon.mechanics.resource.consumable" 
+                class="mechanics-tag mechanics-tag--warning"
+              >
+                消耗品
+              </span>
+            </div>
+          </div>
+          
+          <!-- 彈道與物理 -->
+          <div v-if="weapon.mechanics.projectile" class="mechanics-category">
+            <h3 class="mechanics-category__title">
+              <ArrowRight :size="16" />
+              彈道物理
+            </h3>
+            <div class="mechanics-tags">
+              <span 
+                v-if="weapon.mechanics.projectile.piercing === -1" 
+                class="mechanics-tag mechanics-tag--positive"
+              >
+                <Crosshair :size="14" />
+                無限穿透
+              </span>
+              <span 
+                v-else-if="weapon.mechanics.projectile.piercing && weapon.mechanics.projectile.piercing > 0" 
+                class="mechanics-tag mechanics-tag--info"
+              >
+                <Crosshair :size="14" />
+                穿透 {{ weapon.mechanics.projectile.piercing }}
+              </span>
+              <span 
+                v-if="weapon.mechanics.projectile.bounces" 
+                class="mechanics-tag mechanics-tag--info"
+              >
+                反彈 {{ weapon.mechanics.projectile.bounces }}
+              </span>
+              <span 
+                v-if="weapon.mechanics.projectile.tileIgnore" 
+                class="mechanics-tag mechanics-tag--positive"
+              >
+                穿牆
+              </span>
+              <span 
+                v-if="weapon.mechanics.projectile.homing" 
+                class="mechanics-tag mechanics-tag--positive"
+              >
+                <Target :size="14" />
+                {{ weapon.mechanics.projectile.homing === 'strong' ? '強追蹤' : weapon.mechanics.projectile.homing === 'weak' ? '弱追蹤' : '追蹤' }}
+              </span>
+              <span 
+                v-if="weapon.mechanics.projectile.velocity" 
+                class="mechanics-tag mechanics-tag--neutral"
+              >
+                速度 {{ weapon.mechanics.projectile.velocity }}
+              </span>
+            </div>
+          </div>
+          
+          <!-- 戰鬥效果 -->
+          <div v-if="weapon.mechanics.combat" class="mechanics-category">
+            <h3 class="mechanics-category__title">
+              <Flame :size="16" />
+              戰鬥效果
+            </h3>
+            <div class="mechanics-tags">
+              <span 
+                v-for="debuff in weapon.mechanics.combat.debuffs" 
+                :key="debuff.nameEn"
+                class="mechanics-tag mechanics-tag--debuff"
+              >
+                <img 
+                  v-if="debuff.icon" 
+                  :src="debuff.icon" 
+                  :alt="debuff.name"
+                  class="mechanics-tag__icon"
+                />
+                <Flame v-else :size="14" />
+                {{ debuff.name }}
+                <small v-if="debuff.duration">({{ debuff.duration }}秒)</small>
+              </span>
+              <span 
+                v-if="weapon.mechanics.combat.lifeSteal" 
+                class="mechanics-tag mechanics-tag--lifesteal"
+              >
+                <Heart :size="14" />
+                吸血 {{ weapon.mechanics.combat.lifeSteal * 100 }}%
+              </span>
+              <span 
+                v-if="weapon.mechanics.combat.trueMelee" 
+                class="mechanics-tag mechanics-tag--melee"
+              >
+                <Swords :size="14" />
+                真近戰
+              </span>
+              <span 
+                v-for="effect in weapon.mechanics.combat.specialEffects" 
+                :key="effect"
+                class="mechanics-tag mechanics-tag--info"
+              >
+                {{ effect }}
+              </span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -795,6 +973,171 @@ const classIcons = {
 
 :global(.dark) .whygood-card__text {
   color: #fef3c7;
+}
+
+/* ==========================================
+   Mechanics Section
+   ========================================== */
+.mechanics-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.mechanics-category {
+  padding: 1rem 1.25rem;
+  background: var(--color-bg-main);
+  border-radius: 0.625rem;
+  border: 1px solid var(--color-border);
+}
+
+.mechanics-category__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin: 0 0 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.mechanics-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.mechanics-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.mechanics-tag__icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.mechanics-tag__highlight {
+  font-weight: 700;
+  color: #10b981;
+}
+
+/* 標籤顏色變體 */
+.mechanics-tag--positive {
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+}
+
+:global(.dark) .mechanics-tag--positive {
+  background: rgba(16, 185, 129, 0.15);
+  color: #6ee7b7;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.mechanics-tag--neutral {
+  background: var(--color-bg-card);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.mechanics-tag--info {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  color: #1e40af;
+  border: 1px solid #93c5fd;
+}
+
+:global(.dark) .mechanics-tag--info {
+  background: rgba(59, 130, 246, 0.15);
+  color: #93c5fd;
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.mechanics-tag--warning {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  color: #92400e;
+  border: 1px solid #fcd34d;
+}
+
+:global(.dark) .mechanics-tag--warning {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fcd34d;
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.mechanics-tag--mana {
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+  color: #3730a3;
+  border: 1px solid #a5b4fc;
+}
+
+:global(.dark) .mechanics-tag--mana {
+  background: rgba(99, 102, 241, 0.15);
+  color: #a5b4fc;
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.mechanics-tag--ammo {
+  background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+  color: #9d174d;
+  border: 1px solid #f9a8d4;
+}
+
+:global(.dark) .mechanics-tag--ammo {
+  background: rgba(236, 72, 153, 0.15);
+  color: #f9a8d4;
+  border-color: rgba(236, 72, 153, 0.3);
+}
+
+.mechanics-tag--debuff {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+:global(.dark) .mechanics-tag--debuff {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.mechanics-tag--lifesteal {
+  background: linear-gradient(135deg, #fce7f3 0%, #fda4af 100%);
+  color: #be123c;
+  border: 1px solid #fb7185;
+}
+
+:global(.dark) .mechanics-tag--lifesteal {
+  background: rgba(244, 63, 94, 0.15);
+  color: #fb7185;
+  border-color: rgba(244, 63, 94, 0.3);
+}
+
+.mechanics-tag--melee {
+  background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%);
+  color: #9a3412;
+  border: 1px solid #fdba74;
+}
+
+:global(.dark) .mechanics-tag--melee {
+  background: rgba(249, 115, 22, 0.15);
+  color: #fdba74;
+  border-color: rgba(249, 115, 22, 0.3);
+}
+
+.mechanics-tag small {
+  font-size: 0.6875rem;
+  opacity: 0.8;
 }
 
 /* ==========================================
