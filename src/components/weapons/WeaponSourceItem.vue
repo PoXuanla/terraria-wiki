@@ -128,13 +128,14 @@ const config = typeConfig[props.source.type] || typeConfig.other
         
         <!-- 掉落武器 -->
         <div class="source-slot source-slot--result">
+          <!-- 機率泡泡 -->
+          <div class="source-slot__bubble">{{ source.dropChance }}</div>
           <div class="source-slot__icon-wrapper">
             <img 
               :src="result.icon" 
               :alt="result.name"
               class="source-slot__icon"
             />
-            <span class="source-slot__chance">{{ source.dropChance }}</span>
           </div>
           <span class="source-slot__name">{{ result.name }}</span>
         </div>
@@ -255,9 +256,10 @@ const config = typeConfig[props.source.type] || typeConfig.other
         <div class="source-item__arrow">→</div>
         
         <div class="source-slot source-slot--result">
+          <!-- 機率泡泡 -->
+          <div v-if="source.dropChance" class="source-slot__bubble">{{ source.dropChance }}</div>
           <div class="source-slot__icon-wrapper">
             <img :src="result.icon" :alt="result.name" class="source-slot__icon" />
-            <span v-if="source.dropChance" class="source-slot__chance">{{ source.dropChance }}</span>
           </div>
           <span class="source-slot__name">{{ result.name }}</span>
         </div>
@@ -430,18 +432,31 @@ const config = typeConfig[props.source.type] || typeConfig.other
   line-height: 1;
 }
 
-.source-slot__chance {
-  position: absolute;
-  bottom: -6px;
-  right: -12px;
-  padding: 0.125rem 0.375rem;
+/* 機率泡泡 - 訊息泡泡樣式 */
+.source-slot__bubble {
+  position: relative;
+  padding: 0.25rem 0.5rem;
   background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
   color: white;
-  font-size: 0.5625rem;
+  font-size: 0.6875rem;
   font-weight: 700;
-  border-radius: 9999px;
+  border-radius: 0.375rem;
   line-height: 1;
   white-space: nowrap;
+  margin-bottom: 0.25rem;
+  box-shadow: 0 2px 4px -1px rgba(245, 158, 11, 0.3);
+}
+
+/* 泡泡底部三角形 */
+.source-slot__bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #f97316;
 }
 
 .source-slot__price {
