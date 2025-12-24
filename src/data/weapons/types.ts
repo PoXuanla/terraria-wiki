@@ -149,6 +149,38 @@ export interface CombatEffects {
 }
 
 /**
+ * 召喚物特性 - 召喚武器專用
+ */
+export interface SummonBehavior {
+  /** 召喚欄位消耗 */
+  slots: number;
+  /** AI 類型 */
+  aiType: 'melee' | 'ranged' | 'flying' | 'stationary' | 'whip';
+  /** 追蹤能力 */
+  tracking?: boolean | 'weak' | 'strong' | 'perfect';
+  /** 攻擊速度描述 */
+  attackSpeed?: string;
+  /** 是否需要鞭子標記 */
+  requiresWhip?: boolean;
+  /** 特殊能力 */
+  specialAbility?: string;
+}
+
+/**
+ * 近戰特性 - 近戰武器專用
+ */
+export interface MeleeProperties {
+  /** 攻擊範圍 (tiles) */
+  range?: number;
+  /** 揮擊角度 */
+  swingArc?: number;
+  /** 是否發射劍氣 */
+  projectile?: boolean;
+  /** 無視防禦比例 (0-1) */
+  armorPenetration?: number;
+}
+
+/**
  * 武器機制 - 完整的操作與效果資訊
  */
 export interface WeaponMechanics {
@@ -156,10 +188,14 @@ export interface WeaponMechanics {
   input: InputMechanics;
   /** 資源消耗 */
   resource?: ResourceConsumption;
-  /** 彈道與物理 */
+  /** 彈道與物理（魔法/遠程武器） */
   projectile?: ProjectilePhysics;
   /** 戰鬥效果 */
   combat?: CombatEffects;
+  /** 召喚物特性（召喚武器） */
+  summon?: SummonBehavior;
+  /** 近戰特性（近戰武器） */
+  melee?: MeleeProperties;
 }
 
 // ==========================================
