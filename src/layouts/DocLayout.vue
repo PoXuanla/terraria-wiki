@@ -1,10 +1,10 @@
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick } from 'vue'
-import { List } from 'lucide-vue-next'
+import { ref, onMounted, onUnmounted, nextTick } from "vue";
+import { List } from "lucide-vue-next";
 
 /**
  * DocLayout - 智慧型文檔佈局組件
- * 
+ *
  * 功能：
  * 1. 自動掃描 slot 內的 <h2> 標籤生成目錄
  * 2. 使用 IntersectionObserver 實現 Scroll Spy
@@ -18,25 +18,25 @@ defineProps({
    */
   title: {
     type: String,
-    default: '目錄',
+    default: "目錄",
   },
-})
+});
 
 // ==========================================
 // State
 // ==========================================
 
 /** 內容容器的 ref */
-const contentRef = ref(null)
+const contentRef = ref(null);
 
 /** 目錄項目陣列 */
-const tocItems = ref([])
+const tocItems = ref([]);
 
 /** 當前活動的標題 ID */
-const activeId = ref('')
+const activeId = ref("");
 
 /** IntersectionObserver 實例 */
-let observer = null
+let observer = null;
 
 // ==========================================
 // Methods
@@ -47,82 +47,82 @@ let observer = null
  * 如果沒有 id，自動賦予唯一 id
  */
 const scanHeadings = () => {
-  if (!contentRef.value) return
-  
-  const headings = contentRef.value.querySelectorAll('h2')
-  const items = []
-  
+  if (!contentRef.value) return;
+
+  const headings = contentRef.value.querySelectorAll("h2");
+  const items = [];
+
   headings.forEach((heading, index) => {
     // 如果沒有 id，自動賦予
     if (!heading.id) {
-      heading.id = `section-${index}`
+      heading.id = `section-${index}`;
     }
-    
+
     items.push({
       id: heading.id,
       text: heading.textContent?.trim() || `Section ${index + 1}`,
       element: heading,
-    })
-  })
-  
-  tocItems.value = items
-  
+    });
+  });
+
+  tocItems.value = items;
+
   // 設定初始 activeId
   if (items.length > 0) {
-    activeId.value = items[0].id
+    activeId.value = items[0].id;
   }
-}
+};
 
 /**
  * 設定 IntersectionObserver 進行 Scroll Spy
  */
 const setupScrollSpy = () => {
-  if (tocItems.value.length === 0) return
-  
+  if (tocItems.value.length === 0) return;
+
   // 建立 Observer
   observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          activeId.value = entry.target.id
+          activeId.value = entry.target.id;
         }
-      })
+      });
     },
     {
       // rootMargin: 上方偏移 -10%, 下方偏移 -80%
       // 這讓標題在進入視窗上方 10% 時觸發
-      rootMargin: '-10% 0px -80% 0px',
+      rootMargin: "-10% 0px -80% 0px",
       threshold: 0,
     }
-  )
-  
+  );
+
   // 觀察所有標題
   tocItems.value.forEach((item) => {
     if (item.element) {
-      observer.observe(item.element)
+      observer.observe(item.element);
     }
-  })
-}
+  });
+};
 
 /**
  * 平滑捲動到指定標題
  */
 const scrollToHeading = (id) => {
-  const element = document.getElementById(id)
+  const element = document.getElementById(id);
   if (element) {
     element.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    })
+      behavior: "smooth",
+      block: "start",
+    });
     // 手動更新 activeId
-    activeId.value = id
+    activeId.value = id;
   }
-}
+};
 
 /**
  * 判斷項目是否為當前活動項目
  */
-const isActive = (id) => activeId.value === id
+const isActive = (id) => activeId.value === id;
 
 // ==========================================
 // Lifecycle
@@ -130,22 +130,22 @@ const isActive = (id) => activeId.value === id
 
 onMounted(async () => {
   // 等待 DOM 完全渲染
-  await nextTick()
-  
+  await nextTick();
+
   // 稍微延遲以確保 slot 內容已渲染
   setTimeout(() => {
-    scanHeadings()
-    setupScrollSpy()
-  }, 100)
-})
+    scanHeadings();
+    setupScrollSpy();
+  }, 100);
+});
 
 onUnmounted(() => {
   // 清理 Observer
   if (observer) {
-    observer.disconnect()
-    observer = null
+    observer.disconnect();
+    observer = null;
   }
-})
+});
 </script>
 
 <template>
@@ -157,18 +157,15 @@ onUnmounted(() => {
           <List :size="16" class="doc-toc__header-icon" />
           <span class="doc-toc__title">{{ title }}</span>
         </div>
-        
+
         <nav class="doc-toc__nav">
           <ul class="doc-toc__list">
-            <li 
-              v-for="item in tocItems" 
-              :key="item.id"
-            >
+            <li v-for="item in tocItems" :key="item.id">
               <a
                 :href="`#${item.id}`"
                 :class="[
                   'doc-toc__link',
-                  { 'doc-toc__link--active': isActive(item.id) }
+                  { 'doc-toc__link--active': isActive(item.id) },
                 ]"
                 @click.prevent="scrollToHeading(item.id)"
               >
@@ -177,19 +174,21 @@ onUnmounted(() => {
             </li>
           </ul>
         </nav>
-        
+
         <!-- 空狀態 -->
         <div v-if="tocItems.length === 0" class="doc-toc__empty">
           <span class="doc-toc__empty-text">尚無目錄項目</span>
-          <span class="doc-toc__empty-hint">請在內容中加入 &lt;h2&gt; 標題</span>
+          <span class="doc-toc__empty-hint"
+            >請在內容中加入 &lt;h2&gt; 標題</span
+          >
         </div>
       </div>
     </aside>
-    
+
     <!-- 主要內容區 -->
-    <article 
+    <article
       ref="contentRef"
-      class="doc-content prose prose-indigo max-w-none"
+      class="doc-content prose prose-indigo dark:prose-invert max-w-none"
     >
       <slot />
     </article>
@@ -221,6 +220,13 @@ onUnmounted(() => {
   background: var(--color-bg-card);
   border-radius: 0.75rem;
   box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 深色模式：改用邊框取代陰影 */
+:global(.dark) .doc-toc__inner {
+  box-shadow: none;
+  border: 1px solid var(--color-border);
 }
 
 .doc-toc__header {
@@ -245,7 +251,7 @@ onUnmounted(() => {
 }
 
 .doc-toc__nav {
-  /* 可捲動 */
+  overflow-y: auto;
 }
 
 .doc-toc__list {
@@ -312,6 +318,13 @@ onUnmounted(() => {
   border-radius: 0.75rem;
   padding: 2rem;
   box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 深色模式：改用邊框取代陰影 */
+:global(.dark) .doc-content {
+  box-shadow: none;
+  border: 1px solid var(--color-border);
 }
 
 /* ==========================================
@@ -321,17 +334,17 @@ onUnmounted(() => {
   .doc-layout {
     flex-direction: column;
   }
-  
+
   .doc-toc {
     width: 100%;
     order: 2;
   }
-  
+
   .doc-toc__inner {
     position: static;
     max-height: none;
   }
-  
+
   .doc-content {
     order: 1;
   }
@@ -437,6 +450,11 @@ onUnmounted(() => {
   font-size: 0.875rem;
 }
 
+/* 深色模式 h2 邊框顏色調整 */
+.dark .doc-content.prose h2 {
+  border-bottom-color: #4f46e5;
+}
+
 .doc-content.prose table {
   width: 100%;
   border-collapse: collapse;
@@ -470,10 +488,19 @@ onUnmounted(() => {
   margin: 1.5rem 0;
 }
 
+.dark .doc-content.prose .tip {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
 .doc-content.prose .tip-title {
   font-weight: 600;
   color: #1e40af;
   margin-bottom: 0.5rem;
+}
+
+.dark .doc-content.prose .tip-title {
+  color: #93c5fd;
 }
 
 .doc-content.prose .warning {
@@ -484,10 +511,18 @@ onUnmounted(() => {
   margin: 1.5rem 0;
 }
 
+.dark .doc-content.prose .warning {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
 .doc-content.prose .warning-title {
   font-weight: 600;
   color: #92400e;
   margin-bottom: 0.5rem;
 }
-</style>
 
+.dark .doc-content.prose .warning-title {
+  color: #fcd34d;
+}
+</style>

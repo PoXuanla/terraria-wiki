@@ -4,9 +4,13 @@
 </script>
 
 <template>
-  <RouterView />
+  <div class="app-wrapper bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <RouterView />
+  </div>
 </template>
 
 <style scoped>
-/* App 層級的樣式已移至 base.css */
+.app-wrapper {
+  min-height: 100vh;
+}
 </style>

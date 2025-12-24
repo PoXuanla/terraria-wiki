@@ -50,17 +50,46 @@
 }
 
 /* ==========================================
-   暗色主題 (可選，未來擴展用)
+   暗色主題 (使用 Tailwind 的 class 策略)
    ========================================== */
 
-[data-theme="dark"] {
-  --color-bg-main: #1e293b;
-  --color-bg-header: #0f172a;
-  --color-bg-card: #1e293b;
-  --color-text-primary: #f8fafc;
-  --color-text-secondary: #cbd5e1;
-  --color-border: #334155;
-  --color-border-light: #1e293b;
+.dark {
+  /* 主色調 - 稍微提亮以適應深色背景 */
+  --color-primary: #818cf8;           /* Indigo 400 */
+  --color-primary-hover: #6366f1;     /* Indigo 500 */
+  --color-primary-light: #4f46e5;     /* Indigo 600 */
+  
+  /* 強調色 */
+  --color-accent: #22d3ee;            /* Cyan 400 */
+  --color-accent-hover: #06b6d4;      /* Cyan 500 */
+  
+  /* 背景色系 - 深色 */
+  --color-bg-sidebar: #0f172a;        /* Slate 900 - 保持深邃 */
+  --color-bg-main: #111827;           /* Gray 900 */
+  --color-bg-header: #1f2937;         /* Gray 800 */
+  --color-bg-card: #1f2937;           /* Gray 800 */
+  
+  /* 文字色系 - 反轉 */
+  --color-text-primary: #f9fafb;      /* Gray 50 */
+  --color-text-secondary: #d1d5db;    /* Gray 300 */
+  --color-text-muted: #6b7280;        /* Gray 500 */
+  --color-text-inverse: #111827;      /* Gray 900 */
+  
+  /* 邊框色系 - 深色 */
+  --color-border: #374151;            /* Gray 700 */
+  --color-border-light: #1f2937;      /* Gray 800 */
+  
+  /* 側欄選單專用 */
+  --color-sidebar-text: #9ca3af;      /* Gray 400 */
+  --color-sidebar-text-active: #ffffff;
+  --color-sidebar-hover: rgba(129, 140, 248, 0.15);
+  --color-sidebar-active: rgba(129, 140, 248, 0.25);
+  
+  /* 歷史標籤專用 */
+  --color-tag-bg: #374151;            /* Gray 700 */
+  --color-tag-bg-active: #818cf8;     /* Indigo 400 */
+  --color-tag-text: #d1d5db;          /* Gray 300 */
+  --color-tag-text-active: #ffffff;
 }
 
 /* ==========================================
@@ -88,6 +117,8 @@ body {
   background-color: var(--color-bg-main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* 深色模式切換過渡效果 */
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ==========================================

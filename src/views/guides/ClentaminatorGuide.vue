@@ -260,7 +260,7 @@ const operationTips = [
     <!-- ========================================
          Section 1: 侵蝕機制
          ======================================== -->
-    <h2 id="erosion">侵蝕機制</h2>
+    <h2 id="erosion" class="text-gray-900 dark:text-gray-100">侵蝕機制</h2>
     
     <p>
       了解三種侵蝕性生物群系的特性是治理的第一步。
@@ -323,7 +323,7 @@ const operationTips = [
     </div>
 
     <!-- 方塊擴散機制表 -->
-    <h3>方塊擴散一覽</h3>
+    <h3 class="text-gray-800 dark:text-gray-200">方塊擴散一覽</h3>
     <p>不同類型的方塊對侵蝕的反應不同，以下是詳細對照表：</p>
 
     <div class="not-prose spread-table">
@@ -365,53 +365,53 @@ const operationTips = [
     <!-- ========================================
          Section 2: 緊急警告：叢林
          ======================================== -->
-    <h2 id="jungle-warning">緊急警告：叢林</h2>
+    <h2 id="jungle-warning" class="text-gray-900 dark:text-gray-100">緊急警告：叢林</h2>
 
     <!-- 叢林危機警告區塊 (不被 prose 影響) -->
-    <div class="not-prose jungle-alert">
+    <div class="not-prose jungle-alert dark:bg-yellow-950/40 dark:border-yellow-600">
       <div class="jungle-alert__header">
-        <div class="jungle-alert__icon-wrapper">
+        <div class="jungle-alert__icon-wrapper dark:bg-gradient-to-br dark:from-green-800 dark:to-green-900">
           <BaseIcon 
             icon="https://terraria.wiki.gg/images/5/52/Jungle_Spores.png" 
             :size="48" 
           />
         </div>
         <div class="jungle-alert__title-group">
-          <span class="jungle-alert__badge">
+          <span class="jungle-alert__badge dark:bg-yellow-800/50 dark:text-yellow-200">
             <AlertTriangle :size="14" />
             緊急警告
           </span>
-          <h3 class="jungle-alert__title">叢林危機：不可逆的破壞</h3>
+          <h3 class="jungle-alert__title dark:text-yellow-100">叢林危機：不可逆的破壞</h3>
         </div>
       </div>
       
       <div class="jungle-alert__content">
         <div class="jungle-alert__main">
-          <h4 class="jungle-alert__subtitle">
+          <h4 class="jungle-alert__subtitle dark:text-green-300">
             <TreePine :size="18" />
             為什麼必須保護叢林？
           </h4>
-          <p class="jungle-alert__text">
+          <p class="jungle-alert__text dark:text-gray-200">
             叢林是由<strong>淤泥 (Mud)</strong> 構成的。當腐化或猩紅侵蝕到叢林邊緣時：
           </p>
-          <div class="jungle-alert__formula">
-            <div class="formula-step">
+          <div class="jungle-alert__formula dark:bg-black/30">
+            <div class="formula-step dark:text-gray-300">
               <BaseIcon 
                 icon="https://terraria.wiki.gg/images/d/d5/Mud_Block.png" 
                 :size="32" 
               />
               <span>淤泥</span>
             </div>
-            <ArrowRight :size="24" class="formula-arrow" />
-            <div class="formula-step">
+            <ArrowRight :size="24" class="formula-arrow dark:text-yellow-400" />
+            <div class="formula-step dark:text-gray-300">
               <BaseIcon 
                 icon="https://terraria.wiki.gg/images/1/10/Dirt_Block.png" 
                 :size="32" 
               />
               <span>泥土</span>
             </div>
-            <ArrowRight :size="24" class="formula-arrow" />
-            <div class="formula-step formula-step--danger">
+            <ArrowRight :size="24" class="formula-arrow dark:text-yellow-400" />
+            <div class="formula-step formula-step--danger dark:bg-red-900/40 dark:border-red-500 dark:text-red-300">
               <BaseIcon 
                 icon="https://terraria.wiki.gg/images/f/f7/Ebonstone_Block.png" 
                 :size="32" 
@@ -419,15 +419,15 @@ const operationTips = [
               <span>邪惡方塊</span>
             </div>
           </div>
-          <p class="jungle-alert__text jungle-alert__text--emphasis">
+          <p class="jungle-alert__text jungle-alert__text--emphasis dark:text-yellow-100 dark:bg-yellow-900/30">
             ⚠️ <strong>淤泥 → 泥土 的轉化是不可逆的！</strong>
             即使你用綠色溶液淨化，泥土也不會變回淤泥。
           </p>
         </div>
         
-        <div class="jungle-alert__consequence">
-          <h4 class="jungle-alert__consequence-title">後果</h4>
-          <ul class="jungle-alert__list">
+        <div class="jungle-alert__consequence dark:bg-red-900/30">
+          <h4 class="jungle-alert__consequence-title dark:text-red-300">後果</h4>
+          <ul class="jungle-alert__list dark:text-red-200">
             <li>
               <XCircle :size="16" class="list-icon--danger" />
               <span>叢林面積永久縮小</span>
@@ -444,7 +444,7 @@ const operationTips = [
         </div>
       </div>
       
-      <div class="jungle-alert__solution">
+      <div class="jungle-alert__solution dark:bg-green-900/20 dark:border-green-700 dark:text-green-200">
         <Info :size="18" />
         <p>
           <strong>解決方案：</strong>在叢林周圍建立 <em>神聖之地緩衝區</em>。
@@ -456,7 +456,7 @@ const operationTips = [
     <!-- ========================================
          Section 3: 早期對策
          ======================================== -->
-    <h2 id="early-solutions">早期對策</h2>
+    <h2 id="early-solutions" class="text-gray-900 dark:text-gray-100">早期對策</h2>
     
     <p>
       在取得環境改造槍之前，可以使用這些方法減緩擴散速度，爭取時間。
@@ -506,7 +506,7 @@ const operationTips = [
     <!-- ========================================
          Section 4: 終極方案：環境槍
          ======================================== -->
-    <h2 id="clentaminator">終極方案：環境槍</h2>
+    <h2 id="clentaminator" class="text-gray-900 dark:text-gray-100">終極方案：環境槍</h2>
     
     <p>
       <strong>環境改造槍 (Clentaminator)</strong> 是遊戲中最強大的環境控制工具，
@@ -643,7 +643,7 @@ const operationTips = [
     <!-- ========================================
          最終提示
          ======================================== -->
-    <h2 id="summary">總結與建議</h2>
+    <h2 id="summary" class="text-gray-900 dark:text-gray-100">總結與建議</h2>
     
     <p>環境治理是困難模式中不可忽視的重要任務。以下是關鍵建議：</p>
     
@@ -763,6 +763,27 @@ const operationTips = [
   padding: 1.25rem;
   border-radius: 0.75rem;
   border: 2px solid;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* 深色模式：生物群系卡片 */
+:global(.dark) .biome-card {
+  background-color: #1f2937 !important; /* 統一深灰底 */
+}
+
+:global(.dark) .biome-card.bg-purple-50 {
+  border-color: #a78bfa !important; /* purple-400 */
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(139, 92, 246, 0.05) 100%) !important;
+}
+
+:global(.dark) .biome-card.bg-red-50 {
+  border-color: #f87171 !important; /* red-400 */
+  background: linear-gradient(135deg, rgba(248, 113, 113, 0.15) 0%, rgba(248, 113, 113, 0.05) 100%) !important;
+}
+
+:global(.dark) .biome-card.bg-pink-50 {
+  border-color: #f472b6 !important; /* pink-400 */
+  background: linear-gradient(135deg, rgba(244, 114, 182, 0.15) 0%, rgba(244, 114, 182, 0.05) 100%) !important;
 }
 
 .biome-card__header {
@@ -786,11 +807,29 @@ const operationTips = [
   font-size: 1rem;
   font-weight: 700;
   margin: 0;
+  transition: color 0.3s ease;
+}
+
+/* 深色模式：卡片標題文字改為亮色 */
+:global(.dark) .biome-card__name.text-purple-900 {
+  color: #c4b5fd !important; /* purple-300 */
+}
+
+:global(.dark) .biome-card__name.text-red-900 {
+  color: #fca5a5 !important; /* red-300 */
+}
+
+:global(.dark) .biome-card__name.text-pink-900 {
+  color: #f9a8d4 !important; /* pink-300 */
 }
 
 .biome-card__name-en {
   font-size: 0.6875rem;
   opacity: 0.7;
+}
+
+:global(.dark) .biome-card__name-en {
+  color: #9ca3af; /* gray-400 */
 }
 
 .biome-card__badge {
@@ -807,6 +846,12 @@ const operationTips = [
 .biome-card__badge--safe {
   background: #dcfce7;
   color: #166534;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+:global(.dark) .biome-card__badge--safe {
+  background: rgba(34, 197, 94, 0.2);
+  color: #86efac;
 }
 
 .biome-card__desc {
@@ -814,6 +859,12 @@ const operationTips = [
   line-height: 1.5;
   margin: 0 0 0.75rem;
   opacity: 0.9;
+  transition: color 0.3s ease;
+}
+
+/* 深色模式：卡片描述文字改為淺灰 */
+:global(.dark) .biome-card__desc {
+  color: #d1d5db !important; /* gray-300 */
 }
 
 .biome-card__spread,
@@ -848,6 +899,12 @@ const operationTips = [
   border-radius: 9999px;
   font-size: 0.625rem;
   font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+:global(.dark) .biome-card__tag {
+  background: rgba(255, 255, 255, 0.1);
+  color: #d1d5db;
 }
 
 .biome-card__danger {
@@ -864,11 +921,23 @@ const operationTips = [
 .biome-card__danger--warning {
   background: #fef2f2;
   color: #991b1b;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+:global(.dark) .biome-card__danger--warning {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
 }
 
 .biome-card__danger--safe {
   background: #f0fdf4;
   color: #166534;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+:global(.dark) .biome-card__danger--safe {
+  background: rgba(34, 197, 94, 0.15);
+  color: #86efac;
 }
 
 /* ==========================================
@@ -905,6 +974,11 @@ const operationTips = [
 
 .spread-table__row--critical {
   background: #fef3c7;
+  transition: background-color 0.3s ease;
+}
+
+:global(.dark) .spread-table__row--critical {
+  background: rgba(251, 191, 36, 0.15);
 }
 
 .spread-table__cell--block {
@@ -957,6 +1031,14 @@ const operationTips = [
   padding: 1.5rem;
   margin: 1.5rem 0;
   box-shadow: 0 4px 20px -4px rgba(251, 191, 36, 0.2);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 深色模式：叢林警告區塊 - 降低亮度，保留警告語意 */
+:global(.dark) .jungle-alert {
+  background: rgba(251, 191, 36, 0.1); /* 深色半透明黃 */
+  border-color: #d97706; /* amber-600 */
+  box-shadow: 0 4px 20px -4px rgba(251, 191, 36, 0.1);
 }
 
 .jungle-alert__header {
@@ -994,6 +1076,12 @@ const operationTips = [
   letter-spacing: 0.05em;
   color: #78350f;
   margin-bottom: 0.375rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+:global(.dark) .jungle-alert__badge {
+  background: rgba(251, 191, 36, 0.3);
+  color: #fcd34d; /* amber-300 */
 }
 
 .jungle-alert__title {
@@ -1001,6 +1089,11 @@ const operationTips = [
   font-weight: 700;
   color: #78350f;
   margin: 0;
+  transition: color 0.3s ease;
+}
+
+:global(.dark) .jungle-alert__title {
+  color: #fcd34d; /* amber-300 */
 }
 
 .jungle-alert__content {
@@ -1018,6 +1111,11 @@ const operationTips = [
   font-weight: 600;
   color: #166534;
   margin: 0 0 0.75rem;
+  transition: color 0.3s ease;
+}
+
+:global(.dark) .jungle-alert__subtitle {
+  color: #86efac; /* green-300 */
 }
 
 .jungle-alert__text {
@@ -1025,6 +1123,11 @@ const operationTips = [
   color: #713f12;
   line-height: 1.6;
   margin: 0 0 0.75rem;
+  transition: color 0.3s ease;
+}
+
+:global(.dark) .jungle-alert__text {
+  color: #e5e7eb; /* gray-200 */
 }
 
 .jungle-alert__text--emphasis {
@@ -1032,6 +1135,11 @@ const operationTips = [
   background: rgba(251, 191, 36, 0.3);
   border-radius: 0.5rem;
   font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+:global(.dark) .jungle-alert__text--emphasis {
+  background: rgba(251, 191, 36, 0.15);
 }
 
 .jungle-alert__formula {
@@ -1044,6 +1152,11 @@ const operationTips = [
   margin: 1rem 0;
   flex-wrap: wrap;
   justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+:global(.dark) .jungle-alert__formula {
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .formula-step {
@@ -1057,17 +1170,33 @@ const operationTips = [
   color: var(--color-text-secondary);
 }
 
+:global(.dark) .formula-step {
+  color: #d1d5db;
+}
+
 .formula-step--danger {
   padding: 0.5rem 0.75rem;
   background: #fef2f2;
   border: 2px solid #fca5a5;
   border-radius: 0.5rem;
   color: #991b1b;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+:global(.dark) .formula-step--danger {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #f87171;
+  color: #fca5a5;
 }
 
 .formula-arrow {
   color: #78350f;
   flex-shrink: 0;
+  transition: color 0.3s ease;
+}
+
+:global(.dark) .formula-arrow {
+  color: #fcd34d;
 }
 
 .jungle-alert__consequence {
@@ -1075,6 +1204,11 @@ const operationTips = [
   background: #fef2f2;
   border-radius: 0.5rem;
   align-self: start;
+  transition: background-color 0.3s ease;
+}
+
+:global(.dark) .jungle-alert__consequence {
+  background: rgba(239, 68, 68, 0.15);
 }
 
 .jungle-alert__consequence-title {
@@ -1084,6 +1218,11 @@ const operationTips = [
   letter-spacing: 0.1em;
   color: #991b1b;
   margin: 0 0 0.5rem;
+  transition: color 0.3s ease;
+}
+
+:global(.dark) .jungle-alert__consequence-title {
+  color: #fca5a5;
 }
 
 .jungle-alert__list {
@@ -1101,6 +1240,11 @@ const operationTips = [
   gap: 0.5rem;
   font-size: 0.8125rem;
   color: #991b1b;
+  transition: color 0.3s ease;
+}
+
+:global(.dark) .jungle-alert__list li {
+  color: #fca5a5;
 }
 
 .list-icon--danger {
@@ -1118,6 +1262,13 @@ const operationTips = [
   border-radius: 0.5rem;
   font-size: 0.875rem;
   color: #166534;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+:global(.dark) .jungle-alert__solution {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.3);
+  color: #86efac;
 }
 
 .jungle-alert__solution p {
@@ -1199,6 +1350,11 @@ const operationTips = [
 
 .solution-card__effect {
   color: #166534;
+  transition: color 0.3s ease;
+}
+
+:global(.dark) .solution-card__effect {
+  color: #86efac;
 }
 
 .solution-card__effect-icon {
@@ -1207,14 +1363,27 @@ const operationTips = [
   margin-top: 2px;
 }
 
+:global(.dark) .solution-card__effect-icon {
+  color: #4ade80;
+}
+
 .solution-card__limitation {
   color: #92400e;
+  transition: color 0.3s ease;
+}
+
+:global(.dark) .solution-card__limitation {
+  color: #fcd34d;
 }
 
 .solution-card__limit-icon {
   color: #d97706;
   flex-shrink: 0;
   margin-top: 2px;
+}
+
+:global(.dark) .solution-card__limit-icon {
+  color: #fbbf24;
 }
 
 /* ==========================================
@@ -1433,6 +1602,11 @@ const operationTips = [
   border-color: #86efac;
 }
 
+:global(.dark) .solution-bottle--recommended {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(34, 197, 94, 0.1) 100%);
+  border-color: rgba(34, 197, 94, 0.5);
+}
+
 .solution-bottle__icon-wrapper {
   position: relative;
   flex-shrink: 0;
@@ -1525,6 +1699,12 @@ const operationTips = [
   border: 1px solid #93c5fd;
   border-radius: 0.75rem;
   margin: 1.5rem 0;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+:global(.dark) .final-tip {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.08) 100%);
+  border-color: rgba(59, 130, 246, 0.4);
 }
 
 .final-tip__icon {
@@ -1541,6 +1721,11 @@ const operationTips = [
   font-weight: 600;
   color: #1e40af;
   margin: 0 0 0.5rem;
+  transition: color 0.3s ease;
+}
+
+:global(.dark) .final-tip__title {
+  color: #93c5fd;
 }
 
 .final-tip__text {
@@ -1548,6 +1733,11 @@ const operationTips = [
   color: #1e3a8a;
   line-height: 1.6;
   margin: 0;
+  transition: color 0.3s ease;
+}
+
+:global(.dark) .final-tip__text {
+  color: #bfdbfe;
 }
 
 /* ==========================================

@@ -1,11 +1,11 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { 
-  Skull, 
-  Sparkles, 
-  CheckCircle2, 
-  Circle, 
-  AlertTriangle, 
+import { ref, computed } from "vue";
+import {
+  Skull,
+  Sparkles,
+  CheckCircle2,
+  Circle,
+  AlertTriangle,
   Swords,
   FlaskConical,
   Flame,
@@ -14,115 +14,115 @@ import {
   BookOpen,
   Target,
   Key,
-  Info
-} from 'lucide-vue-next'
-import DocLayout from '@/layouts/DocLayout.vue'
-import BaseIcon from '@/components/BaseIcon.vue'
+  Info,
+} from "lucide-vue-next";
+import DocLayout from "@/layouts/DocLayout.vue";
+import BaseIcon from "@/components/BaseIcon.vue";
 
 /**
  * 生物群系寶箱怪資料
  */
 const mimicTypes = [
   {
-    id: 'hallowed',
-    name: '神聖寶箱怪',
-    nameEn: 'Hallowed Mimic',
-    biome: '神聖之地',
-    biomeColor: '#fbbf24',
-    cardGradient: 'from-amber-500 to-yellow-400',
-    borderColor: '#fbbf24',
-    mimicIcon: 'https://terraria.wiki.gg/images/7/7c/Hallowed_Mimic.png',
+    id: "hallowed",
+    name: "神聖寶箱怪",
+    nameEn: "Hallowed Mimic",
+    biome: "神聖之地",
+    biomeColor: "#fbbf24",
+    cardGradient: "from-amber-500 to-yellow-400",
+    borderColor: "#fbbf24",
+    mimicIcon: "https://terraria.wiki.gg/images/7/7c/Hallowed_Mimic.png",
     keyRequired: {
-      name: '光之鑰',
-      nameEn: 'Key of Light',
-      icon: 'https://terraria.wiki.gg/images/3/30/Key_of_Light.png',
+      name: "光之鑰",
+      nameEn: "Key of Light",
+      icon: "https://terraria.wiki.gg/images/3/30/Key_of_Light.png",
     },
     drops: [
-      { 
-        name: '代達羅斯風暴弓', 
-        nameEn: 'Daedalus Stormbow',
-        icon: 'https://terraria.wiki.gg/images/e/e6/Daedalus_Stormbow.png',
+      {
+        name: "代達羅斯風暴弓",
+        nameEn: "Daedalus Stormbow",
+        icon: "https://terraria.wiki.gg/images/e/e6/Daedalus_Stormbow.png",
         highlight: true,
       },
-      { 
-        name: '飛刀匕首', 
-        nameEn: 'Flying Knife',
-        icon: 'https://terraria.wiki.gg/images/4/46/Flying_Knife.png',
+      {
+        name: "飛刀匕首",
+        nameEn: "Flying Knife",
+        icon: "https://terraria.wiki.gg/images/4/46/Flying_Knife.png",
       },
-      { 
-        name: '水晶碎片', 
-        nameEn: 'Crystal Vile Shard',
-        icon: 'https://terraria.wiki.gg/images/1/1a/Crystal_Vile_Shard.png',
+      {
+        name: "水晶碎片",
+        nameEn: "Crystal Vile Shard",
+        icon: "https://terraria.wiki.gg/images/1/1a/Crystal_Vile_Shard.png",
       },
     ],
   },
   {
-    id: 'corrupt',
-    name: '腐化寶箱怪',
-    nameEn: 'Corrupt Mimic',
-    biome: '腐化之地',
-    biomeColor: '#a855f7',
-    cardGradient: 'from-purple-600 to-violet-500',
-    borderColor: '#a855f7',
-    mimicIcon: 'https://terraria.wiki.gg/images/4/44/Corrupt_Mimic.png',
+    id: "corrupt",
+    name: "腐化寶箱怪",
+    nameEn: "Corrupt Mimic",
+    biome: "腐化之地",
+    biomeColor: "#a855f7",
+    cardGradient: "from-purple-600 to-violet-500",
+    borderColor: "#a855f7",
+    mimicIcon: "https://terraria.wiki.gg/images/4/44/Corrupt_Mimic.png",
     keyRequired: {
-      name: '闇之鑰',
-      nameEn: 'Key of Night',
-      icon: 'https://terraria.wiki.gg/images/9/9f/Key_of_Night.png',
+      name: "闇之鑰",
+      nameEn: "Key of Night",
+      icon: "https://terraria.wiki.gg/images/9/9f/Key_of_Night.png",
     },
     drops: [
-      { 
-        name: '鏈鍘刀', 
-        nameEn: 'Chain Guillotines',
-        icon: 'https://terraria.wiki.gg/images/b/b2/Chain_Guillotines.png',
+      {
+        name: "鏈鍘刀",
+        nameEn: "Chain Guillotines",
+        icon: "https://terraria.wiki.gg/images/b/b2/Chain_Guillotines.png",
         highlight: true,
       },
-      { 
-        name: '蛆蟲圍巾', 
-        nameEn: 'Worm Scarf',
-        icon: 'https://terraria.wiki.gg/images/0/00/Worm_Scarf.png',
+      {
+        name: "蛆蟲圍巾",
+        nameEn: "Worm Scarf",
+        icon: "https://terraria.wiki.gg/images/0/00/Worm_Scarf.png",
       },
-      { 
-        name: '詛咒之焰', 
-        nameEn: 'Cursed Flames',
-        icon: 'https://terraria.wiki.gg/images/7/7e/Clinger_Staff.png',
+      {
+        name: "詛咒之焰",
+        nameEn: "Cursed Flames",
+        icon: "https://terraria.wiki.gg/images/7/7e/Clinger_Staff.png",
       },
     ],
   },
   {
-    id: 'crimson',
-    name: '猩紅寶箱怪',
-    nameEn: 'Crimson Mimic',
-    biome: '猩紅之地',
-    biomeColor: '#ef4444',
-    cardGradient: 'from-red-600 to-rose-500',
-    borderColor: '#ef4444',
-    mimicIcon: 'https://terraria.wiki.gg/images/b/bc/Crimson_Mimic.png',
+    id: "crimson",
+    name: "猩紅寶箱怪",
+    nameEn: "Crimson Mimic",
+    biome: "猩紅之地",
+    biomeColor: "#ef4444",
+    cardGradient: "from-red-600 to-rose-500",
+    borderColor: "#ef4444",
+    mimicIcon: "https://terraria.wiki.gg/images/b/bc/Crimson_Mimic.png",
     keyRequired: {
-      name: '闇之鑰',
-      nameEn: 'Key of Night',
-      icon: 'https://terraria.wiki.gg/images/9/9f/Key_of_Night.png',
+      name: "闇之鑰",
+      nameEn: "Key of Night",
+      icon: "https://terraria.wiki.gg/images/9/9f/Key_of_Night.png",
     },
     drops: [
-      { 
-        name: '惡臭虎爪', 
-        nameEn: 'Fetid Baghnakhs',
-        icon: 'https://terraria.wiki.gg/images/4/4c/Fetid_Baghnakhs.png',
+      {
+        name: "惡臭虎爪",
+        nameEn: "Fetid Baghnakhs",
+        icon: "https://terraria.wiki.gg/images/4/4c/Fetid_Baghnakhs.png",
         highlight: true,
       },
-      { 
-        name: '血肉指虎', 
-        nameEn: 'Flesh Knuckles',
-        icon: 'https://terraria.wiki.gg/images/e/e1/Flesh_Knuckles.png',
+      {
+        name: "血肉指虎",
+        nameEn: "Flesh Knuckles",
+        icon: "https://terraria.wiki.gg/images/e/e1/Flesh_Knuckles.png",
       },
-      { 
-        name: '生命吸取杖', 
-        nameEn: 'Life Drain',
-        icon: 'https://terraria.wiki.gg/images/b/bf/Life_Drain.png',
+      {
+        name: "生命吸取杖",
+        nameEn: "Life Drain",
+        icon: "https://terraria.wiki.gg/images/b/bf/Life_Drain.png",
       },
     ],
   },
-]
+];
 
 /**
  * 召喚步驟
@@ -130,80 +130,91 @@ const mimicTypes = [
 const summonSteps = [
   {
     step: 1,
-    title: '取得對應鑰匙',
-    description: '在對應生物群系擊殺敵人，或使用靈魂合成',
-    icon: '🔑',
+    title: "取得對應鑰匙",
+    description: "在對應生物群系擊殺敵人，或使用靈魂合成",
+    icon: "🔑",
   },
   {
     step: 2,
-    title: '準備一個空寶箱',
-    description: '任何類型的寶箱都可以，確保完全清空',
-    icon: '📦',
+    title: "準備一個空寶箱",
+    description: "任何類型的寶箱都可以，確保完全清空",
+    icon: "📦",
   },
   {
     step: 3,
-    title: '放入鑰匙',
-    description: '將 1 把鑰匙放入寶箱的第一格',
-    icon: '✨',
+    title: "放入鑰匙",
+    description: "將 1 把鑰匙放入寶箱的第一格",
+    icon: "✨",
   },
   {
     step: 4,
-    title: '關閉寶箱',
-    description: '寶箱立即變身為寶箱怪！',
-    icon: '💀',
+    title: "關閉寶箱",
+    description: "寶箱立即變身為寶箱怪！",
+    icon: "💀",
   },
-]
+];
 
 /**
  * 狩獵準備清單
  */
 const preparationList = ref([
-  { id: 1, text: '戰鬥藥水 (Battle Potion)', checked: false, icon: FlaskConical },
-  { id: 2, text: '水蠟燭 (Water Candle)', checked: false, icon: Flame },
-  { id: 3, text: '準備好的競技場', checked: false, icon: Swords },
-  { id: 4, text: '足夠的治療藥水', checked: false, icon: FlaskConical },
-  { id: 5, text: '鋼皮藥水 / 再生藥水', checked: false, icon: FlaskConical },
-  { id: 6, text: '遠程武器 (推薦)', checked: false, icon: Target },
-])
+  {
+    id: 1,
+    text: "戰鬥藥水 (Battle Potion)",
+    checked: false,
+    icon: FlaskConical,
+  },
+  { id: 2, text: "水蠟燭 (Water Candle)", checked: false, icon: Flame },
+  { id: 3, text: "準備好的競技場", checked: false, icon: Swords },
+  { id: 4, text: "足夠的治療藥水", checked: false, icon: FlaskConical },
+  { id: 5, text: "鋼皮藥水 / 再生藥水", checked: false, icon: FlaskConical },
+  { id: 6, text: "遠程武器 (推薦)", checked: false, icon: Target },
+]);
 
 /**
  * 鑰匙合成資訊
  */
 const keyRecipes = [
   {
-    name: '光之鑰',
-    nameEn: 'Key of Light',
-    icon: 'https://terraria.wiki.gg/images/3/30/Key_of_Light.png',
+    name: "光之鑰",
+    nameEn: "Key of Light",
+    icon: "https://terraria.wiki.gg/images/3/30/Key_of_Light.png",
     materials: [
-      { name: '靈魂光 x15', icon: 'https://terraria.wiki.gg/images/4/4b/Soul_of_Light.png' },
+      {
+        name: "靈魂光 x15",
+        icon: "https://terraria.wiki.gg/images/4/4b/Soul_of_Light.png",
+      },
     ],
-    craftStation: '工作台',
-    biome: '神聖之地',
-    biomeColor: '#fbbf24',
+    craftStation: "工作台",
+    biome: "神聖之地",
+    biomeColor: "#fbbf24",
   },
   {
-    name: '闇之鑰',
-    nameEn: 'Key of Night',
-    icon: 'https://terraria.wiki.gg/images/9/9f/Key_of_Night.png',
+    name: "闇之鑰",
+    nameEn: "Key of Night",
+    icon: "https://terraria.wiki.gg/images/9/9f/Key_of_Night.png",
     materials: [
-      { name: '靈魂暗 x15', icon: 'https://terraria.wiki.gg/images/a/a2/Soul_of_Night.png' },
+      {
+        name: "靈魂暗 x15",
+        icon: "https://terraria.wiki.gg/images/a/a2/Soul_of_Night.png",
+      },
     ],
-    craftStation: '工作台',
-    biome: '腐化/猩紅之地',
-    biomeColor: '#a855f7',
+    craftStation: "工作台",
+    biome: "腐化/猩紅之地",
+    biomeColor: "#a855f7",
   },
-]
+];
 
 // 切換勾選狀態
 const toggleCheck = (item) => {
-  item.checked = !item.checked
-}
+  item.checked = !item.checked;
+};
 
 // 計算完成百分比
 const completionPercent = computed(() => {
-  const checked = preparationList.value.filter(item => item.checked).length
-  return Math.round((checked / preparationList.value.length) * 100)
-})
+  const checked = preparationList.value.filter((item) => item.checked).length;
+  return Math.round((checked / preparationList.value.length) * 100);
+});
 </script>
 
 <template>
@@ -215,8 +226,8 @@ const completionPercent = computed(() => {
       <div class="hero-banner__bg"></div>
       <div class="hero-banner__content">
         <div class="hero-banner__icon">
-          <img 
-            src="https://terraria.wiki.gg/images/7/7c/Hallowed_Mimic.png" 
+          <img
+            src="https://terraria.wiki.gg/images/7/7c/Hallowed_Mimic.png"
             alt="Hallowed Mimic"
             class="hero-banner__img"
           />
@@ -245,8 +256,8 @@ const completionPercent = computed(() => {
     <!-- ========================================
          Section 1: 召喚方式
          ======================================== -->
-    <h2 id="summon">召喚方式</h2>
-    
+    <h2 id="summon" class="text-gray-900 dark:text-gray-100">召喚方式</h2>
+
     <p>召喚生物群系寶箱怪非常簡單，只需要對應的鑰匙和一個空寶箱。</p>
 
     <!-- 算式視覺 (不被 prose 影響) -->
@@ -257,52 +268,48 @@ const completionPercent = computed(() => {
         </div>
         <span class="formula-item__label">空寶箱</span>
       </div>
-      
+
       <div class="formula-operator">
         <Plus :size="24" />
       </div>
-      
+
       <div class="formula-item">
         <div class="formula-item__icon-box formula-item__icon-box--key">
-          <BaseIcon 
-            icon="https://terraria.wiki.gg/images/3/30/Key_of_Light.png" 
-            :size="40" 
+          <BaseIcon
+            icon="https://terraria.wiki.gg/images/3/30/Key_of_Light.png"
+            :size="40"
           />
         </div>
         <span class="formula-item__label">鑰匙 × 1</span>
       </div>
-      
+
       <div class="formula-operator">
         <Equal :size="24" />
       </div>
-      
+
       <div class="formula-item">
         <div class="formula-item__icon-box formula-item__icon-box--mimic">
-          <BaseIcon 
-            icon="https://terraria.wiki.gg/images/7/7c/Hallowed_Mimic.png" 
-            :size="48" 
+          <BaseIcon
+            icon="https://terraria.wiki.gg/images/7/7c/Hallowed_Mimic.png"
+            :size="48"
           />
         </div>
         <span class="formula-item__label">寶箱怪！</span>
       </div>
     </div>
-    
+
     <!-- 注意事項 -->
     <div class="not-prose summon-warning">
       <AlertTriangle :size="18" class="summon-warning__icon" />
       <p class="summon-warning__text">
-        <strong>注意：</strong>寶箱必須是<em>空的</em>，且只需放入 <strong>1 把</strong>鑰匙。
-        關閉寶箱後會立即變身，請做好戰鬥準備！
+        <strong>注意：</strong>寶箱必須是<em>空的</em>，且只需放入
+        <strong>1 把</strong>鑰匙。 關閉寶箱後會立即變身，請做好戰鬥準備！
       </p>
     </div>
 
     <!-- 步驟說明 -->
     <div class="not-prose summon-steps">
-      <div 
-        v-for="step in summonSteps" 
-        :key="step.step"
-        class="step-card"
-      >
+      <div v-for="step in summonSteps" :key="step.step" class="step-card">
         <div class="step-card__number">{{ step.step }}</div>
         <div class="step-card__content">
           <div class="step-card__icon">{{ step.icon }}</div>
@@ -315,8 +322,8 @@ const completionPercent = computed(() => {
     <!-- ========================================
          Section 2: 寶箱怪種類
          ======================================== -->
-    <h2 id="types">寶箱怪種類</h2>
-    
+    <h2 id="types" class="text-gray-900 dark:text-gray-100">寶箱怪種類</h2>
+
     <p>
       共有三種生物群系寶箱怪，每種都有專屬的掉落物。
       點選下方卡片了解各類型的召喚條件與關鍵掉落。
@@ -324,16 +331,19 @@ const completionPercent = computed(() => {
 
     <!-- 卡片網格 (不被 prose 影響) -->
     <div class="not-prose mimic-grid">
-      <article 
-        v-for="mimic in mimicTypes" 
+      <article
+        v-for="mimic in mimicTypes"
         :key="mimic.id"
         class="mimic-card"
         :style="{ '--card-accent': mimic.borderColor }"
       >
         <!-- 卡片頂部 - 寶箱怪資訊 -->
-        <div class="mimic-card__header" :class="`bg-gradient-to-br ${mimic.cardGradient}`">
-          <img 
-            :src="mimic.mimicIcon" 
+        <div
+          class="mimic-card__header"
+          :class="`bg-gradient-to-br ${mimic.cardGradient}`"
+        >
+          <img
+            :src="mimic.mimicIcon"
             :alt="mimic.name"
             class="mimic-card__icon"
           />
@@ -343,16 +353,18 @@ const completionPercent = computed(() => {
           </div>
           <span class="mimic-card__biome-tag">{{ mimic.biome }}</span>
         </div>
-        
+
         <!-- 召喚條件 -->
         <div class="mimic-card__summon">
           <span class="mimic-card__summon-label">召喚所需</span>
           <div class="mimic-card__key">
             <BaseIcon :icon="mimic.keyRequired.icon" :size="28" />
-            <span class="mimic-card__key-name">{{ mimic.keyRequired.name }}</span>
+            <span class="mimic-card__key-name">{{
+              mimic.keyRequired.name
+            }}</span>
           </div>
         </div>
-        
+
         <!-- 掉落物 -->
         <div class="mimic-card__drops">
           <span class="mimic-card__drops-label">
@@ -360,8 +372,8 @@ const completionPercent = computed(() => {
             關鍵掉落物
           </span>
           <div class="mimic-card__drops-list">
-            <div 
-              v-for="drop in mimic.drops" 
+            <div
+              v-for="drop in mimic.drops"
               :key="drop.nameEn"
               :class="['drop-item', { 'drop-item--highlight': drop.highlight }]"
             >
@@ -376,8 +388,8 @@ const completionPercent = computed(() => {
     <!-- ========================================
          Section 3: 戰前準備
          ======================================== -->
-    <h2 id="preparation">戰前準備</h2>
-    
+    <h2 id="preparation" class="text-gray-900 dark:text-gray-100">戰前準備</h2>
+
     <p>
       生物群系寶箱怪的血量約為 <code>3,500</code>，攻擊力也相當高。
       建議在戰鬥前做好以下準備，勾選已完成的項目：
@@ -388,7 +400,7 @@ const completionPercent = computed(() => {
       <!-- 進度條 -->
       <div class="preparation-progress">
         <div class="preparation-progress__bar">
-          <div 
+          <div
             class="preparation-progress__fill"
             :style="{ width: `${completionPercent}%` }"
           ></div>
@@ -397,20 +409,31 @@ const completionPercent = computed(() => {
           {{ completionPercent }}% 完成
         </span>
       </div>
-      
+
       <!-- 清單項目 -->
       <div class="checklist">
-        <div 
-          v-for="item in preparationList" 
+        <div
+          v-for="item in preparationList"
           :key="item.id"
-          :class="['checklist-item', { 'checklist-item--checked': item.checked }]"
+          :class="[
+            'checklist-item',
+            { 'checklist-item--checked': item.checked },
+          ]"
           @click="toggleCheck(item)"
         >
           <div class="checklist-item__checkbox">
-            <CheckCircle2 v-if="item.checked" :size="20" class="checklist-item__icon--checked" />
+            <CheckCircle2
+              v-if="item.checked"
+              :size="20"
+              class="checklist-item__icon--checked"
+            />
             <Circle v-else :size="20" class="checklist-item__icon--unchecked" />
           </div>
-          <component :is="item.icon" :size="18" class="checklist-item__type-icon" />
+          <component
+            :is="item.icon"
+            :size="18"
+            class="checklist-item__type-icon"
+          />
           <span class="checklist-item__text">{{ item.text }}</span>
         </div>
       </div>
@@ -419,8 +442,8 @@ const completionPercent = computed(() => {
     <!-- ========================================
          Section 4: 鑰匙取得
          ======================================== -->
-    <h2 id="keys">鑰匙取得</h2>
-    
+    <h2 id="keys" class="text-gray-900 dark:text-gray-100">鑰匙取得</h2>
+
     <p>
       召喚鑰匙可以透過<strong>合成製作</strong>取得。
       在對應的地下生物群系刷怪，收集靈魂後即可合成。
@@ -428,8 +451,8 @@ const completionPercent = computed(() => {
 
     <!-- 鑰匙合成卡片 (不被 prose 影響) -->
     <div class="not-prose recipes-grid">
-      <div 
-        v-for="key in keyRecipes" 
+      <div
+        v-for="key in keyRecipes"
         :key="key.nameEn"
         class="recipe-card"
         :style="{ '--recipe-accent': key.biomeColor }"
@@ -441,12 +464,12 @@ const completionPercent = computed(() => {
             <span class="recipe-card__name-en">{{ key.nameEn }}</span>
           </div>
         </div>
-        
+
         <div class="recipe-card__content">
           <div class="recipe-card__materials">
             <span class="recipe-card__label">合成材料</span>
-            <div 
-              v-for="mat in key.materials" 
+            <div
+              v-for="mat in key.materials"
               :key="mat.name"
               class="recipe-card__material"
             >
@@ -454,7 +477,7 @@ const completionPercent = computed(() => {
               <span>{{ mat.name }}</span>
             </div>
           </div>
-          
+
           <div class="recipe-card__info">
             <div class="recipe-card__info-row">
               <span class="recipe-card__label">合成站</span>
@@ -462,21 +485,23 @@ const completionPercent = computed(() => {
             </div>
             <div class="recipe-card__info-row">
               <span class="recipe-card__label">刷取地點</span>
-              <span 
+              <span
                 class="recipe-card__biome"
                 :style="{ color: key.biomeColor }"
-              >{{ key.biome }}</span>
+                >{{ key.biome }}</span
+              >
             </div>
           </div>
         </div>
       </div>
     </div>
-    
+
     <!-- 提示 -->
     <div class="not-prose recipe-tip">
       <Info :size="20" class="recipe-tip__icon" />
       <p class="recipe-tip__text">
-        <strong>刷取技巧：</strong>在地底的神聖/腐化/猩紅區域刷怪，可以同時取得對應的靈魂。
+        <strong>刷取技巧：</strong
+        >在地底的神聖/腐化/猩紅區域刷怪，可以同時取得對應的靈魂。
         建議使用戰鬥藥水和水蠟燭來加速刷取效率！
       </p>
     </div>
@@ -484,22 +509,23 @@ const completionPercent = computed(() => {
     <!-- ========================================
          Section 5: 戰鬥技巧
          ======================================== -->
-    <h2 id="combat">戰鬥技巧</h2>
-    
+    <h2 id="combat" class="text-gray-900 dark:text-gray-100">戰鬥技巧</h2>
+
     <p>
       寶箱怪會進行跳躍攻擊，動作有明顯的預備動作。以下是一些實用的戰鬥建議：
     </p>
-    
+
     <ul>
       <li><strong>保持移動</strong> - 利用翅膀保持距離，不要被逼到角落</li>
       <li><strong>遠程優先</strong> - 使用弓箭或槍械可以更安全地輸出</li>
       <li><strong>場地準備</strong> - 建造約 50-80 格長的平坦戰鬥場地</li>
       <li><strong>回復設施</strong> - 放置篝火和心形燈籠增加回復速度</li>
     </ul>
-    
+
     <blockquote>
-      <strong>💡 專家提示：</strong>神聖寶箱怪掉落的代達羅斯風暴弓搭配聖箭，是對付毀滅者 (The Destroyer) 的神器。
-      絕對值得多刷幾隻！
+      <strong>💡 專家提示：</strong
+      >神聖寶箱怪掉落的代達羅斯風暴弓搭配聖箭，是對付毀滅者 (The Destroyer)
+      的神器。 絕對值得多刷幾隻！
     </blockquote>
   </DocLayout>
 </template>
@@ -520,10 +546,21 @@ const completionPercent = computed(() => {
 .hero-banner__bg {
   position: absolute;
   inset: 0;
-  background-image: 
-    radial-gradient(circle at 80% 20%, rgba(251, 191, 36, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 20% 80%, rgba(168, 85, 247, 0.1) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.08) 0%, transparent 50%);
+  background-image: radial-gradient(
+      circle at 80% 20%,
+      rgba(251, 191, 36, 0.15) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 20% 80%,
+      rgba(168, 85, 247, 0.1) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(239, 68, 68, 0.08) 0%,
+      transparent 50%
+    );
 }
 
 .hero-banner__content {
@@ -556,8 +593,13 @@ const completionPercent = computed(() => {
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 .hero-banner__text {
@@ -649,9 +691,16 @@ const completionPercent = computed(() => {
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-3px) rotate(-2deg); }
-  75% { transform: translateX(3px) rotate(2deg); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-3px) rotate(-2deg);
+  }
+  75% {
+    transform: translateX(3px) rotate(2deg);
+  }
 }
 
 .formula-item__emoji {
@@ -744,7 +793,11 @@ const completionPercent = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-accent) 100%
+  );
   border-radius: 50%;
   color: white;
   font-size: 0.875rem;
@@ -887,8 +940,13 @@ const completionPercent = computed(() => {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--color-text-muted);
+  color: #4b5563; /* gray-600 - 更深的標籤文字 */
   margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+:global(.dark) .mimic-card__drops-label {
+  color: #d1d5db; /* gray-300 */
 }
 
 .mimic-card__drops-list {
@@ -919,6 +977,15 @@ const completionPercent = computed(() => {
   border-color: #fbbf24;
 }
 
+:global(.dark) .drop-item--highlight {
+  background: linear-gradient(
+    135deg,
+    rgba(251, 191, 36, 0.3) 0%,
+    rgba(251, 191, 36, 0.15) 100%
+  );
+  border-color: #d97706;
+}
+
 .drop-item__icon {
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
 }
@@ -926,9 +993,23 @@ const completionPercent = computed(() => {
 .drop-item__name {
   font-size: 0.5625rem;
   font-weight: 500;
-  color: var(--color-text-secondary);
+  color:  var(--color-text-secondary)  ; /* gray-700 - 更深的物品名稱 */
   text-align: center;
   line-height: 1.2;
+  transition: color 0.3s ease;
+}
+
+:global(.dark) .drop-item__name {
+  color: #e5e7eb; /* gray-200 */
+}
+
+/* 高亮物品 - 確保文字在黃色背景上可讀 */
+.drop-item--highlight .drop-item__name {
+  color: #78350f; /* amber-900 - 深棕色 */
+}
+
+:global(.dark) .drop-item--highlight .drop-item__name {
+  color: #fcd34d; /* amber-300 - 亮黃色 */
 }
 
 /* ==========================================
@@ -955,7 +1036,11 @@ const completionPercent = computed(() => {
 
 .preparation-progress__fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--color-primary) 0%,
+    var(--color-accent) 100%
+  );
   border-radius: 9999px;
   transition: width 0.3s ease;
 }
@@ -1152,7 +1237,7 @@ const completionPercent = computed(() => {
   .mimic-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .summon-steps {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1163,30 +1248,30 @@ const completionPercent = computed(() => {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .summon-formula {
     gap: 0.75rem;
     padding: 1rem;
   }
-  
+
   .formula-item__icon-box {
     width: 56px;
     height: 56px;
   }
-  
+
   .formula-operator {
     width: 32px;
     height: 32px;
   }
-  
+
   .summon-steps {
     grid-template-columns: 1fr;
   }
-  
+
   .checklist {
     grid-template-columns: 1fr;
   }
-  
+
   .recipes-grid {
     grid-template-columns: 1fr;
   }

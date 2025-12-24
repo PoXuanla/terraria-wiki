@@ -5,6 +5,7 @@ import { useTagsViewStore } from '@/stores/tagsView'
 import { menuConfig } from '@/router'
 import HistoryTabs from '@/components/HistoryTabs.vue'
 import SidebarMenu from '@/components/SidebarMenu.vue'
+import ThemeToggle from '@/components/ThemeToggle.vue'
 
 const route = useRoute()
 const tagsViewStore = useTagsViewStore()
@@ -44,9 +45,10 @@ const pageTitle = computed(() => route.meta?.title || 'Terraria Wiki')
         <SidebarMenu :menu-config="menuConfig" />
       </nav>
       
-      <!-- 底部資訊 -->
+      <!-- 底部區域：主題切換 + 版本 -->
       <div class="sidebar__footer">
-        <span class="text-xs text-text-muted">v1.0.0</span>
+        <ThemeToggle />
+        <span class="sidebar__version">v1.0.0</span>
       </div>
     </aside>
     
@@ -97,6 +99,7 @@ const pageTitle = computed(() => route.meta?.title || 'Terraria Wiki')
   flex-direction: column;
   box-shadow: var(--shadow-sidebar, 4px 0 24px -8px rgba(0, 0, 0, 0.3));
   z-index: 100;
+  transition: background-color 0.3s ease;
 }
 
 .sidebar__header {
@@ -128,9 +131,17 @@ const pageTitle = computed(() => route.meta?.title || 'Terraria Wiki')
 }
 
 .sidebar__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
   padding: 1rem 1.25rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  text-align: center;
+}
+
+.sidebar__version {
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
 }
 
 /* ==========================================
@@ -152,6 +163,7 @@ const pageTitle = computed(() => route.meta?.title || 'Terraria Wiki')
   position: sticky;
   top: 0;
   z-index: 50;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .header__breadcrumb {
@@ -164,12 +176,14 @@ const pageTitle = computed(() => route.meta?.title || 'Terraria Wiki')
   font-weight: 600;
   color: var(--color-text-primary);
   margin: 0;
+  transition: color 0.3s ease;
 }
 
 .content {
   flex: 1;
   padding: 1.5rem;
   background-color: var(--color-bg-main);
+  transition: background-color 0.3s ease;
 }
 
 /* ==========================================
@@ -191,4 +205,3 @@ const pageTitle = computed(() => route.meta?.title || 'Terraria Wiki')
   transform: translateY(-8px);
 }
 </style>
-

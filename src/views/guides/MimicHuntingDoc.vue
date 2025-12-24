@@ -40,7 +40,7 @@ import BaseIcon from '@/components/BaseIcon.vue'
     
     <!-- ========== 自動生成目錄的 h2 標題 ========== -->
     
-    <h2>種類介紹</h2>
+    <h2 class="text-gray-900 dark:text-gray-100">種類介紹</h2>
     <p>
       生物群系寶箱怪 (Biome Mimics) 是困難模式中三種強大的敵對生物，
       分別對應神聖之地、腐化之地和猩紅之地。與普通寶箱怪不同，
@@ -68,7 +68,7 @@ import BaseIcon from '@/components/BaseIcon.vue'
       惡臭虎爪是近戰玩家的利器。
     </p>
     
-    <h2>召喚方式</h2>
+    <h2 class="text-gray-900 dark:text-gray-100">召喚方式</h2>
     <p>
       召喚生物群系寶箱怪的方法非常簡單，只需要準備對應的鑰匙和一個空寶箱：
     </p>
@@ -85,7 +85,7 @@ import BaseIcon from '@/components/BaseIcon.vue'
       關閉寶箱後會立即開始戰鬥，請做好準備！
     </blockquote>
     
-    <h2>鑰匙取得</h2>
+    <h2 class="text-gray-900 dark:text-gray-100">鑰匙取得</h2>
     <p>
       鑰匙可以透過兩種方式取得：
     </p>
@@ -110,7 +110,7 @@ import BaseIcon from '@/components/BaseIcon.vue'
       建議使用戰鬥藥水和水蠟燭來加速刷取效率。
     </p>
     
-    <h2>戰鬥策略</h2>
+    <h2 class="text-gray-900 dark:text-gray-100">戰鬥策略</h2>
     <p>
       生物群系寶箱怪的血量約為 3,500，攻擊力也相當高。
       以下是一些實用的戰鬥建議：
@@ -137,7 +137,7 @@ import BaseIcon from '@/components/BaseIcon.vue'
       避免被逼到角落，保持充足的移動空間。
     </p>
     
-    <h2>掉落物總覽</h2>
+    <h2 class="text-gray-900 dark:text-gray-100">掉落物總覽</h2>
     <p>
       以下是三種寶箱怪的主要掉落物：
     </p>
@@ -177,7 +177,7 @@ import BaseIcon from '@/components/BaseIcon.vue'
       </p>
     </div>
     
-    <h2>常見問題</h2>
+    <h2 class="text-gray-900 dark:text-gray-100">常見問題</h2>
     
     <h3>Q: 寶箱放入鑰匙後沒有變身？</h3>
     <p>
