@@ -10,6 +10,9 @@ import { Home, BookOpen, Crosshair, FileText, Skull } from "lucide-vue-next";
 const MainLayout = () => import("@/layouts/MainLayout.vue");
 
 // 頁面組件 (Lazy Loading)
+// 首頁
+const HomePage = () => import("@/views/HomePage.vue");
+
 // 指南頁面
 const GuideMimic = () => import("@/views/guides/MimicGuide.vue");
 const GuideClentaminator = () =>
@@ -36,12 +39,25 @@ const routes = [
   {
     path: "/",
     component: MainLayout,
-    redirect: "/guides/mimic",
     meta: {
       title: "首頁",
       icon: Home,
     },
     children: [
+      // ==========================================
+      // 首頁 (Home)
+      // ==========================================
+      {
+        path: "",
+        name: "Home",
+        component: HomePage,
+        meta: {
+          title: "首頁",
+          icon: Home,
+          group: "home",
+        },
+      },
+
       // ==========================================
       // 指南 (Guides)
       // ==========================================
@@ -196,6 +212,18 @@ const router = createRouter({
  * 導出供 Sidebar 組件使用
  */
 export const menuConfig = [
+  {
+    group: "首頁",
+    groupKey: "home",
+    icon: Home,
+    items: [
+      {
+        title: "首頁",
+        path: "/",
+        icon: Home,
+      },
+    ],
+  },
   {
     group: "指南",
     groupKey: "guides",
