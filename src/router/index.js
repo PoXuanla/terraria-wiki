@@ -28,6 +28,11 @@ const WeaponShadowflameKnife = () =>
 const WeaponMeteorStaff = () => import("@/views/weapons/MeteorStaff.vue");
 const WeaponSkyFracture = () => import("@/views/weapons/SkyFracture.vue");
 const WeaponSanguineStaff = () => import("@/views/weapons/SanguineStaff.vue");
+const WeaponGoldenShower = () => import("@/views/weapons/GoldenShower.vue");
+const WeaponBladeStaff = () => import("@/views/weapons/BladeStaff.vue");
+const WeaponDartRifle = () => import("@/views/weapons/DartRifle.vue");
+const WeaponFetidBaghnakhs = () =>
+  import("@/views/weapons/FetidBaghnakhs.vue");
 
 // Boss 頁面
 const BossTheTwins = () => import("@/views/boss/TheTwins.vue");
@@ -164,6 +169,46 @@ const routes = [
         meta: {
           title: "血紅法杖",
           icon: "https://terraria.wiki.gg/images/e/e7/Sanguine_Staff.png",
+          group: "weapons",
+        },
+      },
+      {
+        path: "weapons/golden-shower",
+        name: "WeaponGoldenShower",
+        component: WeaponGoldenShower,
+        meta: {
+          title: "黃金雨",
+          icon: "https://terraria.wiki.gg/images/0/08/Golden_Shower.png",
+          group: "weapons",
+        },
+      },
+      {
+        path: "weapons/blade-staff",
+        name: "WeaponBladeStaff",
+        component: WeaponBladeStaff,
+        meta: {
+          title: "刃杖",
+          icon: "https://terraria.wiki.gg/images/d/d8/Blade_Staff.png",
+          group: "weapons",
+        },
+      },
+      {
+        path: "weapons/dart-rifle",
+        name: "WeaponDartRifle",
+        component: WeaponDartRifle,
+        meta: {
+          title: "飛鏢步槍",
+          icon: "https://terraria.wiki.gg/images/6/69/Dart_Rifle.png",
+          group: "weapons",
+        },
+      },
+      {
+        path: "weapons/fetid-baghnakhs",
+        name: "WeaponFetidBaghnakhs",
+        component: WeaponFetidBaghnakhs,
+        meta: {
+          title: "腐臭虎爪",
+          icon: "https://terraria.wiki.gg/images/3/3f/Fetid_Baghnakhs.png",
           group: "weapons",
         },
       },
@@ -307,6 +352,26 @@ export const menuConfig = [
         title: "血紅法杖",
         path: "/weapons/sanguine-staff",
         icon: "https://terraria.wiki.gg/images/e/e7/Sanguine_Staff.png",
+      },
+      {
+        title: "黃金雨",
+        path: "/weapons/golden-shower",
+        icon: "https://terraria.wiki.gg/images/0/08/Golden_Shower.png",
+      },
+      {
+        title: "刃杖",
+        path: "/weapons/blade-staff",
+        icon: "https://terraria.wiki.gg/images/d/d8/Blade_Staff.png",
+      },
+      {
+        title: "飛鏢步槍",
+        path: "/weapons/dart-rifle",
+        icon: "https://terraria.wiki.gg/images/6/69/Dart_Rifle.png",
+      },
+      {
+        title: "腐臭虎爪",
+        path: "/weapons/fetid-baghnakhs",
+        icon: "https://terraria.wiki.gg/images/3/3f/Fetid_Baghnakhs.png",
       },
     ],
   },

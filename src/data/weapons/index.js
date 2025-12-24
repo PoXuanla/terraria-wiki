@@ -14,6 +14,10 @@ import meteorStaff from "./meteor-staff";
 import skyFracture from "./sky-fracture";
 import sanguineStaff from "./sanguine-staff";
 import daedalusStormbow from "./daedalus-stormbow";
+import goldenShower from "./golden-shower";
+import bladeStaff from "./blade-staff";
+import dartRifle from "./dart-rifle";
+import fetidBaghnakhs from "./fetid-baghnakhs";
 
 // ==========================================
 // 所有武器陣列
@@ -30,6 +34,10 @@ export const weapons = [
   skyFracture,
   sanguineStaff,
   daedalusStormbow,
+  goldenShower,
+  bladeStaff,
+  dartRifle,
+  fetidBaghnakhs,
 ];
 
 // ==========================================
@@ -180,6 +188,10 @@ export {
   skyFracture,
   sanguineStaff,
   daedalusStormbow,
+  goldenShower,
+  bladeStaff,
+  dartRifle,
+  fetidBaghnakhs,
 };
 
 // 預設匯出所有武器陣列
