@@ -96,6 +96,28 @@ const dartRifle: WeaponData = {
     strategy:
       "在有牆壁和障礙物的環境中使用，讓水晶飛鏢的彈跳效果最大化。適合作為清理小怪的副武器，在狹窄走廊或多層平台的競技場中效果極佳。對付單體 Boss 時建議切換到其他主力武器。",
   },
+
+  // 武器機制
+  mechanics: {
+    input: {
+      autoReuse: true,
+      useTurn: true,
+    },
+    resource: {
+      ammo: {
+        type: 'Dart',
+      },
+    },
+    projectile: {
+      velocity: 16,
+      bounces: 3,
+      homing: 'weak',
+      piercing: 1,
+    },
+    combat: {
+      specialEffects: ['水晶飛鏢會在牆壁間彈跳形成覆蓋網', '詛咒飛鏢產生詛咒火焰雨'],
+    },
+  },
 }
 
 export default dartRifle

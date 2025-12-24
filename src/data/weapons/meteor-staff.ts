@@ -113,6 +113,26 @@ const meteorStaff: WeaponData = {
     strategy:
       "將游標放在敵人上方一小段距離，讓流星在落下途中就能命中。在開闊場地（天空競技場）效果最好，地下洞穴會被障礙物阻擋。對付毀滅者時持續在身體中段召喚流星，範圍傷害可以同時打中多個體節，造成毀滅性傷害。",
   },
+
+  // 武器機制
+  mechanics: {
+    input: {
+      autoReuse: true,
+      useTurn: true,
+    },
+    resource: {
+      manaCost: 9,
+    },
+    projectile: {
+      velocity: 20,
+      piercing: 1,
+      tileIgnore: true,
+      homing: false,
+    },
+    combat: {
+      specialEffects: ['範圍爆炸傷害', '流星從天空隨機位置落下'],
+    },
+  },
 }
 
 export default meteorStaff

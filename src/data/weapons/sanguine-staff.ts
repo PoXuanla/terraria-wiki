@@ -96,6 +96,22 @@ const sanguineStaff: WeaponData = {
     strategy:
       "利用蝙蝠完美的追蹤特性專心閃避，讓召喚物自動輸出。搭配冷鞭標記目標提供額外傷害加成。盡可能提升召喚上限，多隻蝙蝠可以對單一目標造成恐怖的持續傷害，特別適合對付雙子魔眼這類高機動性 Boss。",
   },
+
+  // 武器機制
+  mechanics: {
+    input: {
+      autoReuse: true,
+      useTurn: true,
+    },
+    summon: {
+      slots: 1,
+      aiType: 'flying',
+      tracking: 'perfect',
+      attackSpeed: '中等',
+      requiresWhip: true,
+      specialAbility: '完美追蹤 AI，緊緊跟隨快速移動的目標',
+    },
+  },
 }
 
 export default sanguineStaff

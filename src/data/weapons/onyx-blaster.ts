@@ -113,6 +113,27 @@ const onyxBlaster: WeaponData = {
     strategy:
       "保持中等距離確保霰彈和能量彈都能命中目標。對付機械 Boss 時，能量彈的穿透效果可以同時命中多個部位，大幅提升傷害效率。",
   },
+
+  // 武器機制
+  mechanics: {
+    input: {
+      autoReuse: true,
+      useTurn: true,
+    },
+    resource: {
+      ammo: {
+        type: 'Bullet',
+      },
+    },
+    projectile: {
+      velocity: 7,
+      piercing: 2,
+      homing: false,
+    },
+    combat: {
+      specialEffects: ['同時發射霰彈散射和穿透能量彈', '能量彈可同時命中多個部位'],
+    },
+  },
 }
 
 export default onyxBlaster

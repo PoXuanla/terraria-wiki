@@ -101,6 +101,22 @@ const bladeStaff: WeaponData = {
     strategy:
       "先用鞭子標記敵人，讓刃杖自動攻擊觸發標記的額外傷害。每 2-3 秒重新使用鞭子保持標記效果。刃杖的防禦無視機制讓它對高防禦 Boss 特別有效，搭配鞭子的標記傷害能造成恐怖的 DPS。",
   },
+
+  // 武器機制
+  mechanics: {
+    input: {
+      autoReuse: true,
+      useTurn: true,
+    },
+    summon: {
+      slots: 1,
+      aiType: 'melee',
+      tracking: true,
+      attackSpeed: '極快',
+      requiresWhip: true,
+      specialAbility: '攻擊速度隨敵人防禦力提升而加快，無視大量防禦',
+    },
+  },
 }
 
 export default bladeStaff

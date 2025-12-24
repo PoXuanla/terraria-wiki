@@ -113,6 +113,26 @@ const skyFracture: WeaponData = {
     strategy:
       "天裂是多用途武器，在各種情況下都表現穩定。三連發的攻擊方式讓它面對任何目標都能保持穩定輸出。配合法師暴擊裝備可以大幅提升 DPS，即使後期也可以作為清理雜魚的備用武器使用。",
   },
+
+  // 武器機制
+  mechanics: {
+    input: {
+      autoReuse: true,
+      useTurn: true,
+    },
+    resource: {
+      manaCost: 9,
+    },
+    projectile: {
+      velocity: 12,
+      piercing: 0,
+      homing: true,
+      tileIgnore: false,
+    },
+    combat: {
+      specialEffects: ['每次攻擊連發三把光劍', '每把劍有獨立暴擊判定'],
+    },
+  },
 }
 
 export default skyFracture

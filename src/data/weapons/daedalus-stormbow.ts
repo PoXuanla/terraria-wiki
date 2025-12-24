@@ -101,6 +101,28 @@ const daedalusStormbow: WeaponData = {
     strategy:
       "配合聖箭使用時，每支箭矢落地時會額外召喚 2 顆落星。對付毀滅者這類長條型多段體 Boss 時，大量的落星能夠同時命中多個體節，造成毀滅性的傷害。",
   },
+
+  // 武器機制
+  mechanics: {
+    input: {
+      autoReuse: true,
+      useTurn: true,
+    },
+    resource: {
+      ammo: {
+        type: 'Arrow',
+      },
+    },
+    projectile: {
+      velocity: 1,
+      piercing: 0,
+      tileIgnore: true,
+      homing: false,
+    },
+    combat: {
+      specialEffects: ['箭矢從天空降落，可繞過障礙物', '配合聖箭召喚額外落星造成 AOE'],
+    },
+  },
 }
 
 export default daedalusStormbow

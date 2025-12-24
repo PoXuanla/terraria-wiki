@@ -96,6 +96,37 @@ const shadowflameKnife: WeaponData = {
     strategy:
       "保持移動並持續投擲飛刀，利用彈跳效果讓傷害最大化。暗影焰的 DoT 效果不受防禦影響，讓你在閃避時也能持續造成傷害。非常適合在長平台上與高機動性 Boss 戰鬥，是風箏戰術的完美武器。",
   },
+
+  // 武器機制
+  mechanics: {
+    input: {
+      autoReuse: true,
+      useTurn: true,
+    },
+    melee: {
+      range: 20,
+      projectile: true,
+    },
+    projectile: {
+      velocity: 12,
+      bounces: 3,
+      piercing: 3,
+    },
+    combat: {
+      trueMelee: false,
+      debuffs: [
+        {
+          name: '暗影焰',
+          nameEn: 'Shadowflame',
+          icon: 'https://terraria.wiki.gg/images/3/37/Shadowflame.png',
+          duration: 3,
+          damagePerSecond: 15,
+          effect: '持續造成傷害',
+        },
+      ],
+      specialEffects: ['飛刀在敵人之間彈跳', '不消耗彈藥的遠距離輸出'],
+    },
+  },
 }
 
 export default shadowflameKnife

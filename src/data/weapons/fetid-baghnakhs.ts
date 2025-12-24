@@ -97,6 +97,30 @@ const fetidBaghnakhs: WeaponData = {
     strategy:
       "Face-Tanking 專用武器！搭配高防禦護甲、減傷飾品和再生 Buff，直接貼身站在 Boss 體內持續揮動。開戰前先用黃金雨降低 Boss 防禦，然後快速接近並開始互毆。這是高風險高回報的打法，需要充分準備和熟悉 Boss 攻擊模式。",
   },
+
+  // 武器機制
+  mechanics: {
+    input: {
+      autoReuse: true,
+      useTurn: false,
+    },
+    melee: {
+      range: 1,
+      projectile: false,
+    },
+    combat: {
+      trueMelee: true,
+      debuffs: [
+        {
+          name: '靈液',
+          nameEn: 'Ichor',
+          icon: 'https://terraria.wiki.gg/images/e/e5/Ichor.png',
+          effect: '降低 15 點防禦',
+        },
+      ],
+      specialEffects: ['極快攻速適合 Face-Tanking 戰術'],
+    },
+  },
 }
 
 export default fetidBaghnakhs
