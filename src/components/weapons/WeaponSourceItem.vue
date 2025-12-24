@@ -1,5 +1,6 @@
 <script setup>
 import { Hammer } from 'lucide-vue-next'
+import { SourceType } from '@/data/weapons/source'
 
 /**
  * WeaponSourceItem - 單一取得方式卡片
@@ -23,19 +24,19 @@ const props = defineProps({
 
 // 根據 type 取得對應的樣式配置
 const typeConfig = {
-  crafting: { icon: '🔨', label: '製作配方', color: '#10b981' },
-  drop: { icon: '💀', label: '怪物掉落', color: '#ef4444' },
-  purchase: { icon: '🛒', label: 'NPC 購買', color: '#3b82f6' },
-  chest: { icon: '📦', label: '寶箱獲得', color: '#f59e0b' },
-  fishing: { icon: '🎣', label: '釣魚獲得', color: '#06b6d4' },
-  event: { icon: '⚔️', label: '事件獎勵', color: '#8b5cf6' },
-  bag: { icon: '🎁', label: '寶藏袋', color: '#f97316' },
-  crate: { icon: '📦', label: '木箱獲得', color: '#eab308' },
-  quest: { icon: '📜', label: '任務獎勵', color: '#14b8a6' },
-  other: { icon: '⭐', label: '其他方式', color: '#6b7280' },
+  [SourceType.Crafting]: { icon: '🔨', label: '製作配方', color: '#10b981' },
+  [SourceType.Drop]: { icon: '💀', label: '怪物掉落', color: '#ef4444' },
+  [SourceType.Purchase]: { icon: '🛒', label: 'NPC 購買', color: '#3b82f6' },
+  [SourceType.Chest]: { icon: '📦', label: '寶箱獲得', color: '#f59e0b' },
+  [SourceType.Fishing]: { icon: '🎣', label: '釣魚獲得', color: '#06b6d4' },
+  [SourceType.Event]: { icon: '⚔️', label: '事件獎勵', color: '#8b5cf6' },
+  [SourceType.Bag]: { icon: '🎁', label: '寶藏袋', color: '#f97316' },
+  [SourceType.Crate]: { icon: '📦', label: '木箱獲得', color: '#eab308' },
+  [SourceType.Quest]: { icon: '📜', label: '任務獎勵', color: '#14b8a6' },
+  [SourceType.Other]: { icon: '⭐', label: '其他方式', color: '#6b7280' },
 }
 
-const config = typeConfig[props.source.type] || typeConfig.other
+const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
 </script>
 
 <template>
@@ -46,7 +47,7 @@ const config = typeConfig[props.source.type] || typeConfig.other
     <!-- ==========================================
          Crafting - 製作配方
          ========================================== -->
-    <template v-if="source.type === 'crafting'">
+    <template v-if="source.type === SourceType.Crafting">
       <!-- 製作站標籤 -->
       <div class="source-item__tag">
         <Hammer :size="14" />
@@ -101,7 +102,7 @@ const config = typeConfig[props.source.type] || typeConfig.other
     <!-- ==========================================
          Drop - 怪物掉落
          ========================================== -->
-    <template v-else-if="source.type === 'drop'">
+    <template v-else-if="source.type === SourceType.Drop">
       <!-- 標籤 -->
       <div class="source-item__tag">
         <span>💀</span>
@@ -152,7 +153,7 @@ const config = typeConfig[props.source.type] || typeConfig.other
     <!-- ==========================================
          Purchase - NPC 購買
          ========================================== -->
-    <template v-else-if="source.type === 'purchase'">
+    <template v-else-if="source.type === SourceType.Purchase">
       <div class="source-item__tag">
         <span>🛒</span>
         <span>NPC 購買</span>
@@ -195,7 +196,7 @@ const config = typeConfig[props.source.type] || typeConfig.other
     <!-- ==========================================
          Chest - 寶箱獲得
          ========================================== -->
-    <template v-else-if="source.type === 'chest'">
+    <template v-else-if="source.type === SourceType.Chest">
       <div class="source-item__tag">
         <span>📦</span>
         <span>寶箱獲得</span>
@@ -237,7 +238,7 @@ const config = typeConfig[props.source.type] || typeConfig.other
     <!-- ==========================================
          Event - 事件獎勵
          ========================================== -->
-    <template v-else-if="source.type === 'event'">
+    <template v-else-if="source.type === SourceType.Event">
       <div class="source-item__tag">
         <span>⚔️</span>
         <span>事件獎勵</span>
