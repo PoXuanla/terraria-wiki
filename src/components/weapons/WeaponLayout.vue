@@ -214,31 +214,56 @@ const classIcons = {
           <span>取得方式</span>
         </h2>
       
-      <!-- 製作配方 -->
-      <div v-if="weapon.source.type === 'crafting'" class="source-card source-card--crafting">
-        <div class="source-card__header">
-          <Hammer :size="24" class="source-card__header-icon" />
-          <div>
-            <span class="source-card__type">製作配方</span>
-            <span class="source-card__location">{{ weapon.source.station || '工作台' }}</span>
+      <!-- 製作配方 - 公式化佈局 -->
+      <div v-if="weapon.source.type === 'crafting'" class="recipe-formula">
+        <!-- 製作站 -->
+        <div class="recipe-formula__station">
+          <Hammer :size="18" />
+          <span>{{ weapon.source.station || '工作台' }}</span>
+        </div>
+        
+        <!-- 配方公式 -->
+        <div class="recipe-formula__content">
+          <!-- 素材群 -->
+          <div class="recipe-formula__ingredients">
+            <template v-for="(item, index) in weapon.source.recipe" :key="index">
+              <div class="recipe-slot">
+                <div class="recipe-slot__icon-wrapper">
+                  <img 
+                    v-if="item.icon" 
+                    :src="item.icon" 
+                    :alt="item.name"
+                    class="recipe-slot__icon"
+                  />
+                  <span class="recipe-slot__count">×{{ item.count }}</span>
+                </div>
+                <span class="recipe-slot__name">{{ item.name }}</span>
+              </div>
+              <!-- 加號分隔（最後一個不顯示） -->
+              <span v-if="index < weapon.source.recipe.length - 1" class="recipe-formula__plus">+</span>
+            </template>
+          </div>
+          
+          <!-- 箭頭 -->
+          <div class="recipe-formula__arrow">→</div>
+          
+          <!-- 成品 -->
+          <div class="recipe-slot recipe-slot--result">
+            <div class="recipe-slot__icon-wrapper">
+              <img 
+                :src="weapon.icon" 
+                :alt="weapon.name"
+                class="recipe-slot__icon"
+              />
+            </div>
+            <span class="recipe-slot__name">{{ weapon.name }}</span>
           </div>
         </div>
-        <ul class="recipe-list">
-          <li 
-            v-for="(item, index) in weapon.source.recipe" 
-            :key="index"
-            class="recipe-item"
-          >
-            <img 
-              v-if="item.icon" 
-              :src="item.icon" 
-              :alt="item.name"
-              class="recipe-item__icon"
-            />
-            <span class="recipe-item__name">{{ item.name }}</span>
-            <span class="recipe-item__count">x{{ item.count }}</span>
-          </li>
-        </ul>
+        
+        <!-- 備註 -->
+        <p v-if="weapon.source.note" class="recipe-formula__note">
+          💡 {{ weapon.source.note }}
+        </p>
       </div>
       
       <!-- 掉落來源 -->
@@ -655,43 +680,135 @@ const classIcons = {
   color: var(--color-text-primary);
 }
 
-.recipe-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+/* ==========================================
+   Recipe Formula - 公式化配方佈局
+   ========================================== */
+.recipe-formula {
+  padding: 1rem;
+  background: var(--color-bg-main);
+  border-radius: 0.625rem;
+  border: 1px solid var(--color-border);
+  border-left: 4px solid #10b981;
 }
 
-.recipe-item {
+.recipe-formula__station {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  background: rgba(16, 185, 129, 0.1);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #10b981;
+  margin-bottom: 0.875rem;
+}
+
+.recipe-formula__content {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.625rem 0.875rem;
-  background: var(--color-bg-card);
-  border-radius: 0.5rem;
-  border: 1px solid var(--color-border);
+  flex-wrap: wrap;
 }
 
-.recipe-item__icon {
-  width: 28px;
-  height: 28px;
+.recipe-formula__ingredients {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.recipe-formula__plus {
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: var(--color-text-muted);
+  opacity: 0.5;
+}
+
+.recipe-formula__arrow {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--color-text-muted);
+  opacity: 0.6;
+}
+
+/* 素材/成品插槽 */
+.recipe-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  min-width: 64px;
+  transition: all 0.2s ease;
+}
+
+.recipe-slot:hover {
+  border-color: var(--color-primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-slot--result {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(34, 197, 94, 0.05) 100%);
+  border-color: #10b981;
+}
+
+.recipe-slot__icon-wrapper {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recipe-slot__icon {
+  width: 32px;
+  height: 32px;
   object-fit: contain;
   image-rendering: pixelated;
 }
 
-.recipe-item__name {
-  flex: 1;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--color-text-primary);
+.recipe-slot__count {
+  position: absolute;
+  bottom: -4px;
+  right: -8px;
+  padding: 0.125rem 0.375rem;
+  background: var(--color-primary);
+  color: white;
+  font-size: 0.625rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  line-height: 1;
 }
 
-.recipe-item__count {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--color-primary);
+.recipe-slot__name {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-align: center;
+  max-width: 72px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recipe-formula__note {
+  margin: 0.875rem 0 0;
+  padding: 0.5rem 0.75rem;
+  background: #eff6ff;
+  border-radius: 0.375rem;
+  font-size: 0.8125rem;
+  color: #1e40af;
+}
+
+:global(.dark) .recipe-formula__note {
+  background: rgba(59, 130, 246, 0.1);
+  color: #93c5fd;
 }
 
 .source-card__chance {
@@ -1013,6 +1130,17 @@ const classIcons = {
   
   .smart-module__value {
     font-size: 1.5rem;
+  }
+  
+  /* Recipe Formula 響應式 */
+  .recipe-formula__content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .recipe-formula__arrow {
+    transform: rotate(90deg);
+    margin: 0.25rem 0 0.25rem 2rem;
   }
 }
 </style>
