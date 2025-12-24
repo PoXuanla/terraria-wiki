@@ -54,13 +54,15 @@ const dartRifle: WeaponData = {
     "使用種子或飛鏢作為彈藥的特殊遠程武器。飛鏢步槍射速較慢但更穩定，飛鏢手槍射速極快但消耗彈藥更快。這類武器的真正威力來自於特殊飛鏢彈藥的獨特效果。",
 
   // 取得方式
-  source: {
-    type: "drop",
-    dropFrom: "腐化/血腥寶箱怪 (Corrupt/Crimson Mimic)",
-    dropFromIcon: "https://terraria.wiki.gg/images/2/23/Corrupt_Mimic.png",
-    dropChance: "20% (1/5)",
-    notes: "在地下放置 15 個腐化/血腥鑰匙於空箱子中可手動召喚寶箱怪。",
-  },
+  sources: [
+    {
+      type: "drop",
+      dropFrom: "腐化/血腥寶箱怪 (Corrupt/Crimson Mimic)",
+      dropFromIcon: "https://terraria.wiki.gg/images/2/23/Corrupt_Mimic.png",
+      dropChance: "20% (1/5)",
+      notes: "在地下放置 15 個腐化/血腥鑰匙於空箱子中可手動召喚寶箱怪。",
+    },
+  ],
 
   // 推薦理由
   whyGood:

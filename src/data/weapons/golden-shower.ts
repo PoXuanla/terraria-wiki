@@ -58,31 +58,33 @@ const goldenShower: WeaponData = {
     "噴射一道金色靈液流，能夠穿透多個敵人。攻擊命中的敵人會被施加「靈液」減益效果，降低其 15 點防禦力，持續 10 秒。這個減益對所有傷害類型都生效。",
 
   // 取得方式
-  source: {
-    type: "crafting",
-    station: "書架",
-    recipe: [
-      {
-        name: "魔法書",
-        nameEn: "Spell Tome",
-        icon: "https://terraria.wiki.gg/images/5/5f/Spell_Tome.png",
-        count: 1,
-      },
-      {
-        name: "靈液",
-        nameEn: "Ichor",
-        icon: "https://terraria.wiki.gg/images/e/e5/Ichor.png",
-        count: 20,
-      },
-      {
-        name: "暗影之魂",
-        nameEn: "Soul of Night",
-        icon: "https://terraria.wiki.gg/images/7/77/Soul_of_Night.png",
-        count: 15,
-      },
-    ],
-    note: "僅限血腥世界。腐化世界對應武器為「詛咒焰」。",
-  },
+  sources: [
+    {
+      type: "crafting",
+      station: "書架",
+      recipe: [
+        {
+          name: "魔法書",
+          nameEn: "Spell Tome",
+          icon: "https://terraria.wiki.gg/images/5/5f/Spell_Tome.png",
+          count: 1,
+        },
+        {
+          name: "靈液",
+          nameEn: "Ichor",
+          icon: "https://terraria.wiki.gg/images/e/e5/Ichor.png",
+          count: 20,
+        },
+        {
+          name: "暗影之魂",
+          nameEn: "Soul of Night",
+          icon: "https://terraria.wiki.gg/images/7/77/Soul_of_Night.png",
+          count: 15,
+        },
+      ],
+      note: "僅限血腥世界。腐化世界對應武器為「詛咒焰」。",
+    },
+  ],
 
   // 推薦理由
   whyGood:

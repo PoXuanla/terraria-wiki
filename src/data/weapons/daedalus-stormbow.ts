@@ -59,13 +59,15 @@ const daedalusStormbow: WeaponData = {
     "射出的箭矢會從天空降落，搭配聖箭使用時效果極佳，是對付機械Boss的神器。",
 
   // 取得方式
-  source: {
-    type: "drop",
-    dropFrom: "神聖寶箱怪 (Hallowed Mimic)",
-    dropFromIcon: "https://terraria.wiki.gg/images/7/7c/Hallowed_Mimic.png",
-    dropChance: "25% (1/4)",
-    notes: "需要在困難模式的神聖之地生成，或使用光之鑰召喚。",
-  },
+  sources: [
+    {
+      type: "drop",
+      dropFrom: "神聖寶箱怪 (Hallowed Mimic)",
+      dropFromIcon: "https://terraria.wiki.gg/images/7/7c/Hallowed_Mimic.png",
+      dropChance: "25% (1/4)",
+      notes: "需要在困難模式的神聖之地生成，或使用光之鑰召喚。",
+    },
+  ],
 
   // 推薦理由
   whyGood:

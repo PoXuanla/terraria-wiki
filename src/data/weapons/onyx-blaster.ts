@@ -54,30 +54,32 @@ const onyxBlaster: WeaponData = {
     "霰彈槍的強化版本，除了發射霰彈子彈散射外，還會同時發射一顆巨大的黑色能量彈，造成額外的爆發傷害。能量彈擁有穿透能力，可擊中多個敵人。",
 
   // 取得方式
-  source: {
-    type: "crafting",
-    station: "秘銀砧 / 山銅砧",
-    recipe: [
-      {
-        name: "霰彈槍",
-        nameEn: "Shotgun",
-        icon: "https://terraria.wiki.gg/images/0/09/Shotgun.png",
-        count: 1,
-      },
-      {
-        name: "暗黑碎片",
-        nameEn: "Dark Shard",
-        icon: "https://terraria.wiki.gg/images/8/86/Dark_Shard.png",
-        count: 2,
-      },
-      {
-        name: "暗影之魂",
-        nameEn: "Soul of Night",
-        icon: "https://terraria.wiki.gg/images/7/77/Soul_of_Night.png",
-        count: 10,
-      },
-    ],
-  },
+  sources: [
+    {
+      type: "crafting",
+      station: "秘銀砧 / 山銅砧",
+      recipe: [
+        {
+          name: "霰彈槍",
+          nameEn: "Shotgun",
+          icon: "https://terraria.wiki.gg/images/0/09/Shotgun.png",
+          count: 1,
+        },
+        {
+          name: "暗黑碎片",
+          nameEn: "Dark Shard",
+          icon: "https://terraria.wiki.gg/images/8/86/Dark_Shard.png",
+          count: 2,
+        },
+        {
+          name: "暗影之魂",
+          nameEn: "Soul of Night",
+          icon: "https://terraria.wiki.gg/images/7/77/Soul_of_Night.png",
+          count: 10,
+        },
+      ],
+    },
+  ],
 
   // 推薦理由
   whyGood:

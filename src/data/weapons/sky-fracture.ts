@@ -54,30 +54,32 @@ const skyFracture: WeaponData = {
     "每次攻擊會快速連續發射三把光劍，光劍會自動追蹤游標方向。擁有較高的基礎暴擊率，搭配法師裝備可以達到驚人的暴擊頻率。每次使用消耗 9 點魔力。",
 
   // 取得方式
-  source: {
-    type: "crafting",
-    station: "秘銀砧 / 山銅砧",
-    recipe: [
-      {
-        name: "魔法導彈",
-        nameEn: "Magic Missile",
-        icon: "https://terraria.wiki.gg/images/7/76/Magic_Missile.png",
-        count: 1,
-      },
-      {
-        name: "光明碎片",
-        nameEn: "Light Shard",
-        icon: "https://terraria.wiki.gg/images/6/62/Light_Shard.png",
-        count: 2,
-      },
-      {
-        name: "光明之魂",
-        nameEn: "Soul of Light",
-        icon: "https://terraria.wiki.gg/images/6/63/Soul_of_Light.png",
-        count: 16,
-      },
-    ],
-  },
+  sources: [
+    {
+      type: "crafting",
+      station: "秘銀砧 / 山銅砧",
+      recipe: [
+        {
+          name: "魔法導彈",
+          nameEn: "Magic Missile",
+          icon: "https://terraria.wiki.gg/images/7/76/Magic_Missile.png",
+          count: 1,
+        },
+        {
+          name: "光明碎片",
+          nameEn: "Light Shard",
+          icon: "https://terraria.wiki.gg/images/6/62/Light_Shard.png",
+          count: 2,
+        },
+        {
+          name: "光明之魂",
+          nameEn: "Soul of Light",
+          icon: "https://terraria.wiki.gg/images/6/63/Soul_of_Light.png",
+          count: 16,
+        },
+      ],
+    },
+  ],
 
   // 推薦理由
   whyGood:

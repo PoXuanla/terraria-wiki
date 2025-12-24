@@ -55,13 +55,15 @@ const fetidBaghnakhs: WeaponData = {
     "一對帶有劇毒的虎爪武器，攻擊範圍極短但攻擊速度瘋狂。每次攻擊都會對敵人施加「靈液」減益，降低其 15 點防禦。這是一把「Face-Tanking」專用武器，需要玩家貼身肉搏才能發揮最大效果。",
 
   // 取得方式
-  source: {
-    type: "drop",
-    dropFrom: "血腥寶箱怪 (Crimson Mimic)",
-    dropFromIcon: "https://terraria.wiki.gg/images/e/e9/Crimson_Mimic.png",
-    dropChance: "20% (1/5)",
-    notes: "僅限血腥世界。在地下放置 15 個血腥鑰匙於空箱子中可手動召喚。",
-  },
+  sources: [
+    {
+      type: "drop",
+      dropFrom: "血腥寶箱怪 (Crimson Mimic)",
+      dropFromIcon: "https://terraria.wiki.gg/images/e/e9/Crimson_Mimic.png",
+      dropChance: "20% (1/5)",
+      notes: "僅限血腥世界。在地下放置 15 個血腥鑰匙於空箱子中可手動召喚。",
+    },
+  ],
 
   // 推薦理由
   whyGood:

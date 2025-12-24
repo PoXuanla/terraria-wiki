@@ -54,13 +54,15 @@ const sanguineStaff: WeaponData = {
     "召喚血紅蝙蝠為你作戰。這些蝙蝠擁有完美的追蹤 AI，會緊緊跟隨敵人不放，即使目標快速移動也能精準命中。每隻蝙蝠佔用一個召喚欄位。",
 
   // 取得方式
-  source: {
-    type: "drop",
-    dropFrom: "恐懼鸚鵡螺 (Dreadnautilus)",
-    dropChance: "50% (1/2)",
-    notes:
-      "恐懼鸚鵡螺是血月期間釣魚時可能出現的迷你 Boss。牠非常強大，建議做好充分準備再挑戰。在困難模式下，牠會掉落血紅法杖、血腥淚滴等強力物品。",
-  },
+  sources: [
+    {
+      type: "drop",
+      dropFrom: "恐懼鸚鵡螺 (Dreadnautilus)",
+      dropChance: "50% (1/2)",
+      notes:
+        "恐懼鸚鵡螺是血月期間釣魚時可能出現的迷你 Boss。牠非常強大，建議做好充分準備再挑戰。在困難模式下，牠會掉落血紅法杖、血腥淚滴等強力物品。",
+    },
+  ],
 
   // 推薦理由
   whyGood:

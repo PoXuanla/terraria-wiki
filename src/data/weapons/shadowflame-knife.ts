@@ -54,13 +54,15 @@ const shadowflameKnife: WeaponData = {
     "一把會在敵人之間彈跳的投擲飛刀，每次命中都會對敵人施加「暗影焰」減益效果，持續造成傷害。飛刀最多可彈跳 3 次，非常適合對付成群的敵人。",
 
   // 取得方式
-  source: {
-    type: "drop",
-    dropFrom: "哥布林召喚師 (Goblin Summoner)",
-    dropChance: "33.33% (1/3)",
-    notes:
-      "哥布林召喚師只會在困難模式的哥布林軍團事件中出現。你需要先擊敗血肉牆進入困難模式，然後等待或使用戰旗召喚哥布林軍團。",
-  },
+  sources: [
+    {
+      type: "drop",
+      dropFrom: "哥布林召喚師 (Goblin Summoner)",
+      dropChance: "33.33% (1/3)",
+      notes:
+        "哥布林召喚師只會在困難模式的哥布林軍團事件中出現。你需要先擊敗血肉牆進入困難模式，然後等待或使用戰旗召喚哥布林軍團。",
+    },
+  ],
 
   // 推薦理由
   whyGood:

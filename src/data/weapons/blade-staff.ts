@@ -59,13 +59,15 @@ const bladeStaff: WeaponData = {
     "召喚一把附魔匕首懸浮在玩家上方，以極快的速度攻擊附近敵人。匕首的攻擊速度隨著敵人防禦力的提升而加快，且無視大量敵人防禦。",
 
   // 取得方式
-  source: {
-    type: "drop",
-    dropFrom: "史萊姆皇后 (Queen Slime)",
-    dropFromIcon: "https://terraria.wiki.gg/images/9/91/Queen_Slime.png",
-    dropChance: "25% (1/4)",
-    notes: "史萊姆皇后需要在神聖之地使用「明膠水晶」召喚。",
-  },
+  sources: [
+    {
+      type: "drop",
+      dropFrom: "史萊姆皇后 (Queen Slime)",
+      dropFromIcon: "https://terraria.wiki.gg/images/9/91/Queen_Slime.png",
+      dropChance: "25% (1/4)",
+      notes: "史萊姆皇后需要在神聖之地使用「明膠水晶」召喚。",
+    },
+  ],
 
   // 推薦理由
   whyGood:

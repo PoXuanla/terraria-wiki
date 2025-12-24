@@ -54,30 +54,32 @@ const meteorStaff: WeaponData = {
     "從天空召喚流星攻擊滑鼠游標位置。流星會從畫面上方隨機位置落下，造成範圍傷害並產生小型爆炸效果。每次使用消耗 9 點魔力。",
 
   // 取得方式
-  source: {
-    type: "crafting",
-    station: "秘銀砧 / 山銅砧",
-    recipe: [
-      {
-        name: "隕石錠",
-        nameEn: "Meteorite Bar",
-        icon: "https://terraria.wiki.gg/images/b/b4/Meteorite_Bar.png",
-        count: 20,
-      },
-      {
-        name: "妖精塵",
-        nameEn: "Pixie Dust",
-        icon: "https://terraria.wiki.gg/images/5/56/Pixie_Dust.png",
-        count: 10,
-      },
-      {
-        name: "光明之魂",
-        nameEn: "Soul of Light",
-        icon: "https://terraria.wiki.gg/images/6/63/Soul_of_Light.png",
-        count: 10,
-      },
-    ],
-  },
+  sources: [
+    {
+      type: "crafting",
+      station: "秘銀砧 / 山銅砧",
+      recipe: [
+        {
+          name: "隕石錠",
+          nameEn: "Meteorite Bar",
+          icon: "https://terraria.wiki.gg/images/b/b4/Meteorite_Bar.png",
+          count: 20,
+        },
+        {
+          name: "妖精塵",
+          nameEn: "Pixie Dust",
+          icon: "https://terraria.wiki.gg/images/5/56/Pixie_Dust.png",
+          count: 10,
+        },
+        {
+          name: "光明之魂",
+          nameEn: "Soul of Light",
+          icon: "https://terraria.wiki.gg/images/6/63/Soul_of_Light.png",
+          count: 10,
+        },
+      ],
+    },
+  ],
 
   // 推薦理由
   whyGood:
