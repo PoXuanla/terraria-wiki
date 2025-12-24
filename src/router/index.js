@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { Home, BookOpen, Crosshair, FileText } from 'lucide-vue-next'
+import { Home, BookOpen, Crosshair, FileText, Skull } from 'lucide-vue-next'
 
 /**
  * 路由配置
@@ -14,6 +14,7 @@ const GuideMimic = () => import('@/views/guides/MimicGuide.vue')
 const GuideClentaminator = () => import('@/views/guides/ClentaminatorGuide.vue')
 const GuideMimicDoc = () => import('@/views/guides/MimicHuntingDoc.vue')
 const WeaponDaedalus = () => import('@/views/weapons/DaedalusStormbow.vue')
+const BossTheTwins = () => import('@/views/boss/TheTwins.vue')
 
 /**
  * 路由表
@@ -73,6 +74,20 @@ const routes = [
           title: '代達羅斯風暴弓',
           icon: 'https://terraria.wiki.gg/images/e/e6/Daedalus_Stormbow.png',
           group: 'weapons',
+        },
+      },
+
+      // ==========================================
+      // BOSS
+      // ==========================================
+      {
+        path: 'boss/the-twins',
+        name: 'BossTheTwins',
+        component: BossTheTwins,
+        meta: {
+          title: '機械魔眼 (The Twins)',
+          icon: 'https://terraria.wiki.gg/images/5/55/Retinazer.png',
+          group: 'boss',
         },
       },
     ],
@@ -139,6 +154,18 @@ export const menuConfig = [
         title: '代達羅斯風暴弓', 
         path: '/weapons/daedalus', 
         icon: 'https://terraria.wiki.gg/images/e/e6/Daedalus_Stormbow.png',
+      },
+    ],
+  },
+  {
+    group: 'BOSS',
+    groupKey: 'boss',
+    icon: Skull,
+    items: [
+      { 
+        title: '機械魔眼 (The Twins)', 
+        path: '/boss/the-twins', 
+        icon: 'https://terraria.wiki.gg/images/5/55/Retinazer.png',
       },
     ],
   },
