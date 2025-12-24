@@ -8,7 +8,7 @@ import {
   PackageOpen,
 } from "lucide-vue-next";
 import { weapons as weaponData, classColors } from "@/data/weapons";
-import WeaponCard from "@/components/WeaponCard.vue";
+import WeaponCard from "@/components/weapons/WeaponCard.vue";
 
 /**
  * 武器圖鑑 - 索引頁面

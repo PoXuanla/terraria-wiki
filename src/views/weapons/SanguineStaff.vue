@@ -1,6 +1,6 @@
 <script setup>
-import WeaponLayout from "@/components/WeaponLayout.vue";
-import StrategyGuide from "@/components/StrategyGuide.vue";
+import WeaponLayout from "@/components/weapons/WeaponLayout.vue";
+import StrategyGuide from "@/components/weapons/StrategyGuide.vue";
 import { sanguineStaff as weaponData } from "@/data/weapons";
 </script>
 

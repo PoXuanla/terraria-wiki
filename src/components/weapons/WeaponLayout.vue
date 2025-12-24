@@ -1,7 +1,7 @@
 <script setup>
 import { ExternalLink, Swords, Target, Clock, Wind, Star, Sparkles, TrendingUp, Package, Hammer, Trophy } from 'lucide-vue-next'
 import DocLayout from '@/layouts/DocLayout.vue'
-import WeaponSmartCard from '@/components/WeaponSmartCard.vue'
+import WeaponSmartCard from '@/components/weapons/WeaponSmartCard.vue'
 
 /**
  * WeaponLayout - 可重用的武器頁面佈局組件
