@@ -1,5 +1,5 @@
 <script setup>
-import { ExternalLink, Swords, Target, Clock, Wind, Star, Sparkles, TrendingUp, Package, Hammer, Trophy } from 'lucide-vue-next'
+import { ExternalLink, Star, Sparkles, Package, Hammer, Trophy } from 'lucide-vue-next'
 import DocLayout from '@/layouts/DocLayout.vue'
 import WeaponSmartCard from '@/components/weapons/WeaponSmartCard.vue'
 
@@ -130,80 +130,9 @@ const classIcons = {
     </section>
 
     <!-- ========================================
-         Smart Card - 新版整合數據卡片 (有 mechanics 時顯示)
+         Smart Card - 數據卡片
          ======================================== -->
-      <WeaponSmartCard v-if="weapon.mechanics" :weapon="weapon" />
-
-      <!-- ========================================
-         Stats Grid - 舊版數據網格 (無 mechanics 時顯示)
-         ======================================== -->
-      <section v-else class="section-card">
-        <h2 id="stats" class="section-heading">
-          <TrendingUp :size="20" class="section-heading__icon" />
-          <span>屬性數據</span>
-        </h2>
-      
-      <div class="stats-grid">
-        <!-- 傷害 -->
-        <div class="stat-card">
-          <div class="stat-card__icon stat-card__icon--damage">
-            <Swords :size="20" />
-          </div>
-          <div class="stat-card__content">
-            <span class="stat-card__label">傷害</span>
-            <div class="stat-card__value-row">
-              <span class="stat-card__value">{{ weapon.stats.damage.value }}</span>
-              <span class="stat-card__suffix">{{ weapon.classLabel }}傷害</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- 擊退 -->
-        <div class="stat-card">
-          <div class="stat-card__icon stat-card__icon--knockback">
-            <Wind :size="20" />
-          </div>
-          <div class="stat-card__content">
-            <span class="stat-card__label">擊退</span>
-            <div class="stat-card__value-row">
-              <span class="stat-card__value">{{ weapon.stats.knockback.value }}</span>
-              <span v-if="weapon.stats.knockback.description" class="stat-card__desc">
-                {{ weapon.stats.knockback.description }}
-              </span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- 暴擊率 -->
-        <div class="stat-card">
-          <div class="stat-card__icon stat-card__icon--crit">
-            <Target :size="20" />
-          </div>
-          <div class="stat-card__content">
-            <span class="stat-card__label">暴擊率</span>
-            <div class="stat-card__value-row">
-              <span class="stat-card__value">{{ weapon.stats.critChance.value }}%</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- 使用時間 -->
-        <div class="stat-card">
-          <div class="stat-card__icon stat-card__icon--speed">
-            <Clock :size="20" />
-          </div>
-          <div class="stat-card__content">
-            <span class="stat-card__label">使用時間</span>
-            <div class="stat-card__value-row">
-              <span class="stat-card__value">{{ weapon.stats.useTime.value }}</span>
-              <span v-if="weapon.stats.useTime.description" class="stat-card__desc">
-                {{ weapon.stats.useTime.description }}
-              </span>
-            </div>
-          </div>
-        </div>
-        </div>
-      </section>
+      <WeaponSmartCard :weapon="weapon" />
 
       <!-- ========================================
            Source Section - 取得方式
@@ -543,109 +472,6 @@ const classIcons = {
 
 .section-heading__icon {
   color: var(--color-primary);
-}
-
-/* ==========================================
-   Stats Section
-   ========================================== */
-.stats-section {
-  background: var(--color-bg-card);
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
-}
-
-:global(.dark) .stats-section {
-  box-shadow: none;
-  border: 1px solid var(--color-border);
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 0.75rem;
-}
-
-.stat-card {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  padding: 1rem;
-  background: var(--color-bg-main);
-  border-radius: 0.5rem;
-  border: 1px solid var(--color-border);
-  transition: all 0.2s ease;
-}
-
-.stat-card:hover {
-  border-color: var(--color-primary-light);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px -2px rgba(99, 102, 241, 0.1);
-}
-
-.stat-card__icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 0.5rem;
-  color: white;
-  flex-shrink: 0;
-}
-
-.stat-card__icon--damage {
-  background: linear-gradient(135deg, #ef4444 0%, #f97316 100%);
-}
-
-.stat-card__icon--knockback {
-  background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
-}
-
-.stat-card__icon--crit {
-  background: linear-gradient(135deg, #f59e0b 0%, #eab308 100%);
-}
-
-.stat-card__icon--speed {
-  background: linear-gradient(135deg, #10b981 0%, #22c55e 100%);
-}
-
-.stat-card__content {
-  flex: 1;
-  min-width: 0;
-}
-
-.stat-card__label {
-  display: block;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-text-muted);
-  margin-bottom: 0.25rem;
-}
-
-.stat-card__value-row {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.stat-card__value {
-  font-size: 1.375rem;
-  font-weight: 700;
-  color: var(--color-text-primary);
-}
-
-.stat-card__suffix {
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-}
-
-.stat-card__desc {
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
 }
 
 /* ==========================================
@@ -1253,10 +1079,6 @@ const classIcons = {
   
   .hero__title {
     font-size: 1.5rem;
-  }
-  
-  .stats-grid {
-    grid-template-columns: 1fr 1fr;
   }
   
   .whygood-card {
