@@ -219,11 +219,11 @@ const completionPercent = computed(() => {
 
 <template>
   <DocLayout title="本頁目錄">
-    <div class="content-card content-prose">
+    <div class="guide-page">
       <!-- ========================================
-           Hero Banner (不被 prose 影響)
+           Hero Banner
            ======================================== -->
-      <header class="not-prose hero-banner">
+      <header class="hero-banner">
         <div class="hero-banner__bg"></div>
         <div class="hero-banner__content">
           <div class="hero-banner__icon">
@@ -247,22 +247,22 @@ const completionPercent = computed(() => {
         </div>
       </header>
 
-      <!-- 簡介段落 -->
-      <p>
-        生物群系寶箱怪 (Biome Mimics) 是困難模式中三種強大的特殊敵人，
-        分別對應<strong>神聖之地</strong>、<strong>腐化之地</strong>和<strong>猩紅之地</strong>。
-        與自然生成的普通寶箱怪不同，這些特殊寶箱怪必須透過<em>鑰匙召喚</em>。
-      </p>
-
       <!-- ========================================
-         Section 1: 召喚方式
-         ======================================== -->
-      <h2 id="summon" class="text-gray-900 dark:text-gray-100">召喚方式</h2>
+           Section 1: 召喚方式
+           ======================================== -->
+      <section class="section-card">
+        <h2 id="summon">召喚方式</h2>
 
-      <p>召喚生物群系寶箱怪非常簡單，只需要對應的鑰匙和一個空寶箱。</p>
+        <p>
+          生物群系寶箱怪 (Biome Mimics) 是困難模式中三種強大的特殊敵人，
+          分別對應<strong>神聖之地</strong>、<strong>腐化之地</strong>和<strong>猩紅之地</strong>。
+          與自然生成的普通寶箱怪不同，這些特殊寶箱怪必須透過<em>鑰匙召喚</em>。
+        </p>
 
-      <!-- 算式視覺 (不被 prose 影響) -->
-      <div class="not-prose summon-formula">
+        <p>召喚生物群系寶箱怪非常簡單，只需要對應的鑰匙和一個空寶箱。</p>
+
+        <!-- 算式視覺 -->
+        <div class="summon-formula">
         <div class="formula-item">
           <div class="formula-item__icon-box formula-item__icon-box--chest">
             <span class="formula-item__emoji">📦</span>
@@ -299,8 +299,8 @@ const completionPercent = computed(() => {
         </div>
       </div>
 
-      <!-- 注意事項 -->
-      <div class="not-prose summon-warning">
+        <!-- 注意事項 -->
+        <div class="summon-warning">
         <AlertTriangle :size="18" class="summon-warning__icon" />
         <p class="summon-warning__text">
           <strong>注意：</strong>寶箱必須是<em>空的</em>，且只需放入
@@ -308,30 +308,32 @@ const completionPercent = computed(() => {
         </p>
       </div>
 
-      <!-- 步驟說明 -->
-      <div class="not-prose summon-steps">
-        <div v-for="step in summonSteps" :key="step.step" class="step-card">
-          <div class="step-card__number">{{ step.step }}</div>
-          <div class="step-card__content">
-            <div class="step-card__icon">{{ step.icon }}</div>
-            <h3 class="step-card__title">{{ step.title }}</h3>
-            <p class="step-card__desc">{{ step.description }}</p>
+        <!-- 步驟說明 -->
+        <div class="summon-steps">
+          <div v-for="step in summonSteps" :key="step.step" class="step-card">
+            <div class="step-card__number">{{ step.step }}</div>
+            <div class="step-card__content">
+              <div class="step-card__icon">{{ step.icon }}</div>
+              <h3 class="step-card__title">{{ step.title }}</h3>
+              <p class="step-card__desc">{{ step.description }}</p>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
       <!-- ========================================
-         Section 2: 寶箱怪種類
-         ======================================== -->
-      <h2 id="types" class="text-gray-900 dark:text-gray-100">寶箱怪種類</h2>
+           Section 2: 寶箱怪種類
+           ======================================== -->
+      <section class="section-card">
+        <h2 id="types">寶箱怪種類</h2>
 
-      <p>
-        共有三種生物群系寶箱怪，每種都有專屬的掉落物。
-        點選下方卡片了解各類型的召喚條件與關鍵掉落。
-      </p>
+        <p>
+          共有三種生物群系寶箱怪，每種都有專屬的掉落物。
+          點選下方卡片了解各類型的召喚條件與關鍵掉落。
+        </p>
 
-      <!-- 卡片網格 (不被 prose 影響) -->
-      <div class="not-prose mimic-grid">
+        <!-- 卡片網格 -->
+        <div class="mimic-grid">
         <article
           v-for="mimic in mimicTypes"
           :key="mimic.id"
@@ -391,22 +393,22 @@ const completionPercent = computed(() => {
             </div>
           </div>
         </article>
-      </div>
+        </div>
+      </section>
 
       <!-- ========================================
-         Section 3: 戰前準備
-         ======================================== -->
-      <h2 id="preparation" class="text-gray-900 dark:text-gray-100">
-        戰前準備
-      </h2>
+           Section 3: 戰前準備
+           ======================================== -->
+      <section class="section-card">
+        <h2 id="preparation">戰前準備</h2>
 
-      <p>
-        生物群系寶箱怪的血量約為 <code>3,500</code>，攻擊力也相當高。
-        建議在戰鬥前做好以下準備，勾選已完成的項目：
-      </p>
+        <p>
+          生物群系寶箱怪的血量約為 <code>3,500</code>，攻擊力也相當高。
+          建議在戰鬥前做好以下準備，勾選已完成的項目：
+        </p>
 
-      <!-- 互動式清單 (不被 prose 影響) -->
-      <div class="not-prose preparation-section">
+        <!-- 互動式清單 -->
+        <div class="preparation-section">
         <!-- 進度條 -->
         <div class="preparation-progress">
           <div class="preparation-progress__bar">
@@ -451,20 +453,22 @@ const completionPercent = computed(() => {
             <span class="checklist-item__text">{{ item.text }}</span>
           </div>
         </div>
-      </div>
+        </div>
+      </section>
 
       <!-- ========================================
-         Section 4: 鑰匙取得
-         ======================================== -->
-      <h2 id="keys" class="text-gray-900 dark:text-gray-100">鑰匙取得</h2>
+           Section 4: 鑰匙取得
+           ======================================== -->
+      <section class="section-card">
+        <h2 id="keys">鑰匙取得</h2>
 
-      <p>
-        召喚鑰匙可以透過<strong>合成製作</strong>取得。
-        在對應的地下生物群系刷怪，收集靈魂後即可合成。
-      </p>
+        <p>
+          召喚鑰匙可以透過<strong>合成製作</strong>取得。
+          在對應的地下生物群系刷怪，收集靈魂後即可合成。
+        </p>
 
-      <!-- 鑰匙合成卡片 (不被 prose 影響) -->
-      <div class="not-prose recipes-grid">
+        <!-- 鑰匙合成卡片 -->
+        <div class="recipes-grid">
         <div
           v-for="key in keyRecipes"
           :key="key.nameEn"
@@ -510,42 +514,139 @@ const completionPercent = computed(() => {
         </div>
       </div>
 
-      <!-- 提示 -->
-      <div class="not-prose recipe-tip">
-        <Info :size="20" class="recipe-tip__icon" />
-        <p class="recipe-tip__text">
-          <strong>刷取技巧：</strong
-          >在地底的神聖/腐化/猩紅區域刷怪，可以同時取得對應的靈魂。
-          建議使用戰鬥藥水和水蠟燭來加速刷取效率！
-        </p>
-      </div>
+        <!-- 提示 -->
+        <div class="recipe-tip">
+          <Info :size="20" class="recipe-tip__icon" />
+          <p class="recipe-tip__text">
+            <strong>刷取技巧：</strong
+            >在地底的神聖/腐化/猩紅區域刷怪，可以同時取得對應的靈魂。
+            建議使用戰鬥藥水和水蠟燭來加速刷取效率！
+          </p>
+        </div>
+      </section>
 
       <!-- ========================================
-         Section 5: 戰鬥技巧
-         ======================================== -->
-      <h2 id="combat" class="text-gray-900 dark:text-gray-100">戰鬥技巧</h2>
+           Section 5: 戰鬥技巧
+           ======================================== -->
+      <section class="section-card">
+        <h2 id="combat">戰鬥技巧</h2>
 
-      <p>
-        寶箱怪會進行跳躍攻擊，動作有明顯的預備動作。以下是一些實用的戰鬥建議：
-      </p>
+        <p>
+          寶箱怪會進行跳躍攻擊，動作有明顯的預備動作。以下是一些實用的戰鬥建議：
+        </p>
 
-      <ul>
-        <li><strong>保持移動</strong> - 利用翅膀保持距離，不要被逼到角落</li>
-        <li><strong>遠程優先</strong> - 使用弓箭或槍械可以更安全地輸出</li>
-        <li><strong>場地準備</strong> - 建造約 50-80 格長的平坦戰鬥場地</li>
-        <li><strong>回復設施</strong> - 放置篝火和心形燈籠增加回復速度</li>
-      </ul>
+        <ul>
+          <li>
+            <strong>保持移動</strong> - 利用翅膀保持距離，不要被逼到角落
+          </li>
+          <li><strong>遠程優先</strong> - 使用弓箭或槍械可以更安全地輸出</li>
+          <li><strong>場地準備</strong> - 建造約 50-80 格長的平坦戰鬥場地</li>
+          <li><strong>回復設施</strong> - 放置篝火和心形燈籠增加回復速度</li>
+        </ul>
 
-      <blockquote>
-        <strong>💡 專家提示：</strong
-        >神聖寶箱怪掉落的代達羅斯風暴弓搭配聖箭，是對付毀滅者 (The Destroyer)
-        的神器。 絕對值得多刷幾隻！
-      </blockquote>
+        <div class="tip-box">
+          <strong>💡 專家提示：</strong
+          >神聖寶箱怪掉落的代達羅斯風暴弓搭配聖箭，是對付毀滅者 (The Destroyer)
+          的神器。 絕對值得多刷幾隻！
+        </div>
+      </section>
     </div>
   </DocLayout>
 </template>
 
 <style scoped>
+/* ==========================================
+   頁面容器
+   ========================================== */
+.guide-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ==========================================
+   Section Card
+   ========================================== */
+.section-card {
+  background: var(--color-bg-card);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
+}
+
+:global(.dark) .section-card {
+  box-shadow: none;
+  border: 1px solid var(--color-border);
+}
+
+.section-card h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 1rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 2px solid var(--color-primary-light);
+  scroll-margin-top: 6rem;
+}
+
+.section-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 1.25rem 0 0.5rem;
+}
+
+.section-card p {
+  margin: 0 0 1rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.section-card ul,
+.section-card ol {
+  margin: 0 0 1rem;
+  padding-left: 1.5rem;
+  color: var(--color-text-secondary);
+}
+
+.section-card li {
+  margin-bottom: 0.375rem;
+  line-height: 1.6;
+}
+
+.section-card code {
+  background: var(--color-bg-main);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.section-card strong {
+  color: var(--color-text-primary);
+}
+
+/* ==========================================
+   Tip Box
+   ========================================== */
+.tip-box {
+  background: #eff6ff;
+  border: 1px solid #93c5fd;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: #1e40af;
+  line-height: 1.6;
+}
+
+:global(.dark) .tip-box {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #93c5fd;
+}
+
 /* ==========================================
    Hero Banner
    ========================================== */
@@ -555,7 +656,6 @@ const completionPercent = computed(() => {
   border-radius: 1rem;
   overflow: hidden;
   padding: 2rem;
-  margin-bottom: 1.5rem;
 }
 
 .hero-banner__bg {

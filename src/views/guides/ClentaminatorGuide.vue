@@ -225,11 +225,11 @@ const operationTips = [
 
 <template>
   <DocLayout title="本頁目錄">
-    <div class="content-card content-prose">
+    <div class="guide-page">
       <!-- ========================================
-           Hero Banner (不被 prose 影響)
+           Hero Banner
            ======================================== -->
-      <header class="not-prose hero-banner">
+      <header class="hero-banner">
         <div class="hero-banner__bg"></div>
         <div class="hero-banner__content">
           <div class="hero-banner__icon">
@@ -254,24 +254,19 @@ const operationTips = [
         </div>
       </header>
 
-      <!-- 簡介段落 -->
-      <p>
-        在困難模式開啟後，<strong>腐化之地</strong>、<strong>猩紅之地</strong>和<strong>神聖之地</strong>會加速擴散，
-        威脅你辛苦建立的世界。本指南將幫助你了解侵蝕機制、早期對策，以及終極解決方案——<em>環境改造槍</em>。
-      </p>
-
       <!-- ========================================
-         Section 1: 侵蝕機制
-         ======================================== -->
-      <h2 id="erosion" class="text-gray-900 dark:text-gray-100">侵蝕機制</h2>
+           Section 1: 侵蝕機制
+           ======================================== -->
+      <section class="section-card">
+        <h2 id="erosion">侵蝕機制</h2>
 
-      <p>
-        了解三種侵蝕性生物群系的特性是治理的第一步。
-        每種都有獨特的外觀和行為，但擴散方式相似。
-      </p>
+        <p>
+          在困難模式開啟後，<strong>腐化之地</strong>、<strong>猩紅之地</strong>和<strong>神聖之地</strong>會加速擴散，
+          威脅你辛苦建立的世界。了解三種侵蝕性生物群系的特性是治理的第一步。
+        </p>
 
-      <!-- 生物群系卡片網格 (不被 prose 影響) -->
-      <div class="not-prose biome-grid">
+        <!-- 生物群系卡片網格 -->
+        <div class="biome-grid">
         <article
           v-for="biome in biomeThreats"
           :key="biome.id"
@@ -330,11 +325,11 @@ const operationTips = [
         </article>
       </div>
 
-      <!-- 方塊擴散機制表 -->
-      <h3 class="text-gray-800 dark:text-gray-200">方塊擴散一覽</h3>
-      <p>不同類型的方塊對侵蝕的反應不同，以下是詳細對照表：</p>
+        <!-- 方塊擴散機制表 -->
+        <h3>方塊擴散一覽</h3>
+        <p>不同類型的方塊對侵蝕的反應不同，以下是詳細對照表：</p>
 
-      <div class="not-prose spread-table">
+        <div class="spread-table">
         <div class="spread-table__header">
           <span>方塊類型</span>
           <span>可被侵蝕</span>
@@ -367,19 +362,17 @@ const operationTips = [
             {{ block.note }}
           </div>
         </div>
-      </div>
+        </div>
+      </section>
 
       <!-- ========================================
-         Section 2: 緊急警告：叢林
-         ======================================== -->
-      <h2 id="jungle-warning" class="text-gray-900 dark:text-gray-100">
-        緊急警告：叢林
-      </h2>
+           Section 2: 緊急警告：叢林
+           ======================================== -->
+      <section class="section-card">
+        <h2 id="jungle-warning">緊急警告：叢林</h2>
 
-      <!-- 叢林危機警告區塊 (不被 prose 影響) -->
-      <div
-        class="not-prose jungle-alert dark:bg-yellow-950/40 dark:border-yellow-600"
-      >
+        <!-- 叢林危機警告區塊 -->
+        <div class="jungle-alert dark:bg-yellow-950/40 dark:border-yellow-600">
         <div class="jungle-alert__header">
           <div
             class="jungle-alert__icon-wrapper dark:bg-gradient-to-br dark:from-green-800 dark:to-green-900"
@@ -483,19 +476,19 @@ const operationTips = [
             神聖之地不會侵蝕淤泥，可以有效阻擋腐化/猩紅的推進。
           </p>
         </div>
-      </div>
+        </div>
+      </section>
 
       <!-- ========================================
-         Section 3: 早期對策
-         ======================================== -->
-      <h2 id="early-solutions" class="text-gray-900 dark:text-gray-100">
-        早期對策
-      </h2>
+           Section 3: 早期對策
+           ======================================== -->
+      <section class="section-card">
+        <h2 id="early-solutions">早期對策</h2>
 
-      <p>在取得環境改造槍之前，可以使用這些方法減緩擴散速度，爭取時間。</p>
+        <p>在取得環境改造槍之前，可以使用這些方法減緩擴散速度，爭取時間。</p>
 
-      <!-- 早期解決方案卡片 (不被 prose 影響) -->
-      <div class="not-prose solutions-grid">
+        <!-- 早期解決方案卡片 -->
+        <div class="solutions-grid">
         <div
           v-for="solution in earlySolutions"
           :key="solution.id"
@@ -530,25 +523,25 @@ const operationTips = [
         </div>
       </div>
 
-      <blockquote>
-        <strong>💡 專家提示：</strong>擊敗肉山後，立即在叢林邊界挖掘 4
-        格寬的隔離帶。 這能為你爭取足夠的時間來準備環境改造槍。
-      </blockquote>
+        <div class="tip-box">
+          <strong>💡 專家提示：</strong>擊敗肉山後，立即在叢林邊界挖掘 4
+          格寬的隔離帶。 這能為你爭取足夠的時間來準備環境改造槍。
+        </div>
+      </section>
 
       <!-- ========================================
-         Section 4: 終極方案：環境槍
-         ======================================== -->
-      <h2 id="clentaminator" class="text-gray-900 dark:text-gray-100">
-        終極方案：環境槍
-      </h2>
+           Section 4: 終極方案：環境槍
+           ======================================== -->
+      <section class="section-card">
+        <h2 id="clentaminator">終極方案：環境槍</h2>
 
-      <p>
-        <strong>環境改造槍 (Clentaminator)</strong>
-        是遊戲中最強大的環境控制工具， 能夠快速、大範圍地改變生物群系。
-      </p>
+        <p>
+          <strong>環境改造槍 (Clentaminator)</strong>
+          是遊戲中最強大的環境控制工具， 能夠快速、大範圍地改變生物群系。
+        </p>
 
-      <!-- 環境改造槍 Hero Section (不被 prose 影響) -->
-      <div class="not-prose clentaminator-section">
+        <!-- 環境改造槍 Hero Section -->
+        <div class="clentaminator-section">
         <div class="clentaminator-hero">
           <div class="clentaminator-hero__bg"></div>
 
@@ -681,39 +674,134 @@ const operationTips = [
             </div>
           </div>
         </div>
-      </div>
+        </div>
+      </section>
 
       <!-- ========================================
-         最終提示
-         ======================================== -->
-      <h2 id="summary" class="text-gray-900 dark:text-gray-100">總結與建議</h2>
+           Section 5: 總結與建議
+           ======================================== -->
+      <section class="section-card">
+        <h2 id="summary">總結與建議</h2>
 
-      <p>環境治理是困難模式中不可忽視的重要任務。以下是關鍵建議：</p>
+        <p>環境治理是困難模式中不可忽視的重要任務。以下是關鍵建議：</p>
 
-      <ul>
-        <li><strong>預防優於治療</strong> - 擊敗肉山後立即挖掘隔離帶</li>
-        <li><strong>保護叢林優先</strong> - 叢林破壞是不可逆的</li>
-        <li><strong>善用神聖之地</strong> - 作為緩衝區阻擋腐化/猩紅</li>
-        <li><strong>儲備資金</strong> - 環境改造槍和溶液需要大量金幣</li>
-      </ul>
+        <ul>
+          <li><strong>預防優於治療</strong> - 擊敗肉山後立即挖掘隔離帶</li>
+          <li><strong>保護叢林優先</strong> - 叢林破壞是不可逆的</li>
+          <li><strong>善用神聖之地</strong> - 作為緩衝區阻擋腐化/猩紅</li>
+          <li><strong>儲備資金</strong> - 環境改造槍和溶液需要大量金幣</li>
+        </ul>
 
-      <!-- 最終提示框 (不被 prose 影響) -->
-      <div class="not-prose final-tip">
-        <div class="final-tip__icon">💡</div>
-        <div class="final-tip__content">
-          <h4 class="final-tip__title">專業建議</h4>
-          <p class="final-tip__text">
-            擊敗肉山後，立即在叢林邊界挖掘 4 格寬的隔離帶。
-            這能為你爭取足夠的時間來準備環境改造槍。
-            記住：預防永遠比治療更省資源！
-          </p>
+        <!-- 最終提示框 -->
+        <div class="final-tip">
+          <div class="final-tip__icon">💡</div>
+          <div class="final-tip__content">
+            <h4 class="final-tip__title">專業建議</h4>
+            <p class="final-tip__text">
+              擊敗肉山後，立即在叢林邊界挖掘 4 格寬的隔離帶。
+              這能為你爭取足夠的時間來準備環境改造槍。
+              記住：預防永遠比治療更省資源！
+            </p>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
   </DocLayout>
 </template>
 
 <style scoped>
+/* ==========================================
+   頁面容器
+   ========================================== */
+.guide-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ==========================================
+   Section Card
+   ========================================== */
+.section-card {
+  background: var(--color-bg-card);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
+}
+
+:global(.dark) .section-card {
+  box-shadow: none;
+  border: 1px solid var(--color-border);
+}
+
+.section-card h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 1rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 2px solid var(--color-primary-light);
+  scroll-margin-top: 6rem;
+}
+
+.section-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 1.25rem 0 0.5rem;
+}
+
+.section-card p {
+  margin: 0 0 1rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.section-card ul,
+.section-card ol {
+  margin: 0 0 1rem;
+  padding-left: 1.5rem;
+  color: var(--color-text-secondary);
+}
+
+.section-card li {
+  margin-bottom: 0.375rem;
+  line-height: 1.6;
+}
+
+.section-card code {
+  background: var(--color-bg-main);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.section-card strong {
+  color: var(--color-text-primary);
+}
+
+/* ==========================================
+   Tip Box
+   ========================================== */
+.tip-box {
+  background: #eff6ff;
+  border: 1px solid #93c5fd;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  color: #1e40af;
+  line-height: 1.6;
+}
+
+:global(.dark) .tip-box {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #93c5fd;
+}
+
 /* ==========================================
    Hero Banner
    ========================================== */
@@ -723,7 +811,6 @@ const operationTips = [
   border-radius: 1rem;
   overflow: hidden;
   padding: 2rem;
-  margin-bottom: 1.5rem;
 }
 
 .hero-banner__bg {
