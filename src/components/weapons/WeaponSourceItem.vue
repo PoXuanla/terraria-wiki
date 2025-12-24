@@ -93,7 +93,8 @@ const config = typeConfig[props.source.type] || typeConfig.other
       
       <!-- 備註 -->
       <p v-if="source.note" class="source-item__note">
-        💡 {{ source.note }}
+        <img src="https://terraria.wiki.gg/images/e/e4/Torch.png" alt="提示" class="source-item__note-icon" />
+        {{ source.note }}
       </p>
     </template>
 
@@ -143,7 +144,8 @@ const config = typeConfig[props.source.type] || typeConfig.other
       
       <!-- 備註 -->
       <p v-if="source.notes" class="source-item__note">
-        💡 {{ source.notes }}
+        <img src="https://terraria.wiki.gg/images/e/e4/Torch.png" alt="提示" class="source-item__note-icon" />
+        {{ source.notes }}
       </p>
     </template>
 
@@ -185,7 +187,8 @@ const config = typeConfig[props.source.type] || typeConfig.other
         ⚠️ {{ source.condition }}
       </p>
       <p v-if="source.notes" class="source-item__note">
-        💡 {{ source.notes }}
+        <img src="https://terraria.wiki.gg/images/e/e4/Torch.png" alt="提示" class="source-item__note-icon" />
+        {{ source.notes }}
       </p>
     </template>
 
@@ -226,7 +229,8 @@ const config = typeConfig[props.source.type] || typeConfig.other
         📍 {{ source.location }}
       </p>
       <p v-if="source.notes" class="source-item__note">
-        💡 {{ source.notes }}
+        <img src="https://terraria.wiki.gg/images/e/e4/Torch.png" alt="提示" class="source-item__note-icon" />
+        {{ source.notes }}
       </p>
     </template>
 
@@ -269,7 +273,8 @@ const config = typeConfig[props.source.type] || typeConfig.other
         👾 掉落自：{{ source.dropFrom }}
       </p>
       <p v-if="source.notes" class="source-item__note">
-        💡 {{ source.notes }}
+        <img src="https://terraria.wiki.gg/images/e/e4/Torch.png" alt="提示" class="source-item__note-icon" />
+        {{ source.notes }}
       </p>
     </template>
 
@@ -287,7 +292,8 @@ const config = typeConfig[props.source.type] || typeConfig.other
       </div>
       
       <p v-if="source.notes" class="source-item__note">
-        💡 {{ source.notes }}
+        <img src="https://terraria.wiki.gg/images/e/e4/Torch.png" alt="提示" class="source-item__note-icon" />
+        {{ source.notes }}
       </p>
     </template>
   </div>
@@ -491,29 +497,36 @@ const config = typeConfig[props.source.type] || typeConfig.other
 .source-item__condition,
 .source-item__location,
 .source-item__from {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   margin: 0.875rem 0 0;
   padding: 0.5rem 0.75rem;
-  background: #eff6ff;
-  border-radius: 0.375rem;
+  background: rgba(251, 191, 36, 0.15);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  border-radius: 9999px;
   font-size: 0.8125rem;
-  color: #1e40af;
+  color: var(--color-text-secondary);
 }
 
-:global(.dark) .source-item__note,
-:global(.dark) .source-item__condition,
-:global(.dark) .source-item__location,
-:global(.dark) .source-item__from {
-  background: rgba(59, 130, 246, 0.1);
-  color: #93c5fd;
+.source-item__note-icon,
+.source-item__condition-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  flex-shrink: 0;
 }
 
 .source-item__condition {
-  background: #fef3c7;
+  background: rgba(251, 191, 36, 0.2);
+  border-color: rgba(251, 191, 36, 0.3);
   color: #92400e;
 }
 
 :global(.dark) .source-item__condition {
-  background: rgba(245, 158, 11, 0.1);
+  background: rgba(251, 191, 36, 0.15);
+  border-color: rgba(251, 191, 36, 0.2);
   color: #fcd34d;
 }
 
