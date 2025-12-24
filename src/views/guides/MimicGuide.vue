@@ -219,10 +219,11 @@ const completionPercent = computed(() => {
 
 <template>
   <DocLayout title="本頁目錄">
-    <!-- ========================================
-         Hero Banner (不被 prose 影響)
-         ======================================== -->
-    <header class="not-prose hero-banner">
+    <div class="content-card content-prose">
+      <!-- ========================================
+           Hero Banner (不被 prose 影響)
+           ======================================== -->
+      <header class="not-prose hero-banner">
       <div class="hero-banner__bg"></div>
       <div class="hero-banner__content">
         <div class="hero-banner__icon">
@@ -527,6 +528,7 @@ const completionPercent = computed(() => {
       >神聖寶箱怪掉落的代達羅斯風暴弓搭配聖箭，是對付毀滅者 (The Destroyer)
       的神器。 絕對值得多刷幾隻！
     </blockquote>
+    </div>
   </DocLayout>
 </template>
 

@@ -225,10 +225,11 @@ const operationTips = [
 
 <template>
   <DocLayout title="本頁目錄">
-    <!-- ========================================
-         Hero Banner (不被 prose 影響)
-         ======================================== -->
-    <header class="not-prose hero-banner">
+    <div class="content-card content-prose">
+      <!-- ========================================
+           Hero Banner (不被 prose 影響)
+           ======================================== -->
+      <header class="not-prose hero-banner">
       <div class="hero-banner__bg"></div>
       <div class="hero-banner__content">
         <div class="hero-banner__icon">
@@ -664,6 +665,7 @@ const operationTips = [
           這能為你爭取足夠的時間來準備環境改造槍。
           記住：預防永遠比治療更省資源！
         </p>
+      </div>
       </div>
     </div>
   </DocLayout>

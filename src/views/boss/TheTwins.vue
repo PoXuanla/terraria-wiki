@@ -412,7 +412,7 @@ const bossData = {
 </script>
 
 <template>
-  <DocLayout title="目錄" :transparent="true">
+  <DocLayout title="目錄">
     <div class="boss-page">
       <!-- ========================================
            Hero Section - 頂部展示區

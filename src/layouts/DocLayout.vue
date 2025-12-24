@@ -1,16 +1,17 @@
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick, watch, computed } from "vue";
+import { ref, onMounted, onUnmounted, nextTick } from "vue";
 import { List } from "lucide-vue-next";
 
 /**
- * DocLayout - 智慧型文檔佈局組件
+ * DocLayout - 文檔佈局組件
  *
  * 功能：
- * 1. 自動掃描 slot 內的 <h2> 標籤生成目錄 (或使用手動傳入的 tocItems)
- * 2. 使用 IntersectionObserver 實現 Scroll Spy
- * 3. 點擊目錄項目平滑捲動到對應位置
- * 4. 支援 transparent 模式 (不套用卡片樣式)
- * 5. 支援 floating 目錄模式 (固定在右側)
+ * 1. 提供左側 TOC 目錄 + 右側內容區的佈局
+ * 2. 自動掃描 slot 內的 <h2> 標籤生成目錄
+ * 3. 使用 IntersectionObserver 實現 Scroll Spy
+ * 4. 點擊目錄項目平滑捲動到對應位置
+ *
+ * 注意：此組件不套用內容樣式，樣式由各頁面自行決定
  */
 
 // Props
@@ -21,31 +22,6 @@ const props = defineProps({
   title: {
     type: String,
     default: "目錄",
-  },
-  /**
-   * 透明模式 - 不套用卡片樣式 (背景、陰影、圓角)
-   * 適用於有自訂 Hero 區塊的頁面
-   */
-  transparent: {
-    type: Boolean,
-    default: false,
-  },
-  /**
-   * 浮動目錄模式 - 固定在右側
-   * 預設 false 為左側 sidebar 模式
-   */
-  floating: {
-    type: Boolean,
-    default: false,
-  },
-  /**
-   * 手動傳入的目錄項目
-   * 格式: [{ id: 'section-id', text: '標題文字' }, ...]
-   * 若提供則不會自動掃描 h2 標籤
-   */
-  manualTocItems: {
-    type: Array,
-    default: null,
   },
 });
 
@@ -72,24 +48,8 @@ let observer = null;
 /**
  * 掃描內容區域的所有 <h2> 標籤
  * 如果沒有 id，自動賦予唯一 id
- * 若有手動傳入 manualTocItems 則使用它
  */
 const scanHeadings = () => {
-  // 若有手動傳入 tocItems，直接使用
-  if (props.manualTocItems && props.manualTocItems.length > 0) {
-    tocItems.value = props.manualTocItems.map((item) => ({
-      id: item.id,
-      text: item.text,
-      element: document.getElementById(item.id),
-    }));
-
-    if (tocItems.value.length > 0) {
-      activeId.value = tocItems.value[0].id;
-    }
-    return;
-  }
-
-  // 自動掃描 h2 標籤
   if (!contentRef.value) return;
 
   const headings = contentRef.value.querySelectorAll("h2");
@@ -192,15 +152,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
-    :class="[
-      'doc-layout',
-      { 'doc-layout--floating': floating },
-      { 'doc-layout--transparent': transparent },
-    ]"
-  >
-    <!-- 側邊目錄 (左側 Sidebar 模式) -->
-    <aside v-if="!floating" class="doc-toc">
+  <div class="doc-layout">
+    <!-- 側邊目錄 -->
+    <aside class="doc-toc">
       <div class="doc-toc__inner">
         <div class="doc-toc__header">
           <List :size="16" class="doc-toc__header-icon" />
@@ -234,38 +188,8 @@ onUnmounted(() => {
       </div>
     </aside>
 
-    <!-- 浮動目錄 (右側 Floating 模式) -->
-    <aside v-if="floating" class="floating-toc">
-      <div class="floating-toc__inner">
-        <div class="floating-toc__header">
-          <List :size="16" />
-          <span>{{ title }}</span>
-        </div>
-        <nav class="floating-toc__nav">
-          <a
-            v-for="item in tocItems"
-            :key="item.id"
-            :href="`#${item.id}`"
-            :class="[
-              'floating-toc__link',
-              { 'floating-toc__link--active': isActive(item.id) },
-            ]"
-            @click.prevent="scrollToHeading(item.id)"
-          >
-            {{ item.text }}
-          </a>
-        </nav>
-      </div>
-    </aside>
-
     <!-- 主要內容區 -->
-    <article
-      ref="contentRef"
-      :class="[
-        'doc-content',
-        { 'prose prose-indigo dark:prose-invert max-w-none': !transparent },
-      ]"
-    >
+    <article ref="contentRef" class="doc-content">
       <slot />
     </article>
   </div>
@@ -385,130 +309,11 @@ onUnmounted(() => {
 }
 
 /* ==========================================
-   主要內容區
+   主要內容區 - 只負責佈局，不套用卡片樣式
    ========================================== */
 .doc-content {
   flex: 1;
   min-width: 0;
-  background: var(--color-bg-card);
-  border-radius: 0.75rem;
-  padding: 2rem;
-  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* 深色模式：改用邊框取代陰影 */
-:global(.dark) .doc-content {
-  box-shadow: none;
-  border: 1px solid var(--color-border);
-}
-
-/* ==========================================
-   透明模式 - 不套用卡片樣式
-   ========================================== */
-.doc-layout--transparent .doc-content {
-  background: transparent;
-  border-radius: 0;
-  padding: 0;
-  box-shadow: none;
-  border: none;
-}
-
-:global(.dark) .doc-layout--transparent .doc-content {
-  border: none;
-}
-
-/* ==========================================
-   浮動目錄模式
-   ========================================== */
-.doc-layout--floating {
-  max-width: 1000px;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-/* 大螢幕時為浮動目錄留出空間 */
-@media (min-width: 1400px) {
-  .doc-layout--floating {
-    margin-right: 240px;
-  }
-}
-
-.floating-toc {
-  position: fixed;
-  right: 2rem;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 40;
-  display: none;
-}
-
-@media (min-width: 1400px) {
-  .floating-toc {
-    display: block;
-  }
-}
-
-.floating-toc__inner {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: 0.75rem;
-  padding: 1rem;
-  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.1);
-  max-width: 180px;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-:global(.dark) .floating-toc__inner {
-  box-shadow: none;
-}
-
-.floating-toc__header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding-bottom: 0.75rem;
-  margin-bottom: 0.75rem;
-  border-bottom: 1px solid var(--color-border);
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--color-text-muted);
-}
-
-.floating-toc__header svg {
-  color: var(--color-primary);
-}
-
-.floating-toc__nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0.125rem;
-}
-
-.floating-toc__link {
-  display: block;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--color-text-secondary);
-  text-decoration: none;
-  border-radius: 0.375rem;
-  border-left: 3px solid transparent;
-  transition: all 0.15s ease;
-}
-
-.floating-toc__link:hover {
-  color: var(--color-text-primary);
-  background: var(--color-bg-main);
-}
-
-.floating-toc__link--active {
-  color: var(--color-primary);
-  font-weight: 600;
-  background: rgba(99, 102, 241, 0.08);
-  border-left-color: var(--color-primary);
 }
 
 /* ==========================================
@@ -533,25 +338,41 @@ onUnmounted(() => {
     order: 1;
   }
 }
-
-@media (max-width: 640px) {
-  .doc-content {
-    padding: 1.5rem;
-  }
-}
 </style>
 
 <style>
 /* ==========================================
-   Prose (Typography) 全局樣式覆蓋
-   需要非 scoped 以便穿透到 slot 內容
+   共用內容卡片樣式
+   可供各頁面使用
    ========================================== */
-.doc-content.prose {
-  /* 確保 Typography 樣式正確套用 */
+.content-card {
+  background: var(--color-bg-card);
+  border-radius: 0.75rem;
+  padding: 2rem;
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dark .content-card {
+  box-shadow: none;
+  border: 1px solid var(--color-border);
+}
+
+@media (max-width: 640px) {
+  .content-card {
+    padding: 1.5rem;
+  }
+}
+
+/* ==========================================
+   共用 Prose (Typography) 樣式
+   可供各頁面使用：加上 .content-prose class
+   ========================================== */
+.content-prose {
   color: var(--color-text-secondary);
 }
 
-.doc-content.prose h2 {
+.content-prose h2 {
   font-size: 1.375rem;
   font-weight: 700;
   color: var(--color-text-primary);
@@ -562,11 +383,11 @@ onUnmounted(() => {
   scroll-margin-top: 6rem;
 }
 
-.doc-content.prose h2:first-child {
+.content-prose h2:first-child {
   margin-top: 0;
 }
 
-.doc-content.prose h3 {
+.content-prose h3 {
   font-size: 1.125rem;
   font-weight: 600;
   color: var(--color-text-primary);
@@ -575,31 +396,31 @@ onUnmounted(() => {
   scroll-margin-top: 6rem;
 }
 
-.doc-content.prose p {
+.content-prose p {
   margin-bottom: 1rem;
   line-height: 1.75;
 }
 
-.doc-content.prose ul,
-.doc-content.prose ol {
+.content-prose ul,
+.content-prose ol {
   margin-bottom: 1rem;
   padding-left: 1.5rem;
 }
 
-.doc-content.prose li {
+.content-prose li {
   margin-bottom: 0.375rem;
 }
 
-.doc-content.prose a {
+.content-prose a {
   color: var(--color-primary);
   font-weight: 500;
 }
 
-.doc-content.prose a:hover {
+.content-prose a:hover {
   text-decoration: underline;
 }
 
-.doc-content.prose blockquote {
+.content-prose blockquote {
   border-left: 4px solid var(--color-primary);
   padding-left: 1rem;
   margin: 1.5rem 0;
@@ -610,7 +431,7 @@ onUnmounted(() => {
   border-radius: 0 0.5rem 0.5rem 0;
 }
 
-.doc-content.prose code {
+.content-prose code {
   background: var(--color-bg-main);
   padding: 0.2rem 0.4rem;
   border-radius: 0.25rem;
@@ -619,7 +440,7 @@ onUnmounted(() => {
   color: var(--color-primary);
 }
 
-.doc-content.prose pre {
+.content-prose pre {
   background: #1e293b;
   border-radius: 0.5rem;
   padding: 1rem 1.25rem;
@@ -627,7 +448,7 @@ onUnmounted(() => {
   margin: 1.5rem 0;
 }
 
-.doc-content.prose pre code {
+.content-prose pre code {
   background: transparent;
   padding: 0;
   color: #e2e8f0;
@@ -635,36 +456,36 @@ onUnmounted(() => {
 }
 
 /* 深色模式 h2 邊框顏色調整 */
-.dark .doc-content.prose h2 {
+.dark .content-prose h2 {
   border-bottom-color: #4f46e5;
 }
 
-.doc-content.prose table {
+.content-prose table {
   width: 100%;
   border-collapse: collapse;
   margin: 1.5rem 0;
 }
 
-.doc-content.prose th,
-.doc-content.prose td {
+.content-prose th,
+.content-prose td {
   padding: 0.75rem 1rem;
   border: 1px solid var(--color-border);
   text-align: left;
 }
 
-.doc-content.prose th {
+.content-prose th {
   background: var(--color-bg-main);
   font-weight: 600;
   color: var(--color-text-primary);
 }
 
-.doc-content.prose img {
+.content-prose img {
   border-radius: 0.5rem;
   box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.1);
 }
 
 /* 特殊樣式：提示框 */
-.doc-content.prose .tip {
+.content-prose .tip {
   background: #eff6ff;
   border: 1px solid #93c5fd;
   border-radius: 0.5rem;
@@ -672,22 +493,22 @@ onUnmounted(() => {
   margin: 1.5rem 0;
 }
 
-.dark .doc-content.prose .tip {
+.dark .content-prose .tip {
   background: rgba(59, 130, 246, 0.1);
   border-color: rgba(59, 130, 246, 0.3);
 }
 
-.doc-content.prose .tip-title {
+.content-prose .tip-title {
   font-weight: 600;
   color: #1e40af;
   margin-bottom: 0.5rem;
 }
 
-.dark .doc-content.prose .tip-title {
+.dark .content-prose .tip-title {
   color: #93c5fd;
 }
 
-.doc-content.prose .warning {
+.content-prose .warning {
   background: #fef3c7;
   border: 1px solid #fcd34d;
   border-radius: 0.5rem;
@@ -695,18 +516,18 @@ onUnmounted(() => {
   margin: 1.5rem 0;
 }
 
-.dark .doc-content.prose .warning {
+.dark .content-prose .warning {
   background: rgba(245, 158, 11, 0.1);
   border-color: rgba(245, 158, 11, 0.3);
 }
 
-.doc-content.prose .warning-title {
+.content-prose .warning-title {
   font-weight: 600;
   color: #92400e;
   margin-bottom: 0.5rem;
 }
 
-.dark .doc-content.prose .warning-title {
+.dark .content-prose .warning-title {
   color: #fcd34d;
 }
 </style>

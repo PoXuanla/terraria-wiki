@@ -11,15 +11,16 @@ import BaseIcon from '@/components/BaseIcon.vue'
 
 <template>
   <DocLayout title="本頁目錄">
-    <!-- 
-      ============================================
-      以下內容會被自動掃描
-      所有 <h2> 標籤會自動出現在側邊目錄中
-      ============================================
-    -->
-    
-    <!-- 頁面標題 (h1 不會被收錄到目錄) -->
-    <header class="mb-8">
+    <div class="content-card content-prose">
+      <!-- 
+        ============================================
+        以下內容會被自動掃描
+        所有 <h2> 標籤會自動出現在側邊目錄中
+        ============================================
+      -->
+      
+      <!-- 頁面標題 (h1 不會被收錄到目錄) -->
+      <header class="mb-8">
       <div class="flex items-center gap-4 mb-4">
         <div class="w-16 h-16 flex items-center justify-center bg-gradient-to-br from-amber-500 to-yellow-400 rounded-xl">
           <BaseIcon 
@@ -203,6 +204,7 @@ import BaseIcon from '@/components/BaseIcon.vue'
         不要同時召喚多隻寶箱怪，它們的攻擊會非常難以應對。
         建議一次只召喚一隻，擊敗後再召喚下一隻。
       </p>
+      </div>
     </div>
   </DocLayout>
 </template>
