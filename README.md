@@ -44,18 +44,51 @@ Learn more about IDE Support for Vue
 ```bash
 src/
 ├── assets/
-│   └── base.css          # 定義 CSS 變數 (Theming)
+│   └── base.css              # 定義 CSS 變數 (Theming)
 ├── components/
-│   ├── BaseIcon.vue      # [核心] 智慧圖示組件 (SVG/Img 雙模式)
-│   └── HistoryTabs.vue   # [核心] 頂部歷史標籤列
+│   ├── BaseIcon.vue          # [核心] 智慧圖示組件 (SVG/Img 雙模式)
+│   ├── HistoryTabs.vue       # [核心] 頂部歷史標籤列
+│   ├── ThemeToggle.vue       # 深色模式切換按鈕
+│   └── weapons/              # 武器相關組件
+│       ├── WeaponLayout.vue      # 武器頁面佈局
+│       ├── WeaponSmartCard.vue   # 智慧武器資訊卡
+│       ├── WeaponSourceSection.vue  # 取得方式區塊
+│       ├── WeaponSourceItem.vue     # 單一取得來源卡片
+│       └── StrategyGuide.vue     # 戰術指南卡片
+├── data/
+│   └── weapons/              # 武器資料
+│       ├── types.ts          # 武器資料類型定義
+│       ├── index.ts          # 統一匯出
+│       └── source/           # 取得方式類型
+│           ├── source-type.enum.ts  # SourceType 列舉
+│           ├── source.types.ts      # Source interfaces
+│           └── index.ts
 ├── layouts/
-│   └── MainLayout.vue    # 側邊欄 + Header + 內容區佈局
+│   └── MainLayout.vue        # 側邊欄 + Header + 內容區佈局
 ├── router/
-│   └── index.js          # 路由定義 (含 Meta Icon 設定)
+│   └── index.js              # 路由定義 (含 Meta Icon 設定)
 ├── stores/
-│   └── tagsView.js       # Pinia Store: 管理歷史標籤邏輯
-├── views/                # 頁面視圖
-│   ├── guides/           # 攻略文章 (如：寶藏怪、環境治理)
-│   └── weapons/          # 武器圖鑑 (如：代達羅斯風暴弓)
+│   └── tagsView.js           # Pinia Store: 管理歷史標籤邏輯
+├── views/                    # 頁面視圖
+│   ├── boss/                 # Boss 攻略 (機械三王)
+│   ├── guides/               # 攻略文章 (如：寶藏怪、環境治理)
+│   └── weapons/              # 武器圖鑑 (如：代達羅斯風暴弓)
 └── App.vue
 ```
+
+## 🎯 武器取得方式類型 (Source Types)
+
+使用 TypeScript enum 定義 10 種取得方式：
+
+| SourceType | 說明 | 範例 |
+|------------|------|------|
+| `Crafting` | 製作合成 | 黃金雨、天裂 |
+| `Drop` | 怪物/Boss 掉落 | 代達羅斯風暴弓 |
+| `Purchase` | NPC 購買 | - |
+| `Chest` | 寶箱獲得 | - |
+| `Fishing` | 釣魚獲得 | - |
+| `Crate` | 木箱獲得 | - |
+| `Quest` | 任務獎勵 | - |
+| `Event` | 事件獎勵 | 暗影焰刀 |
+| `Bag` | Boss 寶藏袋 | - |
+| `Other` | 其他方式 | - |
