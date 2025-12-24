@@ -38,7 +38,7 @@ const props = defineProps({
       description: '',
       source: {
         type: 'crafting', // 'crafting' | 'drop'
-        text: '',
+        station: '',
         recipe: [], // for crafting
         dropFrom: '', // for drop
         dropChance: '', // for drop
@@ -266,23 +266,52 @@ const classIcons = {
         </p>
       </div>
       
-      <!-- 掉落來源 -->
-      <div v-else class="source-card source-card--drop">
-        <div class="source-card__header">
-          <span class="source-card__drop-icon">💀</span>
-          <div>
-            <span class="source-card__type">怪物掉落</span>
-            <span class="source-card__monster">{{ weapon.source.dropFrom }}</span>
+      <!-- 掉落來源 - 公式化佈局 -->
+      <div v-else class="drop-formula">
+        <!-- 來源標籤 -->
+        <div class="drop-formula__tag">
+          <span>💀</span>
+          <span>怪物掉落</span>
+        </div>
+        
+        <!-- 掉落公式 -->
+        <div class="drop-formula__content">
+          <!-- 怪物 -->
+          <div class="drop-slot drop-slot--monster">
+            <div class="drop-slot__icon-wrapper">
+              <img 
+                v-if="weapon.source.dropFromIcon" 
+                :src="weapon.source.dropFromIcon" 
+                :alt="weapon.source.dropFrom"
+                class="drop-slot__icon"
+              />
+              <span v-else class="drop-slot__emoji">👾</span>
+            </div>
+            <span class="drop-slot__name">{{ weapon.source.dropFrom }}</span>
+          </div>
+          
+          <!-- 箭頭 -->
+          <div class="drop-formula__arrow">→</div>
+          
+          <!-- 掉落武器 -->
+          <div class="drop-slot drop-slot--result">
+            <div class="drop-slot__icon-wrapper">
+              <img 
+                :src="weapon.icon" 
+                :alt="weapon.name"
+                class="drop-slot__icon"
+              />
+              <span class="drop-slot__chance">{{ weapon.source.dropChance }}</span>
+            </div>
+            <span class="drop-slot__name">{{ weapon.name }}</span>
           </div>
         </div>
-        <div class="source-card__chance">
-          <span class="source-card__chance-label">掉落機率</span>
-          <span class="source-card__chance-value">{{ weapon.source.dropChance }}</span>
-        </div>
-        <p v-if="weapon.source.notes" class="source-card__notes">
+        
+        <!-- 備註 -->
+        <p v-if="weapon.source.notes" class="drop-formula__note">
           💡 {{ weapon.source.notes }}
         </p>
-        </div>
+      </div>
       </section>
 
       <!-- ========================================
@@ -811,6 +840,130 @@ const classIcons = {
   color: #93c5fd;
 }
 
+/* ==========================================
+   Drop Formula - 掉落來源公式化佈局
+   ========================================== */
+.drop-formula {
+  padding: 1rem;
+  background: var(--color-bg-main);
+  border-radius: 0.625rem;
+  border: 1px solid var(--color-border);
+  border-left: 4px solid #ef4444;
+}
+
+.drop-formula__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #ef4444;
+  margin-bottom: 0.875rem;
+}
+
+.drop-formula__content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.drop-formula__arrow {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--color-text-muted);
+  opacity: 0.6;
+}
+
+/* 怪物/成品插槽 */
+.drop-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  min-width: 80px;
+  transition: all 0.2s ease;
+}
+
+.drop-slot:hover {
+  border-color: var(--color-primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.1);
+}
+
+.drop-slot--monster {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(249, 115, 22, 0.05) 100%);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.drop-slot--result {
+  background: linear-gradient(135deg, rgba(244, 114, 182, 0.1) 0%, rgba(236, 72, 153, 0.05) 100%);
+  border-color: #f472b6;
+}
+
+.drop-slot__icon-wrapper {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.drop-slot__icon {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.drop-slot__emoji {
+  font-size: 1.75rem;
+}
+
+.drop-slot__chance {
+  position: absolute;
+  bottom: -6px;
+  right: -12px;
+  padding: 0.125rem 0.375rem;
+  background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+  color: white;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.drop-slot__name {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-align: center;
+  max-width: 90px;
+}
+
+.drop-formula__note {
+  margin: 0.875rem 0 0;
+  padding: 0.5rem 0.75rem;
+  background: #eff6ff;
+  border-radius: 0.375rem;
+  font-size: 0.8125rem;
+  color: #1e40af;
+}
+
+:global(.dark) .drop-formula__note {
+  background: rgba(59, 130, 246, 0.1);
+  color: #93c5fd;
+}
+
 .source-card__chance {
   display: flex;
   align-items: baseline;
@@ -1139,6 +1292,17 @@ const classIcons = {
   }
   
   .recipe-formula__arrow {
+    transform: rotate(90deg);
+    margin: 0.25rem 0 0.25rem 2rem;
+  }
+  
+  /* Drop Formula 響應式 */
+  .drop-formula__content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .drop-formula__arrow {
     transform: rotate(90deg);
     margin: 0.25rem 0 0.25rem 2rem;
   }

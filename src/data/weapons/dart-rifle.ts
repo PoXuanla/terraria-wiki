@@ -56,10 +56,10 @@ const dartRifle: WeaponData = {
   // 取得方式
   source: {
     type: "drop",
-    from: "腐化/血腥寶箱怪 (Corrupt/Crimson Mimic)",
-    icon: "https://terraria.wiki.gg/images/2/23/Corrupt_Mimic.png",
-    dropRate: "20% (1/5)",
-    note: "在地下放置 15 個腐化/血腥鑰匙於空箱子中可手動召喚寶箱怪。",
+    dropFrom: "腐化/血腥寶箱怪 (Corrupt/Crimson Mimic)",
+    dropFromIcon: "https://terraria.wiki.gg/images/2/23/Corrupt_Mimic.png",
+    dropChance: "20% (1/5)",
+    notes: "在地下放置 15 個腐化/血腥鑰匙於空箱子中可手動召喚寶箱怪。",
   },
 
   // 推薦理由

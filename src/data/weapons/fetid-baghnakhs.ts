@@ -57,10 +57,10 @@ const fetidBaghnakhs: WeaponData = {
   // 取得方式
   source: {
     type: "drop",
-    from: "血腥寶箱怪 (Crimson Mimic)",
-    icon: "https://terraria.wiki.gg/images/e/e9/Crimson_Mimic.png",
-    dropRate: "20% (1/5)",
-    note: "僅限血腥世界。在地下放置 15 個血腥鑰匙於空箱子中可手動召喚。",
+    dropFrom: "血腥寶箱怪 (Crimson Mimic)",
+    dropFromIcon: "https://terraria.wiki.gg/images/e/e9/Crimson_Mimic.png",
+    dropChance: "20% (1/5)",
+    notes: "僅限血腥世界。在地下放置 15 個血腥鑰匙於空箱子中可手動召喚。",
   },
 
   // 推薦理由

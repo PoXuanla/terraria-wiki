@@ -199,6 +199,57 @@ export interface WeaponMechanics {
 }
 
 // ==========================================
+// 取得方式類型 (Source)
+// ==========================================
+
+/**
+ * 製作配方素材
+ */
+export interface RecipeItem {
+  /** 素材名稱 */
+  name: string;
+  /** 素材英文名 */
+  nameEn: string;
+  /** 素材圖示 URL */
+  icon: string;
+  /** 所需數量 */
+  count: number;
+}
+
+/**
+ * 製作來源
+ */
+export interface CraftingSource {
+  type: 'crafting';
+  /** 製作站名稱 */
+  station: string;
+  /** 配方列表 */
+  recipe: RecipeItem[];
+  /** 額外備註 */
+  note?: string;
+}
+
+/**
+ * 掉落來源
+ */
+export interface DropSource {
+  type: 'drop';
+  /** 掉落怪物名稱 */
+  dropFrom: string;
+  /** 掉落怪物圖示 URL */
+  dropFromIcon?: string;
+  /** 掉落機率 */
+  dropChance: string;
+  /** 額外備註 */
+  notes?: string;
+}
+
+/**
+ * 武器取得方式（統一類型）
+ */
+export type WeaponSource = CraftingSource | DropSource;
+
+// ==========================================
 // 武器資料完整類型（其他欄位暫用 any）
 // ==========================================
 
@@ -216,7 +267,7 @@ export interface WeaponData {
   wikiUrl: string;
   stats: any;
   description: string;
-  source: any;
+  source: WeaponSource;
   whyGood: string;
   /** 戰術資訊 */
   meta: WeaponMeta;

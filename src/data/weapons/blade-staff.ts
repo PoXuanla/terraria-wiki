@@ -61,10 +61,10 @@ const bladeStaff: WeaponData = {
   // 取得方式
   source: {
     type: "drop",
-    from: "史萊姆皇后 (Queen Slime)",
-    icon: "https://terraria.wiki.gg/images/9/91/Queen_Slime.png",
-    dropRate: "25% (1/4)",
-    note: "史萊姆皇后需要在神聖之地使用「明膠水晶」召喚。",
+    dropFrom: "史萊姆皇后 (Queen Slime)",
+    dropFromIcon: "https://terraria.wiki.gg/images/9/91/Queen_Slime.png",
+    dropChance: "25% (1/4)",
+    notes: "史萊姆皇后需要在神聖之地使用「明膠水晶」召喚。",
   },
 
   // 推薦理由
