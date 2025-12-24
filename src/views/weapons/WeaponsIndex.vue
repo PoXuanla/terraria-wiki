@@ -2,8 +2,6 @@
 import { ref, computed } from "vue";
 import {
   Crosshair,
-  Star,
-  ChevronRight,
   Search,
   X,
   ArrowUpDown,
@@ -37,6 +35,16 @@ const weapons = weaponData.map((w) => ({
       ? w.stats.damage.value
       : parseInt(String(w.stats.damage.value).match(/\d+/)?.[0] || "0"),
   path: `/weapons/${w.slug}`,
+  // 新增：攻速描述
+  useTimeDesc: w.stats.useTime?.description || '',
+  // 新增：機制標籤
+  autoReuse: w.mechanics?.input?.autoReuse || false,
+  trueMelee: w.mechanics?.combat?.trueMelee || false,
+  hasDebuff: w.mechanics?.combat?.debuffs?.length > 0,
+  debuffName: w.mechanics?.combat?.debuffs?.[0]?.name || '',
+  piercing: w.mechanics?.projectile?.piercing,
+  homing: w.mechanics?.projectile?.homing,
+  summonSlots: w.mechanics?.summon?.slots,
 }));
 
 // 職業圖示對應
@@ -353,13 +361,21 @@ const clearFilters = () => {
         :key="weapon.id"
         :to="weapon.path"
         class="weapon-card"
-        :style="{ '--class-color': getClassColor(weapon.class) }"
+        :style="{ 
+          '--class-color': getClassColor(weapon.class),
+          '--rarity-color': weapon.rarity.color 
+        }"
       >
+        <!-- 透明浮水印背景 -->
+        <img
+          :src="weapon.icon"
+          :alt="weapon.name"
+          class="weapon-card__watermark"
+        />
+
         <!-- 職業標籤 -->
         <div class="weapon-card__class-badge">
-          <span class="weapon-card__class-icon">{{
-            classIcons[weapon.class]
-          }}</span>
+          <span class="weapon-card__class-icon">{{ classIcons[weapon.class] }}</span>
           <span class="weapon-card__class-label">{{ weapon.classLabel }}</span>
         </div>
 
@@ -375,25 +391,53 @@ const clearFilters = () => {
 
         <!-- 武器資訊 -->
         <div class="weapon-card__info">
-          <h3 class="weapon-card__name">{{ weapon.name }}</h3>
+          <h3 
+            class="weapon-card__name"
+            :style="{ color: weapon.rarity.color }"
+          >
+            {{ weapon.name }}
+          </h3>
           <p class="weapon-card__name-en">{{ weapon.nameEn }}</p>
 
-          <div class="weapon-card__stats">
-            <div class="weapon-card__damage">
-              <span class="weapon-card__damage-value">{{ weapon.damage }}</span>
-              <span class="weapon-card__damage-label">傷害</span>
+          <!-- 雙核心數據：傷害 | 攻速 -->
+          <div class="weapon-card__core-stats">
+            <div class="weapon-card__stat">
+              <span class="weapon-card__stat-value">{{ weapon.damage }}</span>
+              <span class="weapon-card__stat-label">傷害</span>
             </div>
-            <div class="weapon-card__rarity">
-              <Star :size="14" :style="{ color: weapon.rarity.color }" />
-              <span>{{ weapon.rarity.level }}</span>
+            <div class="weapon-card__stat-divider"></div>
+            <div class="weapon-card__stat">
+              <span class="weapon-card__stat-value weapon-card__stat-value--speed">
+                {{ weapon.useTimeDesc || '—' }}
+              </span>
+              <span class="weapon-card__stat-label">攻速</span>
             </div>
           </div>
-        </div>
 
-        <!-- 查看按鈕 -->
-        <div class="weapon-card__action">
-          <span>查看詳情</span>
-          <ChevronRight :size="18" />
+          <!-- Mini Tags：機制標籤 -->
+          <div class="weapon-card__tags">
+            <span v-if="weapon.autoReuse" class="weapon-card__tag weapon-card__tag--auto">
+              🔄 自動
+            </span>
+            <span v-if="weapon.trueMelee" class="weapon-card__tag weapon-card__tag--melee">
+              ⚔️ 真近戰
+            </span>
+            <span v-if="weapon.hasDebuff" class="weapon-card__tag weapon-card__tag--debuff">
+              💀 {{ weapon.debuffName }}
+            </span>
+            <span v-if="weapon.piercing === -1" class="weapon-card__tag weapon-card__tag--pierce">
+              ∞ 穿透
+            </span>
+            <span v-else-if="weapon.piercing > 0" class="weapon-card__tag weapon-card__tag--pierce">
+              ⟐ 穿透 {{ weapon.piercing }}
+            </span>
+            <span v-if="weapon.homing" class="weapon-card__tag weapon-card__tag--homing">
+              🎯 追蹤
+            </span>
+            <span v-if="weapon.summonSlots" class="weapon-card__tag weapon-card__tag--summon">
+              👻 {{ weapon.summonSlots }} 欄位
+            </span>
+          </div>
         </div>
       </RouterLink>
     </TransitionGroup>
@@ -704,34 +748,52 @@ const clearFilters = () => {
   padding: 1.25rem;
   background: var(--color-bg-card);
   border-radius: 0.75rem;
-  border: 1px solid var(--color-border);
+  border: 2px solid var(--color-border);
   text-decoration: none;
   color: inherit;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
+  cursor: pointer;
 }
 
+/* 稀有度邊框光暈 */
 .weapon-card::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: var(--class-color);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s ease;
+  inset: -1px;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, var(--rarity-color), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.weapon-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 0.75rem;
+  background: var(--color-bg-card);
+  z-index: 0;
+}
+
+.weapon-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .weapon-card:hover {
-  border-color: var(--class-color);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.15);
+  border-color: var(--rarity-color);
+  transform: translateY(-6px);
+  box-shadow: 
+    0 16px 32px -8px rgba(0, 0, 0, 0.2),
+    0 0 0 1px var(--rarity-color),
+    0 0 24px -4px var(--rarity-color);
 }
 
 .weapon-card:hover::before {
-  transform: scaleX(1);
+  opacity: 0.15;
 }
 
 /* 職業標籤 */
@@ -750,25 +812,46 @@ const clearFilters = () => {
   font-weight: 600;
 }
 
+/* 透明浮水印 */
+.weapon-card__watermark {
+  position: absolute;
+  right: -20px;
+  bottom: -20px;
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  opacity: 0.06;
+  transform: rotate(-15deg);
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.weapon-card:hover .weapon-card__watermark {
+  opacity: 0.1;
+  transform: rotate(-10deg) scale(1.05);
+}
+
 /* 武器圖示 */
 .weapon-card__icon-wrapper {
   position: relative;
-  width: 64px;
-  height: 64px;
-  margin-bottom: 0.75rem;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 0.625rem;
 }
 
 .weapon-card__icon-glow {
   position: absolute;
-  inset: -8px;
-  background: radial-gradient(circle, var(--class-color) 0%, transparent 70%);
-  opacity: 0.2;
-  filter: blur(10px);
+  inset: -12px;
+  background: radial-gradient(circle, var(--rarity-color) 0%, transparent 70%);
+  opacity: 0.25;
+  filter: blur(12px);
   transition: opacity 0.3s ease;
 }
 
 .weapon-card:hover .weapon-card__icon-glow {
-  opacity: 0.4;
+  opacity: 0.5;
 }
 
 .weapon-card__icon {
@@ -777,84 +860,162 @@ const clearFilters = () => {
   height: 100%;
   object-fit: contain;
   image-rendering: pixelated;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
   transition: transform 0.3s ease;
 }
 
 .weapon-card:hover .weapon-card__icon {
-  transform: scale(1.1) rotate(-5deg);
+  transform: scale(1.15) rotate(-5deg);
 }
 
 /* 武器資訊 */
 .weapon-card__info {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .weapon-card__name {
-  font-size: 1rem;
+  font-size: 1.0625rem;
   font-weight: 700;
-  color: var(--color-text-primary);
-  margin: 0 0 0.25rem;
+  margin: 0;
   line-height: 1.3;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .weapon-card__name-en {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   color: var(--color-text-muted);
-  margin: 0 0 0.625rem;
+  margin: -0.25rem 0 0;
   font-style: italic;
 }
 
-.weapon-card__stats {
+/* 雙核心數據 */
+.weapon-card__core-stats {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  padding: 0.5rem 0;
 }
 
-.weapon-card__damage {
+.weapon-card__stat {
   display: flex;
   align-items: baseline;
   gap: 0.25rem;
 }
 
-.weapon-card__damage-value {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: var(--class-color);
+.weapon-card__stat-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  line-height: 1;
 }
 
-.weapon-card__damage-label {
-  font-size: 0.6875rem;
+.weapon-card__stat-value--speed {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--rarity-color);
+}
+
+.weapon-card__stat-label {
+  font-size: 0.625rem;
   color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
-.weapon-card__rarity {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 0.6875rem;
-  color: var(--color-text-secondary);
+.weapon-card__stat-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--color-border);
 }
 
-/* 查看按鈕 */
-.weapon-card__action {
+/* Mini Tags */
+.weapon-card__tags {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-top: auto;
+}
+
+.weapon-card__tag {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.25rem;
-  margin-top: 0.75rem;
-  padding: 0.625rem;
+  gap: 0.125rem;
+  padding: 0.1875rem 0.5rem;
+  border-radius: 9999px;
+  font-size: 0.625rem;
+  font-weight: 600;
   background: var(--color-bg-main);
-  border-radius: 0.375rem;
-  font-size: 0.8125rem;
-  font-weight: 500;
   color: var(--color-text-secondary);
-  transition: all 0.2s ease;
+  border: 1px solid var(--color-border);
 }
 
-.weapon-card:hover .weapon-card__action {
-  background: var(--class-color);
-  color: white;
+.weapon-card__tag--auto {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #10b981;
+}
+
+:global(.dark) .weapon-card__tag--auto {
+  background: rgba(16, 185, 129, 0.15);
+  color: #6ee7b7;
+}
+
+.weapon-card__tag--melee {
+  background: rgba(249, 115, 22, 0.1);
+  border-color: rgba(249, 115, 22, 0.3);
+  color: #f97316;
+}
+
+:global(.dark) .weapon-card__tag--melee {
+  background: rgba(249, 115, 22, 0.15);
+  color: #fdba74;
+}
+
+.weapon-card__tag--debuff {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+:global(.dark) .weapon-card__tag--debuff {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+}
+
+.weapon-card__tag--pierce {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #3b82f6;
+}
+
+:global(.dark) .weapon-card__tag--pierce {
+  background: rgba(59, 130, 246, 0.15);
+  color: #93c5fd;
+}
+
+.weapon-card__tag--homing {
+  background: rgba(168, 85, 247, 0.1);
+  border-color: rgba(168, 85, 247, 0.3);
+  color: #a855f7;
+}
+
+:global(.dark) .weapon-card__tag--homing {
+  background: rgba(168, 85, 247, 0.15);
+  color: #d8b4fe;
+}
+
+.weapon-card__tag--summon {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: #6366f1;
+}
+
+:global(.dark) .weapon-card__tag--summon {
+  background: rgba(99, 102, 241, 0.15);
+  color: #a5b4fc;
 }
 
 /* ==========================================
