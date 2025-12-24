@@ -1,10 +1,12 @@
+import type { WeaponData } from './types'
+
 /**
  * 瑪瑙爆破槍 (Onyx Blaster)
  *
  * 遠程武器 - 困難模式 Tier 1 推薦武器
  * 來源：製作
  */
-export default {
+const onyxBlaster: WeaponData = {
   // 識別碼
   slug: "onyx-blaster",
 
@@ -111,4 +113,7 @@ export default {
     strategy:
       "保持中等距離確保霰彈和能量彈都能命中目標。對付機械 Boss 時，能量彈的穿透效果可以同時命中多個部位，大幅提升傷害效率。",
   },
-};
+}
+
+export default onyxBlaster
+

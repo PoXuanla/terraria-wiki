@@ -1,10 +1,12 @@
+import type { WeaponData } from './types'
+
 /**
  * 血紅法杖 (Sanguine Staff)
  *
  * 召喚武器 - 困難模式 Tier 1 推薦武器
  * 來源：恐懼鸚鵡螺掉落
  */
-export default {
+const sanguineStaff: WeaponData = {
   // 識別碼
   slug: "sanguine-staff",
 
@@ -94,4 +96,7 @@ export default {
     strategy:
       "利用蝙蝠完美的追蹤特性專心閃避，讓召喚物自動輸出。搭配冷鞭標記目標提供額外傷害加成。盡可能提升召喚上限，多隻蝙蝠可以對單一目標造成恐怖的持續傷害，特別適合對付雙子魔眼這類高機動性 Boss。",
   },
-};
+}
+
+export default sanguineStaff
+

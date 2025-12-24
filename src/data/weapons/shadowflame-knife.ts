@@ -1,10 +1,12 @@
+import type { WeaponData } from './types'
+
 /**
  * 暗影焰飛刀 (Shadowflame Knife)
  *
  * 近戰武器 - 困難模式 Tier 1 推薦武器
  * 來源：哥布林召喚師掉落
  */
-export default {
+const shadowflameKnife: WeaponData = {
   // 識別碼
   slug: "shadowflame-knife",
 
@@ -94,4 +96,7 @@ export default {
     strategy:
       "保持移動並持續投擲飛刀，利用彈跳效果讓傷害最大化。暗影焰的 DoT 效果不受防禦影響，讓你在閃避時也能持續造成傷害。非常適合在長平台上與高機動性 Boss 戰鬥，是風箏戰術的完美武器。",
   },
-};
+}
+
+export default shadowflameKnife
+

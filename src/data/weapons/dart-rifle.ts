@@ -1,10 +1,12 @@
+import type { WeaponData } from './types'
+
 /**
  * 飛鏢步槍 / 飛鏢手槍 (Dart Rifle / Dart Pistol)
  *
  * 遠程武器 - 困難模式 Tier 1 特殊彈藥武器
  * 來源：腐化/血腥寶箱怪掉落
  */
-export default {
+const dartRifle: WeaponData = {
   // 識別碼
   slug: "dart-rifle",
 
@@ -94,7 +96,7 @@ export default {
     strategy:
       "在有牆壁和障礙物的環境中使用，讓水晶飛鏢的彈跳效果最大化。適合作為清理小怪的副武器，在狹窄走廊或多層平台的競技場中效果極佳。對付單體 Boss 時建議切換到其他主力武器。",
   },
-};
+}
 
-
+export default dartRifle
 

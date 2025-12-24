@@ -1,10 +1,12 @@
+import type { WeaponData } from './types'
+
 /**
  * 黃金雨 (Golden Shower)
  *
  * 魔法武器 - 困難模式 Tier 1 輔助武器
  * 來源：製作（血腥世界限定）
  */
-export default {
+const goldenShower: WeaponData = {
   // 識別碼
   slug: "golden-shower",
 
@@ -116,7 +118,7 @@ export default {
     strategy:
       "作為輔助武器使用！開戰時先用黃金雨攻擊 Boss 2-3 秒確保施加減益，然後切換到主武器輸出。即使不是法師職業也應該準備一把，它能顯著提升整體 DPS。穿透特性讓它對毀滅者等多體節 Boss 特別有效。",
   },
-};
+}
 
-
+export default goldenShower
 

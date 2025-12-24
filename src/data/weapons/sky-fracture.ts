@@ -1,10 +1,12 @@
+import type { WeaponData } from './types'
+
 /**
  * 天裂 (Sky Fracture)
  *
  * 魔法武器 - 困難模式 Tier 1 推薦武器
  * 來源：製作
  */
-export default {
+const skyFracture: WeaponData = {
   // 識別碼
   slug: "sky-fracture",
 
@@ -111,4 +113,7 @@ export default {
     strategy:
       "天裂是多用途武器，在各種情況下都表現穩定。三連發的攻擊方式讓它面對任何目標都能保持穩定輸出。配合法師暴擊裝備可以大幅提升 DPS，即使後期也可以作為清理雜魚的備用武器使用。",
   },
-};
+}
+
+export default skyFracture
+

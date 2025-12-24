@@ -1,10 +1,12 @@
+import type { WeaponData } from './types'
+
 /**
  * 代達羅斯風暴弓 (Daedalus Stormbow)
  *
  * 遠程武器 - 困難模式 Tier 1 推薦武器
  * 來源：神聖寶箱怪掉落
  */
-export default {
+const daedalusStormbow: WeaponData = {
   // 識別碼
   slug: "daedalus-stormbow",
 
@@ -99,4 +101,7 @@ export default {
     strategy:
       "配合聖箭使用時，每支箭矢落地時會額外召喚 2 顆落星。對付毀滅者這類長條型多段體 Boss 時，大量的落星能夠同時命中多個體節，造成毀滅性的傷害。",
   },
-};
+}
+
+export default daedalusStormbow
+

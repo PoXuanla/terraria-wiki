@@ -1,10 +1,12 @@
+import type { WeaponData } from './types'
+
 /**
  * 腐臭虎爪 (Fetid Baghnakhs)
  *
  * 近戰武器 - 困難模式 Tier 1 極端 DPS 武器
  * 來源：血腥寶箱怪掉落
  */
-export default {
+const fetidBaghnakhs: WeaponData = {
   // 識別碼
   slug: "fetid-baghnakhs",
 
@@ -95,7 +97,7 @@ export default {
     strategy:
       "Face-Tanking 專用武器！搭配高防禦護甲、減傷飾品和再生 Buff，直接貼身站在 Boss 體內持續揮動。開戰前先用黃金雨降低 Boss 防禦，然後快速接近並開始互毆。這是高風險高回報的打法，需要充分準備和熟悉 Boss 攻擊模式。",
   },
-};
+}
 
-
+export default fetidBaghnakhs
 

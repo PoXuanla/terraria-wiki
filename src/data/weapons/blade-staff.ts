@@ -1,10 +1,12 @@
+import type { WeaponData } from './types'
+
 /**
  * 刃杖 (Blade Staff)
  *
  * 召喚武器 - 困難模式 Tier 1 頂級召喚物
  * 來源：史萊姆皇后掉落
  */
-export default {
+const bladeStaff: WeaponData = {
   // 識別碼
   slug: "blade-staff",
 
@@ -99,7 +101,7 @@ export default {
     strategy:
       "先用鞭子標記敵人，讓刃杖自動攻擊觸發標記的額外傷害。每 2-3 秒重新使用鞭子保持標記效果。刃杖的防禦無視機制讓它對高防禦 Boss 特別有效，搭配鞭子的標記傷害能造成恐怖的 DPS。",
   },
-};
+}
 
-
+export default bladeStaff
 

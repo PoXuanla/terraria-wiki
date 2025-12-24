@@ -1,6 +1,7 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { Zap, ChevronRight } from 'lucide-vue-next'
+import type { WeaponMeta, DetailedDescription } from '@/data/weapons/types'
 
 /**
  * StrategyGuide - 戰術指南組件
@@ -12,22 +13,14 @@ import { Zap, ChevronRight } from 'lucide-vue-next'
  * - 攻擊模式說明區塊
  */
 
-const props = defineProps({
-  /**
-   * 攻略資訊物件
-   */
-  meta: {
-    type: Object,
-    required: true,
-  },
-  /**
-   * 詳細描述物件
-   */
-  detailedDescription: {
-    type: Object,
-    required: true,
-  },
-})
+interface Props {
+  /** 攻略資訊物件 */
+  meta: WeaponMeta
+  /** 詳細描述物件 */
+  detailedDescription: DetailedDescription
+}
+
+const props = defineProps<Props>()
 
 // 動態偵測第一張卡片的資料
 const primaryItem = computed(() => {
