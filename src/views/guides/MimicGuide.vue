@@ -11,10 +11,12 @@ import {
   Flame,
   Plus,
   Equal,
-  ArrowRight,
   BookOpen,
-  Target
+  Target,
+  Key,
+  Info
 } from 'lucide-vue-next'
+import DocLayout from '@/layouts/DocLayout.vue'
 import BaseIcon from '@/components/BaseIcon.vue'
 
 /**
@@ -129,25 +131,25 @@ const summonSteps = [
   {
     step: 1,
     title: '取得對應鑰匙',
-    description: '在對應生物群系擊殺敵人，有機率掉落光之鑰或闇之鑰',
+    description: '在對應生物群系擊殺敵人，或使用靈魂合成',
     icon: '🔑',
   },
   {
     step: 2,
     title: '準備一個空寶箱',
-    description: '放置任何類型的寶箱（木箱即可），確保裡面是空的',
+    description: '任何類型的寶箱都可以，確保完全清空',
     icon: '📦',
   },
   {
     step: 3,
     title: '放入鑰匙',
-    description: '將 1 把鑰匙放入空寶箱的第一格',
+    description: '將 1 把鑰匙放入寶箱的第一格',
     icon: '✨',
   },
   {
     step: 4,
     title: '關閉寶箱',
-    description: '關閉寶箱介面後，寶箱會立即變身為生物群系寶箱怪！',
+    description: '寶箱立即變身為寶箱怪！',
     icon: '💀',
   },
 ]
@@ -205,17 +207,17 @@ const completionPercent = computed(() => {
 </script>
 
 <template>
-  <div class="guide-page">
+  <DocLayout title="本頁目錄">
     <!-- ========================================
-         Hero Banner
+         Hero Banner (不被 prose 影響)
          ======================================== -->
-    <header class="hero-banner">
+    <header class="not-prose hero-banner">
       <div class="hero-banner__bg"></div>
       <div class="hero-banner__content">
         <div class="hero-banner__icon">
           <img 
-            src="https://terraria.wiki.gg/images/f/f5/Mimic.png" 
-            alt="Mimic"
+            src="https://terraria.wiki.gg/images/7/7c/Hallowed_Mimic.png" 
+            alt="Hallowed Mimic"
             class="hero-banner__img"
           />
         </div>
@@ -227,154 +229,162 @@ const completionPercent = computed(() => {
           <h1 class="hero-banner__title">寶箱怪狩獵指南</h1>
           <p class="hero-banner__subtitle">Biome Mimic Hunting Guide</p>
           <p class="hero-banner__desc">
-            學習如何召喚生物群系寶箱怪，並取得強大的困難模式武器！
+            學習如何召喚生物群系寶箱怪，取得困難模式的強力武器與配件！
           </p>
         </div>
       </div>
     </header>
 
-    <!-- ========================================
-         召喚儀式 - Visual Formula
-         ======================================== -->
-    <section class="summon-section">
-      <h2 class="section-title">
-        <Sparkles :size="20" class="section-title__icon" />
-        <span>召喚儀式</span>
-      </h2>
-      
-      <!-- 算式視覺 -->
-      <div class="summon-formula">
-        <div class="formula-item">
-          <div class="formula-item__icon-box formula-item__icon-box--chest">
-            <span class="formula-item__emoji">📦</span>
-          </div>
-          <span class="formula-item__label">空寶箱</span>
-        </div>
-        
-        <div class="formula-operator">
-          <Plus :size="24" />
-        </div>
-        
-        <div class="formula-item">
-          <div class="formula-item__icon-box formula-item__icon-box--key">
-            <BaseIcon 
-              icon="https://terraria.wiki.gg/images/3/30/Key_of_Light.png" 
-              :size="40" 
-            />
-          </div>
-          <span class="formula-item__label">鑰匙 × 1</span>
-        </div>
-        
-        <div class="formula-operator">
-          <Equal :size="24" />
-        </div>
-        
-        <div class="formula-item">
-          <div class="formula-item__icon-box formula-item__icon-box--mimic">
-            <BaseIcon 
-              icon="https://terraria.wiki.gg/images/7/7c/Hallowed_Mimic.png" 
-              :size="48" 
-            />
-          </div>
-          <span class="formula-item__label">寶箱怪！</span>
-        </div>
-      </div>
-      
-      <!-- 注意事項 -->
-      <div class="summon-warning">
-        <AlertTriangle :size="18" class="summon-warning__icon" />
-        <p class="summon-warning__text">
-          <strong>注意：</strong>寶箱必須是<em>空的</em>，且只需放入 <strong>1 把</strong>鑰匙。
-          關閉寶箱後會立即變身，請做好戰鬥準備！
-        </p>
-      </div>
-
-      <!-- 步驟說明 -->
-      <div class="summon-steps">
-        <div 
-          v-for="step in summonSteps" 
-          :key="step.step"
-          class="step-card"
-        >
-          <div class="step-card__number">{{ step.step }}</div>
-          <div class="step-card__content">
-            <div class="step-card__icon">{{ step.icon }}</div>
-            <h3 class="step-card__title">{{ step.title }}</h3>
-            <p class="step-card__desc">{{ step.description }}</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- 簡介段落 -->
+    <p>
+      生物群系寶箱怪 (Biome Mimics) 是困難模式中三種強大的特殊敵人，
+      分別對應<strong>神聖之地</strong>、<strong>腐化之地</strong>和<strong>猩紅之地</strong>。
+      與自然生成的普通寶箱怪不同，這些特殊寶箱怪必須透過<em>鑰匙召喚</em>。
+    </p>
 
     <!-- ========================================
-         種類與掉落 - Cards Grid
+         Section 1: 召喚方式
          ======================================== -->
-    <section class="mimic-types-section">
-      <h2 class="section-title">
-        <Skull :size="20" class="section-title__icon" />
-        <span>生物群系寶箱怪</span>
-      </h2>
-      
-      <div class="mimic-grid">
-        <article 
-          v-for="mimic in mimicTypes" 
-          :key="mimic.id"
-          class="mimic-card"
-          :style="{ '--card-accent': mimic.borderColor }"
-        >
-          <!-- 卡片頂部 - 寶箱怪資訊 -->
-          <div class="mimic-card__header" :class="`bg-gradient-to-br ${mimic.cardGradient}`">
-            <img 
-              :src="mimic.mimicIcon" 
-              :alt="mimic.name"
-              class="mimic-card__icon"
-            />
-            <div class="mimic-card__title-group">
-              <h3 class="mimic-card__name">{{ mimic.name }}</h3>
-              <span class="mimic-card__name-en">{{ mimic.nameEn }}</span>
-            </div>
-            <span class="mimic-card__biome-tag">{{ mimic.biome }}</span>
-          </div>
-          
-          <!-- 召喚條件 -->
-          <div class="mimic-card__summon">
-            <span class="mimic-card__summon-label">召喚所需</span>
-            <div class="mimic-card__key">
-              <BaseIcon :icon="mimic.keyRequired.icon" :size="28" />
-              <span class="mimic-card__key-name">{{ mimic.keyRequired.name }}</span>
-            </div>
-          </div>
-          
-          <!-- 掉落物 -->
-          <div class="mimic-card__drops">
-            <span class="mimic-card__drops-label">
-              <Swords :size="14" />
-              關鍵掉落物
-            </span>
-            <div class="mimic-card__drops-list">
-              <div 
-                v-for="drop in mimic.drops" 
-                :key="drop.nameEn"
-                :class="['drop-item', { 'drop-item--highlight': drop.highlight }]"
-              >
-                <BaseIcon :icon="drop.icon" :size="32" class="drop-item__icon" />
-                <span class="drop-item__name">{{ drop.name }}</span>
-              </div>
-            </div>
-          </div>
-        </article>
+    <h2 id="summon">召喚方式</h2>
+    
+    <p>召喚生物群系寶箱怪非常簡單，只需要對應的鑰匙和一個空寶箱。</p>
+
+    <!-- 算式視覺 (不被 prose 影響) -->
+    <div class="not-prose summon-formula">
+      <div class="formula-item">
+        <div class="formula-item__icon-box formula-item__icon-box--chest">
+          <span class="formula-item__emoji">📦</span>
+        </div>
+        <span class="formula-item__label">空寶箱</span>
       </div>
-    </section>
+      
+      <div class="formula-operator">
+        <Plus :size="24" />
+      </div>
+      
+      <div class="formula-item">
+        <div class="formula-item__icon-box formula-item__icon-box--key">
+          <BaseIcon 
+            icon="https://terraria.wiki.gg/images/3/30/Key_of_Light.png" 
+            :size="40" 
+          />
+        </div>
+        <span class="formula-item__label">鑰匙 × 1</span>
+      </div>
+      
+      <div class="formula-operator">
+        <Equal :size="24" />
+      </div>
+      
+      <div class="formula-item">
+        <div class="formula-item__icon-box formula-item__icon-box--mimic">
+          <BaseIcon 
+            icon="https://terraria.wiki.gg/images/7/7c/Hallowed_Mimic.png" 
+            :size="48" 
+          />
+        </div>
+        <span class="formula-item__label">寶箱怪！</span>
+      </div>
+    </div>
+    
+    <!-- 注意事項 -->
+    <div class="not-prose summon-warning">
+      <AlertTriangle :size="18" class="summon-warning__icon" />
+      <p class="summon-warning__text">
+        <strong>注意：</strong>寶箱必須是<em>空的</em>，且只需放入 <strong>1 把</strong>鑰匙。
+        關閉寶箱後會立即變身，請做好戰鬥準備！
+      </p>
+    </div>
+
+    <!-- 步驟說明 -->
+    <div class="not-prose summon-steps">
+      <div 
+        v-for="step in summonSteps" 
+        :key="step.step"
+        class="step-card"
+      >
+        <div class="step-card__number">{{ step.step }}</div>
+        <div class="step-card__content">
+          <div class="step-card__icon">{{ step.icon }}</div>
+          <h3 class="step-card__title">{{ step.title }}</h3>
+          <p class="step-card__desc">{{ step.description }}</p>
+        </div>
+      </div>
+    </div>
 
     <!-- ========================================
-         狩獵準備 - Interactive Checklist
+         Section 2: 寶箱怪種類
          ======================================== -->
-    <section class="preparation-section">
-      <h2 class="section-title">
-        <CheckCircle2 :size="20" class="section-title__icon" />
-        <span>狩獵準備清單</span>
-      </h2>
-      
+    <h2 id="types">寶箱怪種類</h2>
+    
+    <p>
+      共有三種生物群系寶箱怪，每種都有專屬的掉落物。
+      點選下方卡片了解各類型的召喚條件與關鍵掉落。
+    </p>
+
+    <!-- 卡片網格 (不被 prose 影響) -->
+    <div class="not-prose mimic-grid">
+      <article 
+        v-for="mimic in mimicTypes" 
+        :key="mimic.id"
+        class="mimic-card"
+        :style="{ '--card-accent': mimic.borderColor }"
+      >
+        <!-- 卡片頂部 - 寶箱怪資訊 -->
+        <div class="mimic-card__header" :class="`bg-gradient-to-br ${mimic.cardGradient}`">
+          <img 
+            :src="mimic.mimicIcon" 
+            :alt="mimic.name"
+            class="mimic-card__icon"
+          />
+          <div class="mimic-card__title-group">
+            <h3 class="mimic-card__name">{{ mimic.name }}</h3>
+            <span class="mimic-card__name-en">{{ mimic.nameEn }}</span>
+          </div>
+          <span class="mimic-card__biome-tag">{{ mimic.biome }}</span>
+        </div>
+        
+        <!-- 召喚條件 -->
+        <div class="mimic-card__summon">
+          <span class="mimic-card__summon-label">召喚所需</span>
+          <div class="mimic-card__key">
+            <BaseIcon :icon="mimic.keyRequired.icon" :size="28" />
+            <span class="mimic-card__key-name">{{ mimic.keyRequired.name }}</span>
+          </div>
+        </div>
+        
+        <!-- 掉落物 -->
+        <div class="mimic-card__drops">
+          <span class="mimic-card__drops-label">
+            <Swords :size="14" />
+            關鍵掉落物
+          </span>
+          <div class="mimic-card__drops-list">
+            <div 
+              v-for="drop in mimic.drops" 
+              :key="drop.nameEn"
+              :class="['drop-item', { 'drop-item--highlight': drop.highlight }]"
+            >
+              <BaseIcon :icon="drop.icon" :size="32" class="drop-item__icon" />
+              <span class="drop-item__name">{{ drop.name }}</span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- ========================================
+         Section 3: 戰前準備
+         ======================================== -->
+    <h2 id="preparation">戰前準備</h2>
+    
+    <p>
+      生物群系寶箱怪的血量約為 <code>3,500</code>，攻擊力也相當高。
+      建議在戰鬥前做好以下準備，勾選已完成的項目：
+    </p>
+
+    <!-- 互動式清單 (不被 prose 影響) -->
+    <div class="not-prose preparation-section">
       <!-- 進度條 -->
       <div class="preparation-progress">
         <div class="preparation-progress__bar">
@@ -404,86 +414,97 @@ const completionPercent = computed(() => {
           <span class="checklist-item__text">{{ item.text }}</span>
         </div>
       </div>
-    </section>
+    </div>
 
     <!-- ========================================
-         素材取得 - Key Recipes
+         Section 4: 鑰匙取得
          ======================================== -->
-    <section class="recipes-section">
-      <h2 class="section-title">
-        <Sparkles :size="20" class="section-title__icon" />
-        <span>鑰匙合成</span>
-      </h2>
-      
-      <div class="recipes-grid">
-        <div 
-          v-for="key in keyRecipes" 
-          :key="key.nameEn"
-          class="recipe-card"
-          :style="{ '--recipe-accent': key.biomeColor }"
-        >
-          <div class="recipe-card__header">
-            <BaseIcon :icon="key.icon" :size="36" class="recipe-card__icon" />
-            <div class="recipe-card__title">
-              <span class="recipe-card__name">{{ key.name }}</span>
-              <span class="recipe-card__name-en">{{ key.nameEn }}</span>
+    <h2 id="keys">鑰匙取得</h2>
+    
+    <p>
+      召喚鑰匙可以透過<strong>合成製作</strong>取得。
+      在對應的地下生物群系刷怪，收集靈魂後即可合成。
+    </p>
+
+    <!-- 鑰匙合成卡片 (不被 prose 影響) -->
+    <div class="not-prose recipes-grid">
+      <div 
+        v-for="key in keyRecipes" 
+        :key="key.nameEn"
+        class="recipe-card"
+        :style="{ '--recipe-accent': key.biomeColor }"
+      >
+        <div class="recipe-card__header">
+          <BaseIcon :icon="key.icon" :size="36" class="recipe-card__icon" />
+          <div class="recipe-card__title">
+            <span class="recipe-card__name">{{ key.name }}</span>
+            <span class="recipe-card__name-en">{{ key.nameEn }}</span>
+          </div>
+        </div>
+        
+        <div class="recipe-card__content">
+          <div class="recipe-card__materials">
+            <span class="recipe-card__label">合成材料</span>
+            <div 
+              v-for="mat in key.materials" 
+              :key="mat.name"
+              class="recipe-card__material"
+            >
+              <BaseIcon :icon="mat.icon" :size="24" />
+              <span>{{ mat.name }}</span>
             </div>
           </div>
           
-          <div class="recipe-card__content">
-            <div class="recipe-card__materials">
-              <span class="recipe-card__label">合成材料</span>
-              <div 
-                v-for="mat in key.materials" 
-                :key="mat.name"
-                class="recipe-card__material"
-              >
-                <BaseIcon :icon="mat.icon" :size="24" />
-                <span>{{ mat.name }}</span>
-              </div>
+          <div class="recipe-card__info">
+            <div class="recipe-card__info-row">
+              <span class="recipe-card__label">合成站</span>
+              <span>{{ key.craftStation }}</span>
             </div>
-            
-            <div class="recipe-card__info">
-              <div class="recipe-card__info-row">
-                <span class="recipe-card__label">合成站</span>
-                <span>{{ key.craftStation }}</span>
-              </div>
-              <div class="recipe-card__info-row">
-                <span class="recipe-card__label">掉落地點</span>
-                <span 
-                  class="recipe-card__biome"
-                  :style="{ color: key.biomeColor }"
-                >{{ key.biome }}</span>
-              </div>
+            <div class="recipe-card__info-row">
+              <span class="recipe-card__label">刷取地點</span>
+              <span 
+                class="recipe-card__biome"
+                :style="{ color: key.biomeColor }"
+              >{{ key.biome }}</span>
             </div>
           </div>
         </div>
       </div>
-      
-      <!-- 提示 -->
-      <div class="recipe-tip">
-        <span class="recipe-tip__icon">💡</span>
-        <p class="recipe-tip__text">
-          <strong>小技巧：</strong>在地底的神聖/腐化/猩紅區域刷怪，可以同時取得對應的靈魂。
-          建議使用戰鬥藥水和水蠟燭來加速刷取！
-        </p>
-      </div>
-    </section>
-  </div>
+    </div>
+    
+    <!-- 提示 -->
+    <div class="not-prose recipe-tip">
+      <Info :size="20" class="recipe-tip__icon" />
+      <p class="recipe-tip__text">
+        <strong>刷取技巧：</strong>在地底的神聖/腐化/猩紅區域刷怪，可以同時取得對應的靈魂。
+        建議使用戰鬥藥水和水蠟燭來加速刷取效率！
+      </p>
+    </div>
+
+    <!-- ========================================
+         Section 5: 戰鬥技巧
+         ======================================== -->
+    <h2 id="combat">戰鬥技巧</h2>
+    
+    <p>
+      寶箱怪會進行跳躍攻擊，動作有明顯的預備動作。以下是一些實用的戰鬥建議：
+    </p>
+    
+    <ul>
+      <li><strong>保持移動</strong> - 利用翅膀保持距離，不要被逼到角落</li>
+      <li><strong>遠程優先</strong> - 使用弓箭或槍械可以更安全地輸出</li>
+      <li><strong>場地準備</strong> - 建造約 50-80 格長的平坦戰鬥場地</li>
+      <li><strong>回復設施</strong> - 放置篝火和心形燈籠增加回復速度</li>
+    </ul>
+    
+    <blockquote>
+      <strong>💡 專家提示：</strong>神聖寶箱怪掉落的代達羅斯風暴弓搭配聖箭，是對付毀滅者 (The Destroyer) 的神器。
+      絕對值得多刷幾隻！
+    </blockquote>
+  </DocLayout>
 </template>
 
 <style scoped>
-/* ==========================================
-   頁面容器
-   ========================================== */
-.guide-page {
-  max-width: 1000px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 /* ==========================================
    Hero Banner
    ========================================== */
@@ -493,6 +514,7 @@ const completionPercent = computed(() => {
   border-radius: 1rem;
   overflow: hidden;
   padding: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .hero-banner__bg {
@@ -529,7 +551,13 @@ const completionPercent = computed(() => {
   height: 72px;
   object-fit: contain;
   image-rendering: pixelated;
-  filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.4));
+  filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.5));
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
 
 .hero-banner__text {
@@ -574,33 +602,8 @@ const completionPercent = computed(() => {
 }
 
 /* ==========================================
-   Section Title
+   召喚算式視覺
    ========================================== */
-.section-title {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin: 0 0 1.25rem;
-}
-
-.section-title__icon {
-  color: var(--color-primary);
-}
-
-/* ==========================================
-   召喚儀式 Section
-   ========================================== */
-.summon-section {
-  background: var(--color-bg-card);
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
-}
-
-/* 算式視覺 */
 .summon-formula {
   display: flex;
   align-items: center;
@@ -609,7 +612,7 @@ const completionPercent = computed(() => {
   padding: 1.5rem;
   background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fcd34d 100%);
   border-radius: 0.75rem;
-  margin-bottom: 1rem;
+  margin: 1.5rem 0;
   flex-wrap: wrap;
 }
 
@@ -628,6 +631,7 @@ const completionPercent = computed(() => {
   justify-content: center;
   border-radius: 0.75rem;
   border: 3px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.15);
 }
 
 .formula-item__icon-box--chest {
@@ -671,7 +675,9 @@ const completionPercent = computed(() => {
   color: #78350f;
 }
 
-/* 警告 */
+/* ==========================================
+   警告框
+   ========================================== */
 .summon-warning {
   display: flex;
   align-items: flex-start;
@@ -680,7 +686,7 @@ const completionPercent = computed(() => {
   background: #fef2f2;
   border: 1px solid #fecaca;
   border-radius: 0.5rem;
-  margin-bottom: 1.5rem;
+  margin: 1.5rem 0;
 }
 
 .summon-warning__icon {
@@ -703,35 +709,46 @@ const completionPercent = computed(() => {
   text-underline-offset: 3px;
 }
 
-/* 步驟卡片 */
+/* ==========================================
+   步驟卡片
+   ========================================== */
 .summon-steps {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin: 1.5rem 0;
 }
 
 .step-card {
   display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
   padding: 1rem;
   background: var(--color-bg-main);
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
   border: 1px solid var(--color-border);
+  transition: all 0.2s ease;
+}
+
+.step-card:hover {
+  border-color: var(--color-primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.1);
 }
 
 .step-card__number {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
   border-radius: 50%;
   color: white;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 700;
-  flex-shrink: 0;
 }
 
 .step-card__content {
@@ -739,38 +756,32 @@ const completionPercent = computed(() => {
 }
 
 .step-card__icon {
-  font-size: 1.25rem;
-  margin-bottom: 0.375rem;
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
 }
 
 .step-card__title {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   color: var(--color-text-primary);
   margin: 0 0 0.25rem;
 }
 
 .step-card__desc {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   color: var(--color-text-secondary);
   margin: 0;
   line-height: 1.4;
 }
 
 /* ==========================================
-   Mimic Types Section
+   寶箱怪卡片網格
    ========================================== */
-.mimic-types-section {
-  background: var(--color-bg-card);
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
-}
-
 .mimic-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 1.5rem 0;
 }
 
 .mimic-card {
@@ -792,13 +803,13 @@ const completionPercent = computed(() => {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 1.25rem;
+  padding: 1rem;
   color: white;
 }
 
 .mimic-card__icon {
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
   image-rendering: pixelated;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
@@ -806,46 +817,50 @@ const completionPercent = computed(() => {
 
 .mimic-card__title-group {
   flex: 1;
+  min-width: 0;
 }
 
 .mimic-card__name {
-  font-size: 1rem;
+  font-size: 0.9375rem;
   font-weight: 700;
   margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .mimic-card__name-en {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   opacity: 0.85;
 }
 
 .mimic-card__biome-tag {
   position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  padding: 0.25rem 0.5rem;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.2rem 0.4rem;
   background: rgba(0, 0, 0, 0.25);
   border-radius: 0.25rem;
-  font-size: 0.625rem;
+  font-size: 0.5625rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .mimic-card__summon {
-  padding: 1rem 1.25rem;
+  padding: 0.75rem 1rem;
   background: var(--color-bg-main);
   border-bottom: 1px solid var(--color-border);
 }
 
 .mimic-card__summon-label {
   display: block;
-  font-size: 0.625rem;
+  font-size: 0.5625rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--color-text-muted);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.375rem;
 }
 
 .mimic-card__key {
@@ -855,43 +870,43 @@ const completionPercent = computed(() => {
 }
 
 .mimic-card__key-name {
-  font-size: 0.9375rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   color: var(--color-text-primary);
 }
 
 .mimic-card__drops {
-  padding: 1rem 1.25rem;
+  padding: 0.75rem 1rem;
 }
 
 .mimic-card__drops-label {
   display: flex;
   align-items: center;
-  gap: 0.375rem;
-  font-size: 0.625rem;
+  gap: 0.25rem;
+  font-size: 0.5625rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--color-text-muted);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .mimic-card__drops-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.375rem;
 }
 
 .drop-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.25rem;
-  padding: 0.5rem;
+  gap: 0.2rem;
+  padding: 0.375rem;
   background: var(--color-bg-main);
   border-radius: 0.375rem;
   border: 1px solid var(--color-border);
-  min-width: 70px;
+  min-width: 60px;
   transition: all 0.15s ease;
 }
 
@@ -909,7 +924,7 @@ const completionPercent = computed(() => {
 }
 
 .drop-item__name {
-  font-size: 0.625rem;
+  font-size: 0.5625rem;
   font-weight: 500;
   color: var(--color-text-secondary);
   text-align: center;
@@ -917,21 +932,17 @@ const completionPercent = computed(() => {
 }
 
 /* ==========================================
-   Preparation Section
+   準備清單
    ========================================== */
 .preparation-section {
-  background: var(--color-bg-card);
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
+  margin: 1.5rem 0;
 }
 
-/* 進度條 */
 .preparation-progress {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .preparation-progress__bar {
@@ -957,10 +968,9 @@ const completionPercent = computed(() => {
   text-align: right;
 }
 
-/* 清單 */
 .checklist {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.5rem;
 }
 
@@ -968,7 +978,7 @@ const completionPercent = computed(() => {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.875rem 1rem;
+  padding: 0.75rem 1rem;
   background: var(--color-bg-main);
   border-radius: 0.5rem;
   border: 1px solid var(--color-border);
@@ -1009,33 +1019,26 @@ const completionPercent = computed(() => {
 }
 
 .checklist-item__text {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   color: var(--color-text-primary);
   transition: all 0.15s ease;
 }
 
 /* ==========================================
-   Recipes Section
+   鑰匙合成卡片
    ========================================== */
-.recipes-section {
-  background: var(--color-bg-card);
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
-}
-
 .recipes-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin: 1.5rem 0;
 }
 
 .recipe-card {
   padding: 1.25rem;
   background: var(--color-bg-main);
-  border-radius: 0.625rem;
+  border-radius: 0.75rem;
   border: 1px solid var(--color-border);
   border-left: 4px solid var(--recipe-accent);
 }
@@ -1115,32 +1118,46 @@ const completionPercent = computed(() => {
   font-weight: 600;
 }
 
-/* 提示 */
+/* ==========================================
+   提示框
+   ========================================== */
 .recipe-tip {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
   padding: 1rem 1.25rem;
-  background: #eff6ff;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
   border: 1px solid #93c5fd;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
+  margin: 1.5rem 0;
 }
 
 .recipe-tip__icon {
-  font-size: 1.25rem;
+  color: #2563eb;
   flex-shrink: 0;
+  margin-top: 0.125rem;
 }
 
 .recipe-tip__text {
   font-size: 0.875rem;
   color: #1e40af;
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 /* ==========================================
    響應式設計
    ========================================== */
+@media (max-width: 900px) {
+  .mimic-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .summon-steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 640px) {
   .hero-banner__content {
     flex-direction: column;
@@ -1162,11 +1179,15 @@ const completionPercent = computed(() => {
     height: 32px;
   }
   
-  .mimic-grid {
+  .summon-steps {
     grid-template-columns: 1fr;
   }
   
   .checklist {
+    grid-template-columns: 1fr;
+  }
+  
+  .recipes-grid {
     grid-template-columns: 1fr;
   }
 }

@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { Home, BookOpen, Crosshair } from 'lucide-vue-next'
+import { Home, BookOpen, Crosshair, FileText } from 'lucide-vue-next'
 
 /**
  * 路由配置
@@ -12,6 +12,7 @@ const MainLayout = () => import('@/layouts/MainLayout.vue')
 // 頁面組件 (Lazy Loading)
 const GuideMimic = () => import('@/views/guides/MimicGuide.vue')
 const GuideClentaminator = () => import('@/views/guides/ClentaminatorGuide.vue')
+const GuideMimicDoc = () => import('@/views/guides/MimicHuntingDoc.vue')
 const WeaponDaedalus = () => import('@/views/weapons/DaedalusStormbow.vue')
 
 /**
@@ -47,6 +48,16 @@ const routes = [
         meta: {
           title: '環境治理指南',
           icon: 'https://terraria.wiki.gg/images/9/9b/Clentaminator.png',
+          group: 'guides',
+        },
+      },
+      {
+        path: 'guides/mimic-doc',
+        name: 'GuideMimicDoc',
+        component: GuideMimicDoc,
+        meta: {
+          title: '寶箱怪指南 (文檔版)',
+          icon: FileText,
           group: 'guides',
         },
       },
@@ -111,6 +122,11 @@ export const menuConfig = [
         title: '環境治理指南', 
         path: '/guides/clentaminator', 
         icon: 'https://terraria.wiki.gg/images/9/9b/Clentaminator.png',
+      },
+      { 
+        title: '寶箱怪指南 (文檔版)', 
+        path: '/guides/mimic-doc', 
+        icon: FileText,
       },
     ],
   },
