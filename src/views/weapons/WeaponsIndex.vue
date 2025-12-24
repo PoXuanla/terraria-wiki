@@ -1,31 +1,191 @@
 <script setup>
-import { Crosshair, Star, ChevronRight } from 'lucide-vue-next'
-import { weapons as weaponData, classColors } from '@/data/weapons'
+import { ref, computed } from "vue";
+import {
+  Crosshair,
+  Star,
+  ChevronRight,
+  Search,
+  X,
+  ArrowUpDown,
+  PackageOpen,
+} from "lucide-vue-next";
+import { weapons as weaponData, classColors } from "@/data/weapons";
 
 /**
  * 武器圖鑑 - 索引頁面
- * 
- * 顯示所有困難模式 Tier 1 推薦武器的網格列表
+ *
+ * 功能：
+ * - 搜尋武器（中/英文名稱）
+ * - 職業篩選（遠程/近戰/魔法/召喚）
+ * - 稀有度篩選
+ * - 取得方式篩選（製作/掉落）
+ * - 排序功能
  */
 
+// ==========================================
+// 資料處理
+// ==========================================
+
 // 將武器資料轉換為列表顯示格式
-const weapons = weaponData.map(w => ({
+const weapons = weaponData.map((w) => ({
   ...w,
   id: w.slug,
   damage: w.stats.damage.value,
+  // 提取數值用於排序（處理 "28 (步槍) / 28 (手槍)" 這類格式）
+  damageNum:
+    typeof w.stats.damage.value === "number"
+      ? w.stats.damage.value
+      : parseInt(String(w.stats.damage.value).match(/\d+/)?.[0] || "0"),
   path: `/weapons/${w.slug}`,
-}))
+}));
 
 // 職業圖示對應
 const classIcons = {
-  'Ranger': '🏹',
-  'Melee': '⚔️',
-  'Mage': '🔮',
-  'Summoner': '👻',
-}
+  Ranger: "🏹",
+  Melee: "⚔️",
+  Mage: "🔮",
+  Summoner: "👻",
+};
+
+// 職業選項
+const classOptions = [
+  { key: "", label: "全部", icon: "🎯" },
+  { key: "Ranger", label: "遠程", icon: "🏹" },
+  { key: "Melee", label: "近戰", icon: "⚔️" },
+  { key: "Mage", label: "魔法", icon: "🔮" },
+  { key: "Summoner", label: "召喚", icon: "👻" },
+];
+
+// 稀有度選項（從資料中提取唯一值）
+const rarityLevels = [...new Set(weapons.map((w) => w.rarity.level))].sort(
+  (a, b) => a - b
+);
+const rarityOptions = [
+  { key: "", label: "全部" },
+  ...rarityLevels.map((level) => ({ key: level, label: `${level}` })),
+];
+
+// 取得方式選項
+const sourceOptions = [
+  { key: "", label: "全部", icon: "📦" },
+  { key: "crafting", label: "製作", icon: "🔨" },
+  { key: "drop", label: "掉落", icon: "💀" },
+];
+
+// 排序選項
+const sortOptions = [
+  { key: "damage", label: "傷害" },
+  { key: "rarity", label: "稀有度" },
+  { key: "name", label: "名稱" },
+];
+
+// ==========================================
+// 篩選狀態
+// ==========================================
+
+const searchQuery = ref("");
+const selectedClass = ref("");
+const selectedRarity = ref("");
+const selectedSource = ref("");
+const sortBy = ref("damage");
+const sortOrder = ref("desc"); // 'asc' | 'desc'
+
+// ==========================================
+// 計算屬性
+// ==========================================
+
+// 是否有任何篩選條件
+const hasFilters = computed(() => {
+  return (
+    searchQuery.value ||
+    selectedClass.value ||
+    selectedRarity.value ||
+    selectedSource.value
+  );
+});
+
+// 篩選後的武器列表
+const filteredWeapons = computed(() => {
+  let result = [...weapons];
+
+  // 搜尋過濾
+  if (searchQuery.value) {
+    const query = searchQuery.value.toLowerCase();
+    result = result.filter(
+      (w) =>
+        w.name.toLowerCase().includes(query) ||
+        w.nameEn.toLowerCase().includes(query)
+    );
+  }
+
+  // 職業過濾
+  if (selectedClass.value) {
+    result = result.filter((w) => w.class === selectedClass.value);
+  }
+
+  // 稀有度過濾
+  if (selectedRarity.value) {
+    result = result.filter((w) => w.rarity.level === selectedRarity.value);
+  }
+
+  // 取得方式過濾
+  if (selectedSource.value) {
+    result = result.filter((w) => w.source.type === selectedSource.value);
+  }
+
+  // 排序
+  result.sort((a, b) => {
+    let comparison = 0;
+
+    switch (sortBy.value) {
+      case "damage":
+        comparison = a.damageNum - b.damageNum;
+        break;
+      case "rarity":
+        comparison = a.rarity.level - b.rarity.level;
+        break;
+      case "name":
+        comparison = a.name.localeCompare(b.name, "zh-TW");
+        break;
+    }
+
+    return sortOrder.value === "desc" ? -comparison : comparison;
+  });
+
+  return result;
+});
+
+// ==========================================
+// 方法
+// ==========================================
 
 // 取得職業顏色
-const getClassColor = (className) => classColors[className]?.hex || '#6b7280'
+const getClassColor = (className) => classColors[className]?.hex || "#6b7280";
+
+// 取得稀有度顏色
+const getRarityColor = (level) => {
+  const colors = {
+    4: "#f59e0b",
+    5: "#f472b6",
+    6: "#a855f7",
+    7: "#22c55e",
+    8: "#fbbf24",
+  };
+  return colors[level] || "#6b7280";
+};
+
+// 切換排序順序
+const toggleSortOrder = () => {
+  sortOrder.value = sortOrder.value === "desc" ? "asc" : "desc";
+};
+
+// 清除所有篩選
+const clearFilters = () => {
+  searchQuery.value = "";
+  selectedClass.value = "";
+  selectedRarity.value = "";
+  selectedSource.value = "";
+};
 </script>
 
 <template>
@@ -41,18 +201,155 @@ const getClassColor = (className) => classColors[className]?.hex || '#6b7280'
       </div>
     </header>
 
-    <!-- 說明區塊 -->
-    <section class="intro-section">
-      <p class="intro-text">
-        進入困難模式後，你需要更強大的武器來面對新的威脅。以下是各職業在擊敗機械 Boss 前的最佳武器推薦，
-        它們易於取得且威力強大，能幫助你順利通過困難模式初期。
-      </p>
+    <!-- 篩選區塊 -->
+    <section class="filter-section">
+      <!-- 搜尋框 -->
+      <div class="search-box">
+        <Search :size="18" class="search-box__icon" />
+        <input
+          v-model="searchQuery"
+          type="text"
+          placeholder="搜尋武器名稱..."
+          class="search-box__input"
+        />
+        <button
+          v-if="searchQuery"
+          @click="searchQuery = ''"
+          class="search-box__clear"
+        >
+          <X :size="16" />
+        </button>
+      </div>
+
+      <!-- 篩選器群組 -->
+      <div class="filter-groups">
+        <!-- 職業篩選 -->
+        <div class="filter-group">
+          <span class="filter-group__label">職業</span>
+          <div class="filter-pills">
+            <button
+              v-for="option in classOptions"
+              :key="option.key"
+              @click="selectedClass = option.key"
+              class="filter-pill"
+              :class="{ 'filter-pill--active': selectedClass === option.key }"
+              :style="
+                option.key && selectedClass === option.key
+                  ? {
+                      '--pill-color': getClassColor(option.key),
+                      backgroundColor: getClassColor(option.key),
+                      borderColor: getClassColor(option.key),
+                    }
+                  : {}
+              "
+            >
+              <span class="filter-pill__icon">{{ option.icon }}</span>
+              <span>{{ option.label }}</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 稀有度篩選 -->
+        <div class="filter-group">
+          <span class="filter-group__label">稀有度</span>
+          <div class="filter-pills">
+            <button
+              v-for="option in rarityOptions"
+              :key="option.key"
+              @click="selectedRarity = option.key"
+              class="filter-pill filter-pill--rarity"
+              :class="{ 'filter-pill--active': selectedRarity === option.key }"
+              :style="
+                option.key && selectedRarity === option.key
+                  ? {
+                      backgroundColor: getRarityColor(option.key),
+                      borderColor: getRarityColor(option.key),
+                    }
+                  : option.key
+                  ? {
+                      '--pill-border': getRarityColor(option.key),
+                    }
+                  : {}
+              "
+            >
+              <Star
+                v-if="option.key"
+                :size="12"
+                :style="{
+                  color:
+                    selectedRarity === option.key
+                      ? 'white'
+                      : getRarityColor(option.key),
+                }"
+              />
+              <span>{{ option.label }}</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 取得方式篩選 -->
+        <div class="filter-group">
+          <span class="filter-group__label">取得方式</span>
+          <div class="filter-pills">
+            <button
+              v-for="option in sourceOptions"
+              :key="option.key"
+              @click="selectedSource = option.key"
+              class="filter-pill"
+              :class="{ 'filter-pill--active': selectedSource === option.key }"
+            >
+              <span class="filter-pill__icon">{{ option.icon }}</span>
+              <span>{{ option.label }}</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 排序 -->
+        <div class="filter-group">
+          <span class="filter-group__label">排序</span>
+          <div class="filter-pills">
+            <button
+              v-for="option in sortOptions"
+              :key="option.key"
+              @click="sortBy = option.key"
+              class="filter-pill"
+              :class="{ 'filter-pill--active': sortBy === option.key }"
+            >
+              <span>{{ option.label }}</span>
+            </button>
+            <button
+              @click="toggleSortOrder"
+              class="sort-order-btn"
+              :title="sortOrder === 'desc' ? '降序' : '升序'"
+            >
+              <ArrowUpDown :size="16" />
+              <span>{{ sortOrder === "desc" ? "降序" : "升序" }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 結果統計與清除按鈕 -->
+      <div class="filter-footer">
+        <span class="result-count">
+          顯示 <strong>{{ filteredWeapons.length }}</strong> 件武器
+        </span>
+        <button v-if="hasFilters" @click="clearFilters" class="clear-btn">
+          <X :size="14" />
+          <span>清除篩選</span>
+        </button>
+      </div>
     </section>
 
     <!-- 武器網格 -->
-    <section class="weapons-grid">
+    <TransitionGroup
+      v-if="filteredWeapons.length > 0"
+      tag="section"
+      name="weapon-card"
+      class="weapons-grid"
+    >
       <RouterLink
-        v-for="weapon in weapons"
+        v-for="weapon in filteredWeapons"
         :key="weapon.id"
         :to="weapon.path"
         class="weapon-card"
@@ -60,15 +357,17 @@ const getClassColor = (className) => classColors[className]?.hex || '#6b7280'
       >
         <!-- 職業標籤 -->
         <div class="weapon-card__class-badge">
-          <span class="weapon-card__class-icon">{{ classIcons[weapon.class] }}</span>
+          <span class="weapon-card__class-icon">{{
+            classIcons[weapon.class]
+          }}</span>
           <span class="weapon-card__class-label">{{ weapon.classLabel }}</span>
         </div>
 
         <!-- 武器圖示 -->
         <div class="weapon-card__icon-wrapper">
           <div class="weapon-card__icon-glow"></div>
-          <img 
-            :src="weapon.icon" 
+          <img
+            :src="weapon.icon"
             :alt="weapon.name"
             class="weapon-card__icon"
           />
@@ -78,8 +377,7 @@ const getClassColor = (className) => classColors[className]?.hex || '#6b7280'
         <div class="weapon-card__info">
           <h3 class="weapon-card__name">{{ weapon.name }}</h3>
           <p class="weapon-card__name-en">{{ weapon.nameEn }}</p>
-          <p class="weapon-card__description">{{ weapon.description }}</p>
-          
+
           <div class="weapon-card__stats">
             <div class="weapon-card__damage">
               <span class="weapon-card__damage-value">{{ weapon.damage }}</span>
@@ -87,7 +385,7 @@ const getClassColor = (className) => classColors[className]?.hex || '#6b7280'
             </div>
             <div class="weapon-card__rarity">
               <Star :size="14" :style="{ color: weapon.rarity.color }" />
-              <span>稀有度 {{ weapon.rarity.level }}</span>
+              <span>{{ weapon.rarity.level }}</span>
             </div>
           </div>
         </div>
@@ -98,6 +396,19 @@ const getClassColor = (className) => classColors[className]?.hex || '#6b7280'
           <ChevronRight :size="18" />
         </div>
       </RouterLink>
+    </TransitionGroup>
+
+    <!-- 空狀態 -->
+    <section v-else class="empty-state">
+      <div class="empty-state__icon">
+        <PackageOpen :size="64" />
+      </div>
+      <h3 class="empty-state__title">找不到符合條件的武器</h3>
+      <p class="empty-state__description">嘗試調整篩選條件或清除搜尋關鍵字</p>
+      <button @click="clearFilters" class="empty-state__btn">
+        <X :size="16" />
+        <span>清除所有篩選</span>
+      </button>
     </section>
 
     <!-- 底部提示 -->
@@ -111,7 +422,7 @@ const getClassColor = (className) => classColors[className]?.hex || '#6b7280'
 
 <style scoped>
 .weapons-index {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -156,25 +467,207 @@ const getClassColor = (className) => classColors[className]?.hex || '#6b7280'
 }
 
 /* ==========================================
-   說明區塊
+   篩選區塊
    ========================================== */
-.intro-section {
+.filter-section {
   background: var(--color-bg-card);
   border-radius: 0.75rem;
-  padding: 1.25rem 1.5rem;
+  padding: 1.25rem;
   box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-:global(.dark) .intro-section {
+:global(.dark) .filter-section {
   box-shadow: none;
   border: 1px solid var(--color-border);
 }
 
-.intro-text {
-  margin: 0;
+/* 搜尋框 */
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-box__icon {
+  position: absolute;
+  left: 1rem;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.search-box__input {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 2.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background: var(--color-bg-main);
+  color: var(--color-text-primary);
   font-size: 0.9375rem;
+  transition: all 0.2s ease;
+}
+
+.search-box__input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.search-box__input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.search-box__clear {
+  position: absolute;
+  right: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: var(--color-bg-card);
+  border-radius: 50%;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.search-box__clear:hover {
+  background: var(--color-border);
+  color: var(--color-text-primary);
+}
+
+/* 篩選器群組 */
+.filter-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.filter-group__label {
+  font-size: 0.8125rem;
+  font-weight: 600;
   color: var(--color-text-secondary);
-  line-height: 1.7;
+  min-width: 60px;
+}
+
+.filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* 膠囊按鈕 */
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.875rem;
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  background: var(--color-bg-main);
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-pill:hover {
+  border-color: var(--color-primary-light);
+  color: var(--color-text-primary);
+}
+
+.filter-pill--active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+.filter-pill--rarity {
+  border-color: var(--pill-border, var(--color-border));
+}
+
+.filter-pill__icon {
+  font-size: 0.875rem;
+}
+
+/* 排序按鈕 */
+.sort-order-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  background: var(--color-bg-main);
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sort-order-btn:hover {
+  border-color: var(--color-primary-light);
+  color: var(--color-text-primary);
+}
+
+/* 篩選底部 */
+.filter-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.result-count {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.result-count strong {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.clear-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.875rem;
+  border: none;
+  border-radius: 0.375rem;
+  background: #fee2e2;
+  color: #dc2626;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+:global(.dark) .clear-btn {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
+.clear-btn:hover {
+  background: #fecaca;
+}
+
+:global(.dark) .clear-btn:hover {
+  background: rgba(239, 68, 68, 0.25);
 }
 
 /* ==========================================
@@ -182,15 +675,33 @@ const getClassColor = (className) => classColors[className]?.hex || '#6b7280'
    ========================================== */
 .weapons-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
+}
+
+@media (max-width: 1200px) {
+  .weapons-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .weapons-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .weapons-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .weapon-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 1.5rem;
+  padding: 1.25rem;
   background: var(--color-bg-card);
   border-radius: 0.75rem;
   border: 1px solid var(--color-border);
@@ -201,7 +712,7 @@ const getClassColor = (className) => classColors[className]?.hex || '#6b7280'
 }
 
 .weapon-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -226,33 +737,33 @@ const getClassColor = (className) => classColors[className]?.hex || '#6b7280'
 /* 職業標籤 */
 .weapon-card__class-badge {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 0.75rem;
+  right: 0.75rem;
   display: flex;
   align-items: center;
-  gap: 0.375rem;
-  padding: 0.375rem 0.75rem;
+  gap: 0.25rem;
+  padding: 0.25rem 0.625rem;
   background: var(--class-color);
   border-radius: 9999px;
   color: white;
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 600;
 }
 
 /* 武器圖示 */
 .weapon-card__icon-wrapper {
   position: relative;
-  width: 80px;
-  height: 80px;
-  margin-bottom: 1rem;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 0.75rem;
 }
 
 .weapon-card__icon-glow {
   position: absolute;
-  inset: -10px;
+  inset: -8px;
   background: radial-gradient(circle, var(--class-color) 0%, transparent 70%);
   opacity: 0.2;
-  filter: blur(12px);
+  filter: blur(10px);
   transition: opacity 0.3s ease;
 }
 
@@ -280,30 +791,24 @@ const getClassColor = (className) => classColors[className]?.hex || '#6b7280'
 }
 
 .weapon-card__name {
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--color-text-primary);
   margin: 0 0 0.25rem;
+  line-height: 1.3;
 }
 
 .weapon-card__name-en {
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   color: var(--color-text-muted);
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.625rem;
   font-style: italic;
-}
-
-.weapon-card__description {
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  margin: 0 0 1rem;
-  line-height: 1.5;
 }
 
 .weapon-card__stats {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .weapon-card__damage {
@@ -313,21 +818,21 @@ const getClassColor = (className) => classColors[className]?.hex || '#6b7280'
 }
 
 .weapon-card__damage-value {
-  font-size: 1.375rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--class-color);
 }
 
 .weapon-card__damage-label {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   color: var(--color-text-muted);
 }
 
 .weapon-card__rarity {
   display: flex;
   align-items: center;
-  gap: 0.375rem;
-  font-size: 0.75rem;
+  gap: 0.25rem;
+  font-size: 0.6875rem;
   color: var(--color-text-secondary);
 }
 
@@ -336,12 +841,12 @@ const getClassColor = (className) => classColors[className]?.hex || '#6b7280'
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.375rem;
-  margin-top: 1rem;
-  padding: 0.75rem;
+  gap: 0.25rem;
+  margin-top: 0.75rem;
+  padding: 0.625rem;
   background: var(--color-bg-main);
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
+  border-radius: 0.375rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   color: var(--color-text-secondary);
   transition: all 0.2s ease;
@@ -350,6 +855,100 @@ const getClassColor = (className) => classColors[className]?.hex || '#6b7280'
 .weapon-card:hover .weapon-card__action {
   background: var(--class-color);
   color: white;
+}
+
+/* ==========================================
+   卡片切換動畫
+   ========================================== */
+
+/* 進入動畫 */
+.weapon-card-enter-from {
+  opacity: 0;
+  transform: scale(0.9) translateY(20px);
+}
+
+.weapon-card-enter-active {
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.weapon-card-enter-to {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* 離開動畫 */
+.weapon-card-leave-from {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.weapon-card-leave-active {
+  transition: all 0.25s ease-out;
+  position: absolute;
+}
+
+.weapon-card-leave-to {
+  opacity: 0;
+  transform: scale(0.9) translateY(-10px);
+}
+
+/* 移動動畫（重新排序時） */
+.weapon-card-move {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ==========================================
+   空狀態
+   ========================================== */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  background: var(--color-bg-card);
+  border-radius: 0.75rem;
+  border: 2px dashed var(--color-border);
+  text-align: center;
+}
+
+.empty-state__icon {
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+  opacity: 0.5;
+}
+
+.empty-state__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 0.5rem;
+}
+
+.empty-state__description {
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  margin: 0 0 1.5rem;
+}
+
+.empty-state__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: var(--color-primary);
+  color: white;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.empty-state__btn:hover {
+  background: var(--color-primary-dark);
+  transform: translateY(-1px);
 }
 
 /* ==========================================
@@ -381,14 +980,24 @@ const getClassColor = (className) => classColors[className]?.hex || '#6b7280'
    響應式設計
    ========================================== */
 @media (max-width: 768px) {
-  .weapons-grid {
-    grid-template-columns: 1fr;
-  }
-  
   .page-header {
     flex-direction: column;
     text-align: center;
   }
+
+  .filter-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filter-group__label {
+    margin-bottom: 0.25rem;
+  }
+
+  .filter-footer {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
 }
 </style>
-
