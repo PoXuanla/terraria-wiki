@@ -23,17 +23,6 @@ import DocLayout from "@/layouts/DocLayout.vue";
 // 當前選中的職業 Tab
 const activeClassTab = ref("ranger");
 
-// 目錄項目 (傳給 DocLayout)
-const tocItems = [
-  { id: "summoning", text: "召喚方式" },
-  { id: "arena", text: "場地準備" },
-  { id: "stats", text: "雙眼屬性比較" },
-  { id: "phases", text: "戰鬥階段" },
-  { id: "strategy", text: "核心戰術" },
-  { id: "equipment", text: "推薦裝備" },
-  { id: "drops", text: "掉落物" },
-];
-
 /**
  * 機械魔眼 (The Twins) - BOSS 資料
  */
@@ -423,492 +412,497 @@ const bossData = {
 </script>
 
 <template>
-  <DocLayout
-    title="目錄"
-    :transparent="true"
-    :floating="true"
-    :manual-toc-items="tocItems"
-  >
+  <DocLayout title="目錄" :transparent="true">
     <div class="boss-page">
       <!-- ========================================
            Hero Section - 頂部展示區
            ======================================== -->
-    <section class="hero">
-      <!-- 背景裝飾 -->
-      <div class="hero__bg">
-        <div class="hero__bg-pattern"></div>
-        <div class="hero__bg-glow hero__bg-glow--red"></div>
-        <div class="hero__bg-glow hero__bg-glow--green"></div>
-      </div>
+      <section class="hero">
+        <!-- 背景裝飾 -->
+        <div class="hero__bg">
+          <div class="hero__bg-pattern"></div>
+          <div class="hero__bg-glow hero__bg-glow--red"></div>
+          <div class="hero__bg-glow hero__bg-glow--green"></div>
+        </div>
 
-      <div class="hero__content">
-        <!-- BOSS 圖示 - 雙眼 -->
-        <div class="hero__icons">
-          <div class="hero__icon-wrapper hero__icon-wrapper--red">
-            <div class="hero__icon-glow hero__icon-glow--red"></div>
-            <div class="hero__icon-frame">
-              <img
-                :src="bossData.icons.retinazer"
-                alt="Retinazer"
-                class="hero__icon-img"
-              />
+        <div class="hero__content">
+          <!-- BOSS 圖示 - 雙眼 -->
+          <div class="hero__icons">
+            <div class="hero__icon-wrapper hero__icon-wrapper--red">
+              <div class="hero__icon-glow hero__icon-glow--red"></div>
+              <div class="hero__icon-frame">
+                <img
+                  :src="bossData.icons.retinazer"
+                  alt="Retinazer"
+                  class="hero__icon-img"
+                />
+              </div>
             </div>
-          </div>
-          <div class="hero__icon-wrapper hero__icon-wrapper--green">
-            <div class="hero__icon-glow hero__icon-glow--green"></div>
-            <div class="hero__icon-frame">
-              <img
-                :src="bossData.icons.spazmatism"
-                alt="Spazmatism"
-                class="hero__icon-img"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- BOSS 資訊 -->
-        <div class="hero__info">
-          <div class="hero__badges">
-            <span class="badge badge--boss">
-              <Skull :size="12" class="mr-1" />
-              {{ bossData.type }}
-            </span>
-            <span class="badge badge--difficulty">
-              <Star :size="12" class="mr-1" />
-              {{ bossData.difficulty }}
-            </span>
-          </div>
-
-          <h1 class="hero__title">{{ bossData.name }}</h1>
-          <p class="hero__subtitle">{{ bossData.nameEn }}</p>
-          <p class="hero__description">
-            困難模式三大機械 Boss 之一。由雷射眼 (Retinazer) 與魔焰眼
-            (Spazmatism) 組成的雙子 Boss， 需要同時應對兩種截然不同的攻擊模式。
-          </p>
-
-          <a
-            :href="bossData.wikiUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="hero__wiki-link"
-          >
-            <span>查看 Wiki 頁面</span>
-            <ExternalLink :size="16" />
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================
-         Summoning Section - 召喚方式
-         ======================================== -->
-    <section id="summoning" class="section-card">
-      <h2 class="section-heading">
-        <Moon :size="20" class="section-heading__icon" />
-        <span>召喚方式</span>
-      </h2>
-
-      <div class="summoning-content">
-        <!-- 召喚物品 -->
-        <div class="summon-item">
-          <img
-            :src="bossData.summoning.itemIcon"
-            :alt="bossData.summoning.item"
-            class="summon-item__icon"
-          />
-          <div class="summon-item__info">
-            <span class="summon-item__name">{{ bossData.summoning.item }}</span>
-            <span class="summon-item__name-en">{{
-              bossData.summoning.itemEn
-            }}</span>
-          </div>
-        </div>
-
-        <!-- 時間限制 -->
-        <div class="time-restriction">
-          <Clock :size="18" />
-          <span
-            >需在
-            <strong>{{ bossData.summoning.timeRestriction }}</strong> 使用</span
-          >
-        </div>
-
-        <!-- 合成配方 -->
-        <div class="recipe-section">
-          <h3 class="recipe-title">合成配方</h3>
-          <div class="recipe-grid">
-            <div
-              v-for="ingredient in bossData.summoning.recipe"
-              :key="ingredient.name"
-              class="recipe-item"
-            >
-              <img
-                :src="ingredient.icon"
-                :alt="ingredient.name"
-                class="recipe-item__icon"
-              />
-              <div class="recipe-item__info">
-                <span class="recipe-item__name">{{ ingredient.name }}</span>
-                <span class="recipe-item__amount"
-                  >x{{ ingredient.amount }}</span
-                >
+            <div class="hero__icon-wrapper hero__icon-wrapper--green">
+              <div class="hero__icon-glow hero__icon-glow--green"></div>
+              <div class="hero__icon-frame">
+                <img
+                  :src="bossData.icons.spazmatism"
+                  alt="Spazmatism"
+                  class="hero__icon-img"
+                />
               </div>
             </div>
           </div>
-          <p class="recipe-station">
-            🔨 製作於：<strong>{{ bossData.summoning.craftStation }}</strong>
-          </p>
-        </div>
-      </div>
-    </section>
 
-    <!-- ========================================
+          <!-- BOSS 資訊 -->
+          <div class="hero__info">
+            <div class="hero__badges">
+              <span class="badge badge--boss">
+                <Skull :size="12" class="mr-1" />
+                {{ bossData.type }}
+              </span>
+              <span class="badge badge--difficulty">
+                <Star :size="12" class="mr-1" />
+                {{ bossData.difficulty }}
+              </span>
+            </div>
+
+            <h1 class="hero__title">{{ bossData.name }}</h1>
+            <p class="hero__subtitle">{{ bossData.nameEn }}</p>
+            <p class="hero__description">
+              困難模式三大機械 Boss 之一。由雷射眼 (Retinazer) 與魔焰眼
+              (Spazmatism) 組成的雙子 Boss，
+              需要同時應對兩種截然不同的攻擊模式。
+            </p>
+
+            <a
+              :href="bossData.wikiUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hero__wiki-link"
+            >
+              <span>查看 Wiki 頁面</span>
+              <ExternalLink :size="16" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
+         Summoning Section - 召喚方式
+         ======================================== -->
+      <section class="section-card">
+        <h2 id="summoning" class="section-heading">
+          <Moon :size="20" class="section-heading__icon" />
+          <span>召喚方式</span>
+        </h2>
+
+        <div class="summoning-content">
+          <!-- 召喚物品 -->
+          <div class="summon-item">
+            <img
+              :src="bossData.summoning.itemIcon"
+              :alt="bossData.summoning.item"
+              class="summon-item__icon"
+            />
+            <div class="summon-item__info">
+              <span class="summon-item__name">{{
+                bossData.summoning.item
+              }}</span>
+              <span class="summon-item__name-en">{{
+                bossData.summoning.itemEn
+              }}</span>
+            </div>
+          </div>
+
+          <!-- 時間限制 -->
+          <div class="time-restriction">
+            <Clock :size="18" />
+            <span
+              >需在
+              <strong>{{ bossData.summoning.timeRestriction }}</strong>
+              使用</span
+            >
+          </div>
+
+          <!-- 合成配方 -->
+          <div class="recipe-section">
+            <h3 class="recipe-title">合成配方</h3>
+            <div class="recipe-grid">
+              <div
+                v-for="ingredient in bossData.summoning.recipe"
+                :key="ingredient.name"
+                class="recipe-item"
+              >
+                <img
+                  :src="ingredient.icon"
+                  :alt="ingredient.name"
+                  class="recipe-item__icon"
+                />
+                <div class="recipe-item__info">
+                  <span class="recipe-item__name">{{ ingredient.name }}</span>
+                  <span class="recipe-item__amount"
+                    >x{{ ingredient.amount }}</span
+                  >
+                </div>
+              </div>
+            </div>
+            <p class="recipe-station">
+              🔨 製作於：<strong>{{ bossData.summoning.craftStation }}</strong>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
          Arena Section - 場地準備
          ======================================== -->
-    <section id="arena" class="section-card">
-      <h2 class="section-heading">
-        <Target :size="20" class="section-heading__icon" />
-        <span>{{ bossData.combat.arena.title }}</span>
-      </h2>
+      <section class="section-card">
+        <h2 id="arena" class="section-heading">
+          <Target :size="20" class="section-heading__icon" />
+          <span>{{ bossData.combat.arena.title }}</span>
+        </h2>
 
-      <ul class="arena-tips">
-        <li
-          v-for="(tip, index) in bossData.combat.arena.tips"
-          :key="index"
-          class="arena-tip"
-        >
-          <ChevronRight :size="16" class="arena-tip__icon" />
-          <span>{{ tip }}</span>
-        </li>
-      </ul>
-    </section>
+        <ul class="arena-tips">
+          <li
+            v-for="(tip, index) in bossData.combat.arena.tips"
+            :key="index"
+            class="arena-tip"
+          >
+            <ChevronRight :size="16" class="arena-tip__icon" />
+            <span>{{ tip }}</span>
+          </li>
+        </ul>
+      </section>
 
-    <!-- ========================================
+      <!-- ========================================
          Stats Comparison Table - 屬性比較表格
          ======================================== -->
-    <section id="stats" class="section-card">
-      <h2 class="section-heading">
-        <Eye :size="20" class="section-heading__icon" />
-        <span>雙眼屬性比較</span>
-      </h2>
-
-      <div class="stats-table-wrapper">
-        <table class="stats-table">
-          <thead>
-            <tr>
-              <th class="stats-table__header stats-table__header--attr">
-                屬性
-              </th>
-              <th class="stats-table__header stats-table__header--retinazer">
-                <div class="table-header-content">
-                  <img
-                    :src="bossData.twins.retinazer.icon"
-                    alt="Retinazer"
-                    class="table-icon"
-                  />
-                  <span>雷射眼 <small>(Retinazer)</small></span>
-                </div>
-              </th>
-              <th class="stats-table__header stats-table__header--spazmatism">
-                <div class="table-header-content">
-                  <img
-                    :src="bossData.twins.spazmatism.icon"
-                    alt="Spazmatism"
-                    class="table-icon"
-                  />
-                  <span>魔焰眼 <small>(Spazmatism)</small></span>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="stats-table__label">
-                <Heart :size="14" class="mr-1" /> 血量
-              </td>
-              <td class="stats-table__value">
-                {{ bossData.twins.retinazer.stats.maxLife.toLocaleString() }}
-              </td>
-              <td class="stats-table__value">
-                {{ bossData.twins.spazmatism.stats.maxLife.toLocaleString() }}
-              </td>
-            </tr>
-            <tr>
-              <td class="stats-table__label">
-                <Shield :size="14" class="mr-1" /> 防禦
-              </td>
-              <td class="stats-table__value">
-                {{ bossData.twins.retinazer.stats.defense }}
-              </td>
-              <td class="stats-table__value">
-                {{ bossData.twins.spazmatism.stats.defense }}
-              </td>
-            </tr>
-            <tr>
-              <td class="stats-table__label">
-                <Swords :size="14" class="mr-1" /> 傷害
-              </td>
-              <td class="stats-table__value">
-                {{ bossData.twins.retinazer.stats.damage }}
-              </td>
-              <td class="stats-table__value">
-                {{ bossData.twins.spazmatism.stats.damage }}
-              </td>
-            </tr>
-            <tr>
-              <td class="stats-table__label">
-                <Zap :size="14" class="mr-1" /> 第一階段攻擊
-              </td>
-              <td class="stats-table__value stats-table__value--text">
-                {{ bossData.twins.retinazer.phase1.attack }}
-              </td>
-              <td class="stats-table__value stats-table__value--text">
-                {{ bossData.twins.spazmatism.phase1.attack }}
-              </td>
-            </tr>
-            <tr>
-              <td class="stats-table__label">
-                <Flame :size="14" class="mr-1" /> 第二階段攻擊
-              </td>
-              <td class="stats-table__value stats-table__value--text">
-                {{ bossData.twins.retinazer.phase2.attack }}
-              </td>
-              <td
-                class="stats-table__value stats-table__value--text stats-table__value--danger"
-              >
-                {{ bossData.twins.spazmatism.phase2.attack }}
-              </td>
-            </tr>
-            <tr>
-              <td class="stats-table__label">
-                <AlertTriangle :size="14" class="mr-1" /> 危險等級
-              </td>
-              <td class="stats-table__value">
-                <span class="danger-badge danger-badge--medium">中等</span>
-              </td>
-              <td class="stats-table__value">
-                <span class="danger-badge danger-badge--high">極高</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- 魔焰眼警告 -->
-      <div class="warning-box">
-        <AlertTriangle :size="20" class="warning-box__icon" />
-        <p class="warning-box__text">
-          <strong>⚠️ 重要警告：</strong
-          >{{ bossData.twins.spazmatism.phase2.warning }}
-        </p>
-      </div>
-    </section>
-
-    <!-- ========================================
-         Combat Phases - 戰鬥階段
-         ======================================== -->
-    <section id="phases" class="section-card">
-      <h2 class="section-heading">
-        <Swords :size="20" class="section-heading__icon" />
-        <span>戰鬥階段</span>
-      </h2>
-
-      <div class="phases-grid">
-        <div
-          v-for="phaseInfo in bossData.combat.phases"
-          :key="phaseInfo.phase"
-          :class="['phase-card', `phase-card--${phaseInfo.danger}`]"
-        >
-          <div class="phase-card__header">
-            <span class="phase-card__phase">{{ phaseInfo.phase }}</span>
-            <span
-              :class="[
-                'phase-card__danger',
-                `phase-card__danger--${phaseInfo.danger}`,
-              ]"
-            >
-              {{ phaseInfo.danger === "high" ? "高危險" : "中等難度" }}
-            </span>
-          </div>
-          <p class="phase-card__desc">{{ phaseInfo.description }}</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================
-         Core Strategy - 核心戰術
-         ======================================== -->
-    <section id="strategy" class="strategy-highlight">
-      <div class="strategy-highlight__header">
-        <Target :size="24" class="strategy-highlight__icon" />
-        <h2 class="strategy-highlight__title">
-          {{ bossData.combat.coreStrategy.title }}
+      <section class="section-card">
+        <h2 id="stats" class="section-heading">
+          <Eye :size="20" class="section-heading__icon" />
+          <span>雙眼屬性比較</span>
         </h2>
-      </div>
 
-      <div class="strategy-highlight__priority">
-        <span class="priority-badge">🎯 關鍵戰術</span>
-        <p class="priority-text">{{ bossData.combat.coreStrategy.priority }}</p>
-      </div>
-
-      <p class="strategy-highlight__reason">
-        {{ bossData.combat.coreStrategy.reason }}
-      </p>
-
-      <ol class="strategy-steps">
-        <li
-          v-for="(step, index) in bossData.combat.coreStrategy.steps"
-          :key="index"
-          class="strategy-step"
-        >
-          <span class="strategy-step__number">{{ index + 1 }}</span>
-          <span class="strategy-step__text">{{ step }}</span>
-        </li>
-      </ol>
-    </section>
-
-    <!-- ========================================
-         Equipment Section - 推薦裝備
-         ======================================== -->
-    <section id="equipment" class="section-card">
-      <h2 class="section-heading">
-        <Crosshair :size="20" class="section-heading__icon" />
-        <span>推薦裝備</span>
-      </h2>
-
-      <!-- 職業 Tabs -->
-      <h3 class="subsection-title">🗡️ 職業武器推薦</h3>
-
-      <div class="class-tabs">
-        <button
-          v-for="tab in bossData.equipment.classTabs"
-          :key="tab.id"
-          :class="[
-            'class-tab',
-            { 'class-tab--active': activeClassTab === tab.id },
-          ]"
-          :style="{ '--tab-color': tab.color }"
-          @click="activeClassTab = tab.id"
-        >
-          <span class="class-tab__icon">{{ tab.icon }}</span>
-          <span class="class-tab__name">{{ tab.name }}</span>
-          <span class="class-tab__name-en">{{ tab.nameEn }}</span>
-        </button>
-      </div>
-
-      <!-- 職業武器列表 -->
-      <div class="equipment-grid">
-        <RouterLink
-          v-for="weapon in bossData.equipment.classWeapons[activeClassTab]"
-          :key="weapon.name"
-          :to="weapon.route"
-          :class="[
-            'equipment-card',
-            'equipment-card--clickable',
-            { 'equipment-card--has-page': weapon.hasPage },
-          ]"
-        >
-          <img
-            :src="weapon.icon"
-            :alt="weapon.name"
-            class="equipment-card__icon"
-          />
-          <div class="equipment-card__content">
-            <span class="equipment-card__name">
-              {{ weapon.name }}
-              <small>({{ weapon.nameEn }})</small>
-            </span>
-            <span class="equipment-card__ammo">{{
-              weapon.ammo === "無" ? "無消耗" : `消耗：${weapon.ammo}`
-            }}</span>
-            <p class="equipment-card__desc">{{ weapon.description }}</p>
-          </div>
-          <div class="equipment-card__link-indicator">
-            <span v-if="weapon.hasPage" class="equipment-card__view-link">
-              查看詳情
-              <ChevronRight :size="14" />
-            </span>
-            <span v-else class="equipment-card__coming-soon">即將推出</span>
-          </div>
-        </RouterLink>
-      </div>
-
-      <!-- 飾品推薦 -->
-      <h3 class="subsection-title">💍 飾品</h3>
-      <div class="equipment-grid equipment-grid--accessories">
-        <div
-          v-for="accessory in bossData.equipment.accessories"
-          :key="accessory.name"
-          class="equipment-card equipment-card--compact"
-        >
-          <img
-            :src="accessory.icon"
-            :alt="accessory.name"
-            class="equipment-card__icon"
-          />
-          <div class="equipment-card__content">
-            <span class="equipment-card__name">{{ accessory.name }}</span>
-            <p class="equipment-card__desc">{{ accessory.description }}</p>
-          </div>
+        <div class="stats-table-wrapper">
+          <table class="stats-table">
+            <thead>
+              <tr>
+                <th class="stats-table__header stats-table__header--attr">
+                  屬性
+                </th>
+                <th class="stats-table__header stats-table__header--retinazer">
+                  <div class="table-header-content">
+                    <img
+                      :src="bossData.twins.retinazer.icon"
+                      alt="Retinazer"
+                      class="table-icon"
+                    />
+                    <span>雷射眼 <small>(Retinazer)</small></span>
+                  </div>
+                </th>
+                <th class="stats-table__header stats-table__header--spazmatism">
+                  <div class="table-header-content">
+                    <img
+                      :src="bossData.twins.spazmatism.icon"
+                      alt="Spazmatism"
+                      class="table-icon"
+                    />
+                    <span>魔焰眼 <small>(Spazmatism)</small></span>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="stats-table__label">
+                  <Heart :size="14" class="mr-1" /> 血量
+                </td>
+                <td class="stats-table__value">
+                  {{ bossData.twins.retinazer.stats.maxLife.toLocaleString() }}
+                </td>
+                <td class="stats-table__value">
+                  {{ bossData.twins.spazmatism.stats.maxLife.toLocaleString() }}
+                </td>
+              </tr>
+              <tr>
+                <td class="stats-table__label">
+                  <Shield :size="14" class="mr-1" /> 防禦
+                </td>
+                <td class="stats-table__value">
+                  {{ bossData.twins.retinazer.stats.defense }}
+                </td>
+                <td class="stats-table__value">
+                  {{ bossData.twins.spazmatism.stats.defense }}
+                </td>
+              </tr>
+              <tr>
+                <td class="stats-table__label">
+                  <Swords :size="14" class="mr-1" /> 傷害
+                </td>
+                <td class="stats-table__value">
+                  {{ bossData.twins.retinazer.stats.damage }}
+                </td>
+                <td class="stats-table__value">
+                  {{ bossData.twins.spazmatism.stats.damage }}
+                </td>
+              </tr>
+              <tr>
+                <td class="stats-table__label">
+                  <Zap :size="14" class="mr-1" /> 第一階段攻擊
+                </td>
+                <td class="stats-table__value stats-table__value--text">
+                  {{ bossData.twins.retinazer.phase1.attack }}
+                </td>
+                <td class="stats-table__value stats-table__value--text">
+                  {{ bossData.twins.spazmatism.phase1.attack }}
+                </td>
+              </tr>
+              <tr>
+                <td class="stats-table__label">
+                  <Flame :size="14" class="mr-1" /> 第二階段攻擊
+                </td>
+                <td class="stats-table__value stats-table__value--text">
+                  {{ bossData.twins.retinazer.phase2.attack }}
+                </td>
+                <td
+                  class="stats-table__value stats-table__value--text stats-table__value--danger"
+                >
+                  {{ bossData.twins.spazmatism.phase2.attack }}
+                </td>
+              </tr>
+              <tr>
+                <td class="stats-table__label">
+                  <AlertTriangle :size="14" class="mr-1" /> 危險等級
+                </td>
+                <td class="stats-table__value">
+                  <span class="danger-badge danger-badge--medium">中等</span>
+                </td>
+                <td class="stats-table__value">
+                  <span class="danger-badge danger-badge--high">極高</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </div>
 
-      <!-- 護甲 -->
-      <h3 class="subsection-title">🛡️ 護甲</h3>
-      <div class="armor-card">
-        <img
-          :src="bossData.equipment.armor.icon"
-          :alt="bossData.equipment.armor.name"
-          class="armor-card__icon"
-        />
-        <div class="armor-card__content">
-          <span class="armor-card__name">
-            {{ bossData.equipment.armor.name }}
-            <small>({{ bossData.equipment.armor.nameEn }})</small>
-          </span>
-          <p class="armor-card__desc">
-            {{ bossData.equipment.armor.description }}
+        <!-- 魔焰眼警告 -->
+        <div class="warning-box">
+          <AlertTriangle :size="20" class="warning-box__icon" />
+          <p class="warning-box__text">
+            <strong>⚠️ 重要警告：</strong
+            >{{ bossData.twins.spazmatism.phase2.warning }}
           </p>
         </div>
-      </div>
+      </section>
 
-      <!-- Buff 藥水 -->
-      <h3 class="subsection-title">🧪 推薦 Buff</h3>
-      <div class="buffs-list">
-        <span
-          v-for="buff in bossData.equipment.buffs"
-          :key="buff"
-          class="buff-tag"
-        >
-          {{ buff }}
-        </span>
-      </div>
-    </section>
-
-    <!-- ========================================
-         Drops Section - 掉落物
+      <!-- ========================================
+         Combat Phases - 戰鬥階段
          ======================================== -->
-    <section id="drops" class="section-card">
-      <h2 class="section-heading">
-        <Package :size="20" class="section-heading__icon" />
-        <span>掉落物</span>
-      </h2>
+      <section class="section-card">
+        <h2 id="phases" class="section-heading">
+          <Swords :size="20" class="section-heading__icon" />
+          <span>戰鬥階段</span>
+        </h2>
 
-      <div class="drops-grid">
-        <div v-for="drop in bossData.drops" :key="drop.name" class="drop-card">
-          <img :src="drop.icon" :alt="drop.name" class="drop-card__icon" />
-          <div class="drop-card__content">
-            <div class="drop-card__header">
-              <span class="drop-card__name">{{ drop.name }}</span>
-              <span class="drop-card__chance">{{ drop.chance }}</span>
+        <div class="phases-grid">
+          <div
+            v-for="phaseInfo in bossData.combat.phases"
+            :key="phaseInfo.phase"
+            :class="['phase-card', `phase-card--${phaseInfo.danger}`]"
+          >
+            <div class="phase-card__header">
+              <span class="phase-card__phase">{{ phaseInfo.phase }}</span>
+              <span
+                :class="[
+                  'phase-card__danger',
+                  `phase-card__danger--${phaseInfo.danger}`,
+                ]"
+              >
+                {{ phaseInfo.danger === "high" ? "高危險" : "中等難度" }}
+              </span>
             </div>
-            <span class="drop-card__name-en">{{ drop.nameEn }}</span>
-            <span class="drop-card__amount">數量：{{ drop.amount }}</span>
-            <p class="drop-card__desc">{{ drop.description }}</p>
+            <p class="phase-card__desc">{{ phaseInfo.description }}</p>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <!-- ========================================
+         Core Strategy - 核心戰術
+         ======================================== -->
+      <section class="strategy-highlight">
+        <div class="strategy-highlight__header">
+          <Target :size="24" class="strategy-highlight__icon" />
+          <h2 id="strategy" class="strategy-highlight__title">
+            {{ bossData.combat.coreStrategy.title }}
+          </h2>
+        </div>
+
+        <div class="strategy-highlight__priority">
+          <span class="priority-badge">🎯 關鍵戰術</span>
+          <p class="priority-text">
+            {{ bossData.combat.coreStrategy.priority }}
+          </p>
+        </div>
+
+        <p class="strategy-highlight__reason">
+          {{ bossData.combat.coreStrategy.reason }}
+        </p>
+
+        <ol class="strategy-steps">
+          <li
+            v-for="(step, index) in bossData.combat.coreStrategy.steps"
+            :key="index"
+            class="strategy-step"
+          >
+            <span class="strategy-step__number">{{ index + 1 }}</span>
+            <span class="strategy-step__text">{{ step }}</span>
+          </li>
+        </ol>
+      </section>
+
+      <!-- ========================================
+         Equipment Section - 推薦裝備
+         ======================================== -->
+      <section class="section-card">
+        <h2 id="equipment" class="section-heading">
+          <Crosshair :size="20" class="section-heading__icon" />
+          <span>推薦裝備</span>
+        </h2>
+
+        <!-- 職業 Tabs -->
+        <h3 class="subsection-title">🗡️ 職業武器推薦</h3>
+
+        <div class="class-tabs">
+          <button
+            v-for="tab in bossData.equipment.classTabs"
+            :key="tab.id"
+            :class="[
+              'class-tab',
+              { 'class-tab--active': activeClassTab === tab.id },
+            ]"
+            :style="{ '--tab-color': tab.color }"
+            @click="activeClassTab = tab.id"
+          >
+            <span class="class-tab__icon">{{ tab.icon }}</span>
+            <span class="class-tab__name">{{ tab.name }}</span>
+            <span class="class-tab__name-en">{{ tab.nameEn }}</span>
+          </button>
+        </div>
+
+        <!-- 職業武器列表 -->
+        <div class="equipment-grid">
+          <RouterLink
+            v-for="weapon in bossData.equipment.classWeapons[activeClassTab]"
+            :key="weapon.name"
+            :to="weapon.route"
+            :class="[
+              'equipment-card',
+              'equipment-card--clickable',
+              { 'equipment-card--has-page': weapon.hasPage },
+            ]"
+          >
+            <img
+              :src="weapon.icon"
+              :alt="weapon.name"
+              class="equipment-card__icon"
+            />
+            <div class="equipment-card__content">
+              <span class="equipment-card__name">
+                {{ weapon.name }}
+                <small>({{ weapon.nameEn }})</small>
+              </span>
+              <span class="equipment-card__ammo">{{
+                weapon.ammo === "無" ? "無消耗" : `消耗：${weapon.ammo}`
+              }}</span>
+              <p class="equipment-card__desc">{{ weapon.description }}</p>
+            </div>
+            <div class="equipment-card__link-indicator">
+              <span v-if="weapon.hasPage" class="equipment-card__view-link">
+                查看詳情
+                <ChevronRight :size="14" />
+              </span>
+              <span v-else class="equipment-card__coming-soon">即將推出</span>
+            </div>
+          </RouterLink>
+        </div>
+
+        <!-- 飾品推薦 -->
+        <h3 class="subsection-title">💍 飾品</h3>
+        <div class="equipment-grid equipment-grid--accessories">
+          <div
+            v-for="accessory in bossData.equipment.accessories"
+            :key="accessory.name"
+            class="equipment-card equipment-card--compact"
+          >
+            <img
+              :src="accessory.icon"
+              :alt="accessory.name"
+              class="equipment-card__icon"
+            />
+            <div class="equipment-card__content">
+              <span class="equipment-card__name">{{ accessory.name }}</span>
+              <p class="equipment-card__desc">{{ accessory.description }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 護甲 -->
+        <h3 class="subsection-title">🛡️ 護甲</h3>
+        <div class="armor-card">
+          <img
+            :src="bossData.equipment.armor.icon"
+            :alt="bossData.equipment.armor.name"
+            class="armor-card__icon"
+          />
+          <div class="armor-card__content">
+            <span class="armor-card__name">
+              {{ bossData.equipment.armor.name }}
+              <small>({{ bossData.equipment.armor.nameEn }})</small>
+            </span>
+            <p class="armor-card__desc">
+              {{ bossData.equipment.armor.description }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Buff 藥水 -->
+        <h3 class="subsection-title">🧪 推薦 Buff</h3>
+        <div class="buffs-list">
+          <span
+            v-for="buff in bossData.equipment.buffs"
+            :key="buff"
+            class="buff-tag"
+          >
+            {{ buff }}
+          </span>
+        </div>
+      </section>
+
+      <!-- ========================================
+         Drops Section - 掉落物
+         ======================================== -->
+      <section class="section-card">
+        <h2 id="drops" class="section-heading">
+          <Package :size="20" class="section-heading__icon" />
+          <span>掉落物</span>
+        </h2>
+
+        <div class="drops-grid">
+          <div
+            v-for="drop in bossData.drops"
+            :key="drop.name"
+            class="drop-card"
+          >
+            <img :src="drop.icon" :alt="drop.name" class="drop-card__icon" />
+            <div class="drop-card__content">
+              <div class="drop-card__header">
+                <span class="drop-card__name">{{ drop.name }}</span>
+                <span class="drop-card__chance">{{ drop.chance }}</span>
+              </div>
+              <span class="drop-card__name-en">{{ drop.nameEn }}</span>
+              <span class="drop-card__amount">數量：{{ drop.amount }}</span>
+              <p class="drop-card__desc">{{ drop.description }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   </DocLayout>
 </template>
