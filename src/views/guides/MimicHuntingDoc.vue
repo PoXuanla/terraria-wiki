@@ -74,8 +74,7 @@ import BaseIcon from "@/components/BaseIcon.vue";
 
         <ol>
           <li>
-            <strong>取得鑰匙</strong> -
-            在對應生物群系擊殺敵人，或使用靈魂合成
+            <strong>取得鑰匙</strong> - 在對應生物群系擊殺敵人，或使用靈魂合成
           </li>
           <li>
             <strong>放置空寶箱</strong> - 任何類型的寶箱都可以，確保完全清空
@@ -101,7 +100,8 @@ import BaseIcon from "@/components/BaseIcon.vue";
 
         <h3>自然掉落</h3>
         <p>
-          在對應的地下生物群系擊殺敵人時，有 <code>1/2500</code> 的機率掉落鑰匙。
+          在對應的地下生物群系擊殺敵人時，有
+          <code>1/2500</code> 的機率掉落鑰匙。
           雖然機率極低，但在刷怪過程中偶爾會意外獲得。
         </p>
 

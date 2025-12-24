@@ -1,5 +1,6 @@
 <script setup>
 import { ExternalLink, Swords, Target, Zap, Clock, Wind, Star, Sparkles, TrendingUp, Package, ChevronRight } from 'lucide-vue-next'
+import DocLayout from '@/layouts/DocLayout.vue'
 
 /**
  * 代達羅斯風暴弓 - 武器詳情資料
@@ -83,7 +84,8 @@ const getRarityGradient = (level) => {
 </script>
 
 <template>
-  <div class="weapon-page">
+  <DocLayout title="本頁目錄">
+    <div class="weapon-page">
     <!-- ========================================
          Hero Section - 頂部展示區
          ======================================== -->
@@ -143,8 +145,8 @@ const getRarityGradient = (level) => {
     <!-- ========================================
          Stats Grid - 數據網格
          ======================================== -->
-    <section class="stats-section">
-      <h2 class="section-heading">
+    <section class="section-card">
+      <h2 id="stats" class="section-heading">
         <TrendingUp :size="20" class="section-heading__icon" />
         <span>屬性數據</span>
       </h2>
@@ -192,8 +194,8 @@ const getRarityGradient = (level) => {
     <!-- ========================================
          Strategy Card - 戰術指南
          ======================================== -->
-    <section class="strategy-section">
-      <h2 class="section-heading">
+    <section class="section-card">
+      <h2 id="strategy" class="section-heading">
         <Zap :size="20" class="section-heading__icon" />
         <span>戰術指南</span>
       </h2>
@@ -262,8 +264,8 @@ const getRarityGradient = (level) => {
     <!-- ========================================
          Acquisition - 取得途徑
          ======================================== -->
-    <section class="acquisition-section">
-      <h2 class="section-heading">
+    <section class="section-card">
+      <h2 id="acquisition" class="section-heading">
         <Package :size="20" class="section-heading__icon" />
         <span>取得途徑</span>
       </h2>
@@ -300,7 +302,8 @@ const getRarityGradient = (level) => {
         💡 {{ weaponData.acquisition.notes }}
       </p>
     </section>
-  </div>
+    </div>
+  </DocLayout>
 </template>
 
 <style scoped>
@@ -308,11 +311,24 @@ const getRarityGradient = (level) => {
    頁面容器
    ========================================== */
 .weapon-page {
-  max-width: 1000px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+/* ==========================================
+   Section Card
+   ========================================== */
+.section-card {
+  background: var(--color-bg-card);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
+}
+
+:global(.dark) .section-card {
+  box-shadow: none;
+  border: 1px solid var(--color-border);
 }
 
 /* ==========================================
@@ -491,6 +507,7 @@ const getRarityGradient = (level) => {
   font-weight: 600;
   color: var(--color-text-primary);
   margin: 0 0 1rem;
+  scroll-margin-top: 6rem;
 }
 
 .section-heading__icon {

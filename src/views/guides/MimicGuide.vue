@@ -263,50 +263,50 @@ const completionPercent = computed(() => {
 
         <!-- 算式視覺 -->
         <div class="summon-formula">
-        <div class="formula-item">
-          <div class="formula-item__icon-box formula-item__icon-box--chest">
-            <span class="formula-item__emoji">📦</span>
+          <div class="formula-item">
+            <div class="formula-item__icon-box formula-item__icon-box--chest">
+              <span class="formula-item__emoji">📦</span>
+            </div>
+            <span class="formula-item__label">空寶箱</span>
           </div>
-          <span class="formula-item__label">空寶箱</span>
-        </div>
 
-        <div class="formula-operator">
-          <Plus :size="24" />
-        </div>
-
-        <div class="formula-item">
-          <div class="formula-item__icon-box formula-item__icon-box--key">
-            <BaseIcon
-              icon="https://terraria.wiki.gg/images/3/30/Key_of_Light.png"
-              :size="40"
-            />
+          <div class="formula-operator">
+            <Plus :size="24" />
           </div>
-          <span class="formula-item__label">鑰匙 × 1</span>
-        </div>
 
-        <div class="formula-operator">
-          <Equal :size="24" />
-        </div>
-
-        <div class="formula-item">
-          <div class="formula-item__icon-box formula-item__icon-box--mimic">
-            <BaseIcon
-              icon="https://terraria.wiki.gg/images/7/7c/Hallowed_Mimic.png"
-              :size="48"
-            />
+          <div class="formula-item">
+            <div class="formula-item__icon-box formula-item__icon-box--key">
+              <BaseIcon
+                icon="https://terraria.wiki.gg/images/3/30/Key_of_Light.png"
+                :size="40"
+              />
+            </div>
+            <span class="formula-item__label">鑰匙 × 1</span>
           </div>
-          <span class="formula-item__label">寶箱怪！</span>
+
+          <div class="formula-operator">
+            <Equal :size="24" />
+          </div>
+
+          <div class="formula-item">
+            <div class="formula-item__icon-box formula-item__icon-box--mimic">
+              <BaseIcon
+                icon="https://terraria.wiki.gg/images/7/7c/Hallowed_Mimic.png"
+                :size="48"
+              />
+            </div>
+            <span class="formula-item__label">寶箱怪！</span>
+          </div>
         </div>
-      </div>
 
         <!-- 注意事項 -->
         <div class="summon-warning">
-        <AlertTriangle :size="18" class="summon-warning__icon" />
-        <p class="summon-warning__text">
-          <strong>注意：</strong>寶箱必須是<em>空的</em>，且只需放入
-          <strong>1 把</strong>鑰匙。 關閉寶箱後會立即變身，請做好戰鬥準備！
-        </p>
-      </div>
+          <AlertTriangle :size="18" class="summon-warning__icon" />
+          <p class="summon-warning__text">
+            <strong>注意：</strong>寶箱必須是<em>空的</em>，且只需放入
+            <strong>1 把</strong>鑰匙。 關閉寶箱後會立即變身，請做好戰鬥準備！
+          </p>
+        </div>
 
         <!-- 步驟說明 -->
         <div class="summon-steps">
@@ -334,65 +334,65 @@ const completionPercent = computed(() => {
 
         <!-- 卡片網格 -->
         <div class="mimic-grid">
-        <article
-          v-for="mimic in mimicTypes"
-          :key="mimic.id"
-          class="mimic-card"
-          :style="{ '--card-accent': mimic.borderColor }"
-        >
-          <!-- 卡片頂部 - 寶箱怪資訊 -->
-          <div
-            class="mimic-card__header"
-            :class="`bg-gradient-to-br ${mimic.cardGradient}`"
+          <article
+            v-for="mimic in mimicTypes"
+            :key="mimic.id"
+            class="mimic-card"
+            :style="{ '--card-accent': mimic.borderColor }"
           >
-            <img
-              :src="mimic.mimicIcon"
-              :alt="mimic.name"
-              class="mimic-card__icon"
-            />
-            <div class="mimic-card__title-group">
-              <h3 class="mimic-card__name">{{ mimic.name }}</h3>
-              <span class="mimic-card__name-en">{{ mimic.nameEn }}</span>
+            <!-- 卡片頂部 - 寶箱怪資訊 -->
+            <div
+              class="mimic-card__header"
+              :class="`bg-gradient-to-br ${mimic.cardGradient}`"
+            >
+              <img
+                :src="mimic.mimicIcon"
+                :alt="mimic.name"
+                class="mimic-card__icon"
+              />
+              <div class="mimic-card__title-group">
+                <h3 class="mimic-card__name">{{ mimic.name }}</h3>
+                <span class="mimic-card__name-en">{{ mimic.nameEn }}</span>
+              </div>
+              <span class="mimic-card__biome-tag">{{ mimic.biome }}</span>
             </div>
-            <span class="mimic-card__biome-tag">{{ mimic.biome }}</span>
-          </div>
 
-          <!-- 召喚條件 -->
-          <div class="mimic-card__summon">
-            <span class="mimic-card__summon-label">召喚所需</span>
-            <div class="mimic-card__key">
-              <BaseIcon :icon="mimic.keyRequired.icon" :size="28" />
-              <span class="mimic-card__key-name">{{
-                mimic.keyRequired.name
-              }}</span>
-            </div>
-          </div>
-
-          <!-- 掉落物 -->
-          <div class="mimic-card__drops">
-            <span class="mimic-card__drops-label">
-              <Swords :size="14" />
-              關鍵掉落物
-            </span>
-            <div class="mimic-card__drops-list">
-              <div
-                v-for="drop in mimic.drops"
-                :key="drop.nameEn"
-                :class="[
-                  'drop-item',
-                  { 'drop-item--highlight': drop.highlight },
-                ]"
-              >
-                <BaseIcon
-                  :icon="drop.icon"
-                  :size="32"
-                  class="drop-item__icon"
-                />
-                <span class="drop-item__name">{{ drop.name }}</span>
+            <!-- 召喚條件 -->
+            <div class="mimic-card__summon">
+              <span class="mimic-card__summon-label">召喚所需</span>
+              <div class="mimic-card__key">
+                <BaseIcon :icon="mimic.keyRequired.icon" :size="28" />
+                <span class="mimic-card__key-name">{{
+                  mimic.keyRequired.name
+                }}</span>
               </div>
             </div>
-          </div>
-        </article>
+
+            <!-- 掉落物 -->
+            <div class="mimic-card__drops">
+              <span class="mimic-card__drops-label">
+                <Swords :size="14" />
+                關鍵掉落物
+              </span>
+              <div class="mimic-card__drops-list">
+                <div
+                  v-for="drop in mimic.drops"
+                  :key="drop.nameEn"
+                  :class="[
+                    'drop-item',
+                    { 'drop-item--highlight': drop.highlight },
+                  ]"
+                >
+                  <BaseIcon
+                    :icon="drop.icon"
+                    :size="32"
+                    class="drop-item__icon"
+                  />
+                  <span class="drop-item__name">{{ drop.name }}</span>
+                </div>
+              </div>
+            </div>
+          </article>
         </div>
       </section>
 
@@ -409,50 +409,50 @@ const completionPercent = computed(() => {
 
         <!-- 互動式清單 -->
         <div class="preparation-section">
-        <!-- 進度條 -->
-        <div class="preparation-progress">
-          <div class="preparation-progress__bar">
-            <div
-              class="preparation-progress__fill"
-              :style="{ width: `${completionPercent}%` }"
-            ></div>
-          </div>
-          <span class="preparation-progress__text">
-            {{ completionPercent }}% 完成
-          </span>
-        </div>
-
-        <!-- 清單項目 -->
-        <div class="checklist">
-          <div
-            v-for="item in preparationList"
-            :key="item.id"
-            :class="[
-              'checklist-item',
-              { 'checklist-item--checked': item.checked },
-            ]"
-            @click="toggleCheck(item)"
-          >
-            <div class="checklist-item__checkbox">
-              <CheckCircle2
-                v-if="item.checked"
-                :size="20"
-                class="checklist-item__icon--checked"
-              />
-              <Circle
-                v-else
-                :size="20"
-                class="checklist-item__icon--unchecked"
-              />
+          <!-- 進度條 -->
+          <div class="preparation-progress">
+            <div class="preparation-progress__bar">
+              <div
+                class="preparation-progress__fill"
+                :style="{ width: `${completionPercent}%` }"
+              ></div>
             </div>
-            <component
-              :is="item.icon"
-              :size="18"
-              class="checklist-item__type-icon"
-            />
-            <span class="checklist-item__text">{{ item.text }}</span>
+            <span class="preparation-progress__text">
+              {{ completionPercent }}% 完成
+            </span>
           </div>
-        </div>
+
+          <!-- 清單項目 -->
+          <div class="checklist">
+            <div
+              v-for="item in preparationList"
+              :key="item.id"
+              :class="[
+                'checklist-item',
+                { 'checklist-item--checked': item.checked },
+              ]"
+              @click="toggleCheck(item)"
+            >
+              <div class="checklist-item__checkbox">
+                <CheckCircle2
+                  v-if="item.checked"
+                  :size="20"
+                  class="checklist-item__icon--checked"
+                />
+                <Circle
+                  v-else
+                  :size="20"
+                  class="checklist-item__icon--unchecked"
+                />
+              </div>
+              <component
+                :is="item.icon"
+                :size="18"
+                class="checklist-item__type-icon"
+              />
+              <span class="checklist-item__text">{{ item.text }}</span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -469,50 +469,50 @@ const completionPercent = computed(() => {
 
         <!-- 鑰匙合成卡片 -->
         <div class="recipes-grid">
-        <div
-          v-for="key in keyRecipes"
-          :key="key.nameEn"
-          class="recipe-card"
-          :style="{ '--recipe-accent': key.biomeColor }"
-        >
-          <div class="recipe-card__header">
-            <BaseIcon :icon="key.icon" :size="36" class="recipe-card__icon" />
-            <div class="recipe-card__title">
-              <span class="recipe-card__name">{{ key.name }}</span>
-              <span class="recipe-card__name-en">{{ key.nameEn }}</span>
-            </div>
-          </div>
-
-          <div class="recipe-card__content">
-            <div class="recipe-card__materials">
-              <span class="recipe-card__label">合成材料</span>
-              <div
-                v-for="mat in key.materials"
-                :key="mat.name"
-                class="recipe-card__material"
-              >
-                <BaseIcon :icon="mat.icon" :size="24" />
-                <span>{{ mat.name }}</span>
+          <div
+            v-for="key in keyRecipes"
+            :key="key.nameEn"
+            class="recipe-card"
+            :style="{ '--recipe-accent': key.biomeColor }"
+          >
+            <div class="recipe-card__header">
+              <BaseIcon :icon="key.icon" :size="36" class="recipe-card__icon" />
+              <div class="recipe-card__title">
+                <span class="recipe-card__name">{{ key.name }}</span>
+                <span class="recipe-card__name-en">{{ key.nameEn }}</span>
               </div>
             </div>
 
-            <div class="recipe-card__info">
-              <div class="recipe-card__info-row">
-                <span class="recipe-card__label">合成站</span>
-                <span>{{ key.craftStation }}</span>
-              </div>
-              <div class="recipe-card__info-row">
-                <span class="recipe-card__label">刷取地點</span>
-                <span
-                  class="recipe-card__biome"
-                  :style="{ color: key.biomeColor }"
-                  >{{ key.biome }}</span
+            <div class="recipe-card__content">
+              <div class="recipe-card__materials">
+                <span class="recipe-card__label">合成材料</span>
+                <div
+                  v-for="mat in key.materials"
+                  :key="mat.name"
+                  class="recipe-card__material"
                 >
+                  <BaseIcon :icon="mat.icon" :size="24" />
+                  <span>{{ mat.name }}</span>
+                </div>
+              </div>
+
+              <div class="recipe-card__info">
+                <div class="recipe-card__info-row">
+                  <span class="recipe-card__label">合成站</span>
+                  <span>{{ key.craftStation }}</span>
+                </div>
+                <div class="recipe-card__info-row">
+                  <span class="recipe-card__label">刷取地點</span>
+                  <span
+                    class="recipe-card__biome"
+                    :style="{ color: key.biomeColor }"
+                    >{{ key.biome }}</span
+                  >
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
         <!-- 提示 -->
         <div class="recipe-tip">
@@ -536,9 +536,7 @@ const completionPercent = computed(() => {
         </p>
 
         <ul>
-          <li>
-            <strong>保持移動</strong> - 利用翅膀保持距離，不要被逼到角落
-          </li>
+          <li><strong>保持移動</strong> - 利用翅膀保持距離，不要被逼到角落</li>
           <li><strong>遠程優先</strong> - 使用弓箭或槍械可以更安全地輸出</li>
           <li><strong>場地準備</strong> - 建造約 50-80 格長的平坦戰鬥場地</li>
           <li><strong>回復設施</strong> - 放置篝火和心形燈籠增加回復速度</li>

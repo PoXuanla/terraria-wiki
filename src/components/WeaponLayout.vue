@@ -1,5 +1,6 @@
 <script setup>
 import { ExternalLink, Swords, Target, Clock, Wind, Star, Sparkles, TrendingUp, Package, Hammer, Trophy, ChevronRight } from 'lucide-vue-next'
+import DocLayout from '@/layouts/DocLayout.vue'
 
 /**
  * WeaponLayout - 可重用的武器頁面佈局組件
@@ -68,11 +69,12 @@ const classIcons = {
 </script>
 
 <template>
-  <div class="weapon-page">
-    <!-- ========================================
-         Hero Section - 頂部展示區
-         ======================================== -->
-    <section class="hero" :style="{ '--rarity-color': weapon.rarity.color }">
+  <DocLayout title="本頁目錄">
+    <div class="weapon-page">
+      <!-- ========================================
+           Hero Section - 頂部展示區
+           ======================================== -->
+      <section class="hero" :style="{ '--rarity-color': weapon.rarity.color }">
       <!-- 背景裝飾 -->
       <div class="hero__bg">
         <div class="hero__bg-pattern"></div>
@@ -129,11 +131,11 @@ const classIcons = {
     <!-- ========================================
          Stats Grid - 數據網格
          ======================================== -->
-    <section class="stats-section">
-      <h2 class="section-heading">
-        <TrendingUp :size="20" class="section-heading__icon" />
-        <span>屬性數據</span>
-      </h2>
+      <section class="section-card">
+        <h2 id="stats" class="section-heading">
+          <TrendingUp :size="20" class="section-heading__icon" />
+          <span>屬性數據</span>
+        </h2>
       
       <div class="stats-grid">
         <!-- 傷害 -->
@@ -194,17 +196,17 @@ const classIcons = {
             </div>
           </div>
         </div>
-      </div>
-    </section>
+        </div>
+      </section>
 
-    <!-- ========================================
-         Source Section - 取得方式
-         ======================================== -->
-    <section class="source-section">
-      <h2 class="section-heading">
-        <Package :size="20" class="section-heading__icon" />
-        <span>取得方式</span>
-      </h2>
+      <!-- ========================================
+           Source Section - 取得方式
+           ======================================== -->
+      <section class="section-card">
+        <h2 id="source" class="section-heading">
+          <Package :size="20" class="section-heading__icon" />
+          <span>取得方式</span>
+        </h2>
       
       <!-- 製作配方 -->
       <div v-if="weapon.source.type === 'crafting'" class="source-card source-card--crafting">
@@ -249,27 +251,28 @@ const classIcons = {
         <p v-if="weapon.source.notes" class="source-card__notes">
           💡 {{ weapon.source.notes }}
         </p>
-      </div>
-    </section>
+        </div>
+      </section>
 
-    <!-- ========================================
-         Why Good Section - 推薦理由
-         ======================================== -->
-    <section class="whygood-section">
-      <h2 class="section-heading">
-        <Trophy :size="20" class="section-heading__icon" />
-        <span>為何推薦？</span>
-      </h2>
+      <!-- ========================================
+           Why Good Section - 推薦理由
+           ======================================== -->
+      <section class="section-card">
+        <h2 id="whygood" class="section-heading">
+          <Trophy :size="20" class="section-heading__icon" />
+          <span>為何推薦？</span>
+        </h2>
       
-      <div class="whygood-card">
-        <Sparkles :size="24" class="whygood-card__icon" />
-        <p class="whygood-card__text">{{ weapon.whyGood }}</p>
-      </div>
-    </section>
+        <div class="whygood-card">
+          <Sparkles :size="24" class="whygood-card__icon" />
+          <p class="whygood-card__text">{{ weapon.whyGood }}</p>
+        </div>
+      </section>
 
-    <!-- 額外內容插槽 -->
-    <slot />
-  </div>
+      <!-- 額外內容插槽 -->
+      <slot />
+    </div>
+  </DocLayout>
 </template>
 
 <style scoped>
@@ -277,11 +280,24 @@ const classIcons = {
    頁面容器
    ========================================== */
 .weapon-page {
-  max-width: 1000px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+/* ==========================================
+   Section Card
+   ========================================== */
+.section-card {
+  background: var(--color-bg-card);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
+}
+
+:global(.dark) .section-card {
+  box-shadow: none;
+  border: 1px solid var(--color-border);
 }
 
 /* ==========================================
@@ -462,6 +478,7 @@ const classIcons = {
   font-weight: 600;
   color: var(--color-text-primary);
   margin: 0 0 1rem;
+  scroll-margin-top: 6rem;
 }
 
 .section-heading__icon {

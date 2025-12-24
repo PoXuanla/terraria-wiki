@@ -267,101 +267,105 @@ const operationTips = [
 
         <!-- 生物群系卡片網格 -->
         <div class="biome-grid">
-        <article
-          v-for="biome in biomeThreats"
-          :key="biome.id"
-          :class="['biome-card', biome.colors.bg, biome.colors.border]"
-        >
-          <div class="biome-card__header">
-            <BaseIcon :icon="biome.icon" :size="40" class="biome-card__icon" />
-            <div class="biome-card__title-group">
-              <h3 :class="['biome-card__name', biome.colors.text]">
-                {{ biome.name }}
-              </h3>
-              <span class="biome-card__name-en">{{ biome.nameEn }}</span>
-            </div>
-            <span
-              v-if="biome.isProtective"
-              class="biome-card__badge biome-card__badge--safe"
-            >
-              <Shield :size="12" />
-              安全
-            </span>
-          </div>
-
-          <p :class="['biome-card__desc', biome.colors.text]">
-            {{ biome.description }}
-          </p>
-
-          <div class="biome-card__spread">
-            <span class="biome-card__label">擴散速度</span>
-            <span class="biome-card__value">{{ biome.spreadRate }}</span>
-          </div>
-
-          <div class="biome-card__blocks">
-            <span class="biome-card__label">影響方塊</span>
-            <div class="biome-card__tags">
-              <span
-                v-for="block in biome.affectedBlocks"
-                :key="block"
-                class="biome-card__tag"
-                >{{ block }}</span
-              >
-            </div>
-          </div>
-
-          <div
-            :class="[
-              'biome-card__danger',
-              biome.isProtective
-                ? 'biome-card__danger--safe'
-                : 'biome-card__danger--warning',
-            ]"
+          <article
+            v-for="biome in biomeThreats"
+            :key="biome.id"
+            :class="['biome-card', biome.colors.bg, biome.colors.border]"
           >
-            <CheckCircle2 v-if="biome.isProtective" :size="16" />
-            <AlertTriangle v-else :size="16" />
-            <span>{{ biome.danger }}</span>
-          </div>
-        </article>
-      </div>
+            <div class="biome-card__header">
+              <BaseIcon
+                :icon="biome.icon"
+                :size="40"
+                class="biome-card__icon"
+              />
+              <div class="biome-card__title-group">
+                <h3 :class="['biome-card__name', biome.colors.text]">
+                  {{ biome.name }}
+                </h3>
+                <span class="biome-card__name-en">{{ biome.nameEn }}</span>
+              </div>
+              <span
+                v-if="biome.isProtective"
+                class="biome-card__badge biome-card__badge--safe"
+              >
+                <Shield :size="12" />
+                安全
+              </span>
+            </div>
+
+            <p :class="['biome-card__desc', biome.colors.text]">
+              {{ biome.description }}
+            </p>
+
+            <div class="biome-card__spread">
+              <span class="biome-card__label">擴散速度</span>
+              <span class="biome-card__value">{{ biome.spreadRate }}</span>
+            </div>
+
+            <div class="biome-card__blocks">
+              <span class="biome-card__label">影響方塊</span>
+              <div class="biome-card__tags">
+                <span
+                  v-for="block in biome.affectedBlocks"
+                  :key="block"
+                  class="biome-card__tag"
+                  >{{ block }}</span
+                >
+              </div>
+            </div>
+
+            <div
+              :class="[
+                'biome-card__danger',
+                biome.isProtective
+                  ? 'biome-card__danger--safe'
+                  : 'biome-card__danger--warning',
+              ]"
+            >
+              <CheckCircle2 v-if="biome.isProtective" :size="16" />
+              <AlertTriangle v-else :size="16" />
+              <span>{{ biome.danger }}</span>
+            </div>
+          </article>
+        </div>
 
         <!-- 方塊擴散機制表 -->
         <h3>方塊擴散一覽</h3>
         <p>不同類型的方塊對侵蝕的反應不同，以下是詳細對照表：</p>
 
         <div class="spread-table">
-        <div class="spread-table__header">
-          <span>方塊類型</span>
-          <span>可被侵蝕</span>
-          <span>備註</span>
-        </div>
-        <div
-          v-for="block in spreadMechanics"
-          :key="block.blockEn"
-          :class="[
-            'spread-table__row',
-            { 'spread-table__row--critical': block.critical },
-          ]"
-        >
-          <div class="spread-table__cell spread-table__cell--block">
-            <BaseIcon :icon="block.icon" :size="24" />
-            <div class="spread-table__block-info">
-              <span class="spread-table__block-name">{{ block.block }}</span>
-              <span class="spread-table__block-en">{{ block.blockEn }}</span>
+          <div class="spread-table__header">
+            <span>方塊類型</span>
+            <span>可被侵蝕</span>
+            <span>備註</span>
+          </div>
+          <div
+            v-for="block in spreadMechanics"
+            :key="block.blockEn"
+            :class="[
+              'spread-table__row',
+              { 'spread-table__row--critical': block.critical },
+            ]"
+          >
+            <div class="spread-table__cell spread-table__cell--block">
+              <BaseIcon :icon="block.icon" :size="24" />
+              <div class="spread-table__block-info">
+                <span class="spread-table__block-name">{{ block.block }}</span>
+                <span class="spread-table__block-en">{{ block.blockEn }}</span>
+              </div>
+            </div>
+            <div class="spread-table__cell spread-table__cell--status">
+              <CheckCircle2
+                v-if="block.canSpread"
+                :size="20"
+                class="spread-table__icon--yes"
+              />
+              <XCircle v-else :size="20" class="spread-table__icon--no" />
+            </div>
+            <div class="spread-table__cell spread-table__cell--note">
+              {{ block.note }}
             </div>
           </div>
-          <div class="spread-table__cell spread-table__cell--status">
-            <CheckCircle2
-              v-if="block.canSpread"
-              :size="20"
-              class="spread-table__icon--yes"
-            />
-            <XCircle v-else :size="20" class="spread-table__icon--no" />
-          </div>
-          <div class="spread-table__cell spread-table__cell--note">
-            {{ block.note }}
-          </div>
-        </div>
         </div>
       </section>
 
@@ -373,109 +377,110 @@ const operationTips = [
 
         <!-- 叢林危機警告區塊 -->
         <div class="jungle-alert dark:bg-yellow-950/40 dark:border-yellow-600">
-        <div class="jungle-alert__header">
-          <div
-            class="jungle-alert__icon-wrapper dark:bg-gradient-to-br dark:from-green-800 dark:to-green-900"
-          >
-            <BaseIcon
-              icon="https://terraria.wiki.gg/images/5/52/Jungle_Spores.png"
-              :size="48"
-            />
-          </div>
-          <div class="jungle-alert__title-group">
-            <span
-              class="jungle-alert__badge dark:bg-yellow-800/50 dark:text-yellow-200"
+          <div class="jungle-alert__header">
+            <div
+              class="jungle-alert__icon-wrapper dark:bg-gradient-to-br dark:from-green-800 dark:to-green-900"
             >
-              <AlertTriangle :size="14" />
-              緊急警告
-            </span>
-            <h3 class="jungle-alert__title dark:text-yellow-100">
-              叢林危機：不可逆的破壞
-            </h3>
-          </div>
-        </div>
-
-        <div class="jungle-alert__content">
-          <div class="jungle-alert__main">
-            <h4 class="jungle-alert__subtitle dark:text-green-300">
-              <TreePine :size="18" />
-              為什麼必須保護叢林？
-            </h4>
-            <p class="jungle-alert__text dark:text-gray-200">
-              叢林是由<strong>淤泥 (Mud)</strong>
-              構成的。當腐化或猩紅侵蝕到叢林邊緣時：
-            </p>
-            <div class="jungle-alert__formula dark:bg-black/30">
-              <div class="formula-step dark:text-gray-300">
-                <BaseIcon
-                  icon="https://terraria.wiki.gg/images/d/d5/Mud_Block.png"
-                  :size="32"
-                />
-                <span>淤泥</span>
-              </div>
-              <ArrowRight
-                :size="24"
-                class="formula-arrow dark:text-yellow-400"
+              <BaseIcon
+                icon="https://terraria.wiki.gg/images/5/52/Jungle_Spores.png"
+                :size="48"
               />
-              <div class="formula-step dark:text-gray-300">
-                <BaseIcon
-                  icon="https://terraria.wiki.gg/images/1/10/Dirt_Block.png"
-                  :size="32"
-                />
-                <span>泥土</span>
-              </div>
-              <ArrowRight
-                :size="24"
-                class="formula-arrow dark:text-yellow-400"
-              />
-              <div
-                class="formula-step formula-step--danger dark:bg-red-900/40 dark:border-red-500 dark:text-red-300"
-              >
-                <BaseIcon
-                  icon="https://terraria.wiki.gg/images/f/f7/Ebonstone_Block.png"
-                  :size="32"
-                />
-                <span>邪惡方塊</span>
-              </div>
             </div>
-            <p
-              class="jungle-alert__text jungle-alert__text--emphasis dark:text-yellow-100 dark:bg-yellow-900/30"
-            >
-              ⚠️ <strong>淤泥 → 泥土 的轉化是不可逆的！</strong>
-              即使你用綠色溶液淨化，泥土也不會變回淤泥。
+            <div class="jungle-alert__title-group">
+              <span
+                class="jungle-alert__badge dark:bg-yellow-800/50 dark:text-yellow-200"
+              >
+                <AlertTriangle :size="14" />
+                緊急警告
+              </span>
+              <h3 class="jungle-alert__title dark:text-yellow-100">
+                叢林危機：不可逆的破壞
+              </h3>
+            </div>
+          </div>
+
+          <div class="jungle-alert__content">
+            <div class="jungle-alert__main">
+              <h4 class="jungle-alert__subtitle dark:text-green-300">
+                <TreePine :size="18" />
+                為什麼必須保護叢林？
+              </h4>
+              <p class="jungle-alert__text dark:text-gray-200">
+                叢林是由<strong>淤泥 (Mud)</strong>
+                構成的。當腐化或猩紅侵蝕到叢林邊緣時：
+              </p>
+              <div class="jungle-alert__formula dark:bg-black/30">
+                <div class="formula-step dark:text-gray-300">
+                  <BaseIcon
+                    icon="https://terraria.wiki.gg/images/d/d5/Mud_Block.png"
+                    :size="32"
+                  />
+                  <span>淤泥</span>
+                </div>
+                <ArrowRight
+                  :size="24"
+                  class="formula-arrow dark:text-yellow-400"
+                />
+                <div class="formula-step dark:text-gray-300">
+                  <BaseIcon
+                    icon="https://terraria.wiki.gg/images/1/10/Dirt_Block.png"
+                    :size="32"
+                  />
+                  <span>泥土</span>
+                </div>
+                <ArrowRight
+                  :size="24"
+                  class="formula-arrow dark:text-yellow-400"
+                />
+                <div
+                  class="formula-step formula-step--danger dark:bg-red-900/40 dark:border-red-500 dark:text-red-300"
+                >
+                  <BaseIcon
+                    icon="https://terraria.wiki.gg/images/f/f7/Ebonstone_Block.png"
+                    :size="32"
+                  />
+                  <span>邪惡方塊</span>
+                </div>
+              </div>
+              <p
+                class="jungle-alert__text jungle-alert__text--emphasis dark:text-yellow-100 dark:bg-yellow-900/30"
+              >
+                ⚠️ <strong>淤泥 → 泥土 的轉化是不可逆的！</strong>
+                即使你用綠色溶液淨化，泥土也不會變回淤泥。
+              </p>
+            </div>
+
+            <div class="jungle-alert__consequence dark:bg-red-900/30">
+              <h4 class="jungle-alert__consequence-title dark:text-red-300">
+                後果
+              </h4>
+              <ul class="jungle-alert__list dark:text-red-200">
+                <li>
+                  <XCircle :size="16" class="list-icon--danger" />
+                  <span>叢林面積永久縮小</span>
+                </li>
+                <li>
+                  <XCircle :size="16" class="list-icon--danger" />
+                  <span>無法刷叢林特有資源</span>
+                </li>
+                <li>
+                  <XCircle :size="16" class="list-icon--danger" />
+                  <span>可能無法召喚世紀之花</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div
+            class="jungle-alert__solution dark:bg-green-900/20 dark:border-green-700 dark:text-green-200"
+          >
+            <Info :size="18" />
+            <p>
+              <strong>解決方案：</strong>在叢林周圍建立
+              <em>神聖之地緩衝區</em>。
+              神聖之地不會侵蝕淤泥，可以有效阻擋腐化/猩紅的推進。
             </p>
           </div>
-
-          <div class="jungle-alert__consequence dark:bg-red-900/30">
-            <h4 class="jungle-alert__consequence-title dark:text-red-300">
-              後果
-            </h4>
-            <ul class="jungle-alert__list dark:text-red-200">
-              <li>
-                <XCircle :size="16" class="list-icon--danger" />
-                <span>叢林面積永久縮小</span>
-              </li>
-              <li>
-                <XCircle :size="16" class="list-icon--danger" />
-                <span>無法刷叢林特有資源</span>
-              </li>
-              <li>
-                <XCircle :size="16" class="list-icon--danger" />
-                <span>可能無法召喚世紀之花</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div
-          class="jungle-alert__solution dark:bg-green-900/20 dark:border-green-700 dark:text-green-200"
-        >
-          <Info :size="18" />
-          <p>
-            <strong>解決方案：</strong>在叢林周圍建立 <em>神聖之地緩衝區</em>。
-            神聖之地不會侵蝕淤泥，可以有效阻擋腐化/猩紅的推進。
-          </p>
-        </div>
         </div>
       </section>
 
@@ -489,39 +494,41 @@ const operationTips = [
 
         <!-- 早期解決方案卡片 -->
         <div class="solutions-grid">
-        <div
-          v-for="solution in earlySolutions"
-          :key="solution.id"
-          class="solution-card"
-        >
-          <div class="solution-card__header">
-            <div v-if="solution.isEmoji" class="solution-card__emoji">
-              {{ solution.icon }}
+          <div
+            v-for="solution in earlySolutions"
+            :key="solution.id"
+            class="solution-card"
+          >
+            <div class="solution-card__header">
+              <div v-if="solution.isEmoji" class="solution-card__emoji">
+                {{ solution.icon }}
+              </div>
+              <BaseIcon
+                v-else
+                :icon="solution.icon"
+                :size="36"
+                class="solution-card__icon"
+              />
+              <div class="solution-card__title">
+                <span class="solution-card__name">{{ solution.name }}</span>
+                <span class="solution-card__name-en">{{
+                  solution.nameEn
+                }}</span>
+              </div>
             </div>
-            <BaseIcon
-              v-else
-              :icon="solution.icon"
-              :size="36"
-              class="solution-card__icon"
-            />
-            <div class="solution-card__title">
-              <span class="solution-card__name">{{ solution.name }}</span>
-              <span class="solution-card__name-en">{{ solution.nameEn }}</span>
-            </div>
-          </div>
 
-          <div class="solution-card__content">
-            <div class="solution-card__effect">
-              <CheckCircle2 :size="14" class="solution-card__effect-icon" />
-              <span>{{ solution.effect }}</span>
-            </div>
-            <div class="solution-card__limitation">
-              <AlertTriangle :size="14" class="solution-card__limit-icon" />
-              <span>{{ solution.limitation }}</span>
+            <div class="solution-card__content">
+              <div class="solution-card__effect">
+                <CheckCircle2 :size="14" class="solution-card__effect-icon" />
+                <span>{{ solution.effect }}</span>
+              </div>
+              <div class="solution-card__limitation">
+                <AlertTriangle :size="14" class="solution-card__limit-icon" />
+                <span>{{ solution.limitation }}</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
         <div class="tip-box">
           <strong>💡 專家提示：</strong>擊敗肉山後，立即在叢林邊界挖掘 4
@@ -542,138 +549,140 @@ const operationTips = [
 
         <!-- 環境改造槍 Hero Section -->
         <div class="clentaminator-section">
-        <div class="clentaminator-hero">
-          <div class="clentaminator-hero__bg"></div>
+          <div class="clentaminator-hero">
+            <div class="clentaminator-hero__bg"></div>
 
-          <div class="clentaminator-hero__content">
-            <div class="clentaminator-hero__badge">
-              <Sparkles :size="14" />
-              <span>終極解決方案</span>
-            </div>
-
-            <div class="clentaminator-hero__main">
-              <div class="clentaminator-hero__icon-wrapper">
-                <BaseIcon
-                  :icon="clentaminatorData.icon"
-                  :size="80"
-                  class="clentaminator-hero__icon"
-                />
+            <div class="clentaminator-hero__content">
+              <div class="clentaminator-hero__badge">
+                <Sparkles :size="14" />
+                <span>終極解決方案</span>
               </div>
 
-              <div class="clentaminator-hero__info">
-                <h3 class="clentaminator-hero__title">
-                  {{ clentaminatorData.name }}
-                </h3>
-                <p class="clentaminator-hero__subtitle">
-                  {{ clentaminatorData.nameEn }}
-                </p>
-
-                <div class="clentaminator-hero__stats">
-                  <div class="stat-pill">
-                    <Target :size="14" />
-                    <span>範圍 {{ clentaminatorData.stats.range }}</span>
-                  </div>
-                  <div class="stat-pill">
-                    <Layers :size="14" />
-                    <span>{{ clentaminatorData.stats.penetration }}</span>
-                  </div>
-                  <div class="stat-pill">
-                    <Zap :size="14" />
-                    <span>{{ clentaminatorData.stats.speed }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 取得條件 -->
-            <div class="clentaminator-hero__acquire">
-              <div class="acquire-card">
-                <div class="acquire-card__header">
-                  <User :size="16" />
-                  <span>販售 NPC</span>
-                </div>
-                <div class="acquire-card__content">
+              <div class="clentaminator-hero__main">
+                <div class="clentaminator-hero__icon-wrapper">
                   <BaseIcon
-                    :icon="clentaminatorData.seller.icon"
-                    :size="40"
-                    class="acquire-card__npc-icon"
+                    :icon="clentaminatorData.icon"
+                    :size="80"
+                    class="clentaminator-hero__icon"
                   />
-                  <div class="acquire-card__npc-info">
-                    <span class="acquire-card__npc-name">{{
-                      clentaminatorData.seller.name
-                    }}</span>
-                    <span class="acquire-card__npc-en">{{
-                      clentaminatorData.seller.nameEn
+                </div>
+
+                <div class="clentaminator-hero__info">
+                  <h3 class="clentaminator-hero__title">
+                    {{ clentaminatorData.name }}
+                  </h3>
+                  <p class="clentaminator-hero__subtitle">
+                    {{ clentaminatorData.nameEn }}
+                  </p>
+
+                  <div class="clentaminator-hero__stats">
+                    <div class="stat-pill">
+                      <Target :size="14" />
+                      <span>範圍 {{ clentaminatorData.stats.range }}</span>
+                    </div>
+                    <div class="stat-pill">
+                      <Layers :size="14" />
+                      <span>{{ clentaminatorData.stats.penetration }}</span>
+                    </div>
+                    <div class="stat-pill">
+                      <Zap :size="14" />
+                      <span>{{ clentaminatorData.stats.speed }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 取得條件 -->
+              <div class="clentaminator-hero__acquire">
+                <div class="acquire-card">
+                  <div class="acquire-card__header">
+                    <User :size="16" />
+                    <span>販售 NPC</span>
+                  </div>
+                  <div class="acquire-card__content">
+                    <BaseIcon
+                      :icon="clentaminatorData.seller.icon"
+                      :size="40"
+                      class="acquire-card__npc-icon"
+                    />
+                    <div class="acquire-card__npc-info">
+                      <span class="acquire-card__npc-name">{{
+                        clentaminatorData.seller.name
+                      }}</span>
+                      <span class="acquire-card__npc-en">{{
+                        clentaminatorData.seller.nameEn
+                      }}</span>
+                    </div>
+                  </div>
+                  <div class="acquire-card__condition">
+                    <Info :size="14" />
+                    <span>{{ clentaminatorData.seller.condition }}</span>
+                  </div>
+                </div>
+
+                <div class="acquire-card">
+                  <div class="acquire-card__header">
+                    <Coins :size="16" />
+                    <span>價格</span>
+                  </div>
+                  <div
+                    class="acquire-card__content acquire-card__content--price"
+                  >
+                    <BaseIcon :icon="clentaminatorData.priceIcon" :size="32" />
+                    <span class="acquire-card__price">{{
+                      clentaminatorData.price
                     }}</span>
                   </div>
                 </div>
-                <div class="acquire-card__condition">
-                  <Info :size="14" />
-                  <span>{{ clentaminatorData.seller.condition }}</span>
-                </div>
               </div>
+            </div>
+          </div>
 
-              <div class="acquire-card">
-                <div class="acquire-card__header">
-                  <Coins :size="16" />
-                  <span>價格</span>
+          <!-- 溶液類型 -->
+          <div class="solutions-section">
+            <h4 class="solutions-section__title">
+              <Droplets :size="18" />
+              <span>溶液類型</span>
+            </h4>
+
+            <div class="solution-bottles">
+              <div
+                v-for="sol in clentaminatorData.solutions"
+                :key="sol.nameEn"
+                :class="[
+                  'solution-bottle',
+                  { 'solution-bottle--recommended': sol.recommended },
+                ]"
+              >
+                <div class="solution-bottle__icon-wrapper">
+                  <BaseIcon :icon="sol.icon" :size="36" />
+                  <span v-if="sol.recommended" class="solution-bottle__badge"
+                    >推薦</span
+                  >
                 </div>
-                <div class="acquire-card__content acquire-card__content--price">
-                  <BaseIcon :icon="clentaminatorData.priceIcon" :size="32" />
-                  <span class="acquire-card__price">{{
-                    clentaminatorData.price
-                  }}</span>
+                <div class="solution-bottle__info">
+                  <span class="solution-bottle__name">{{ sol.name }}</span>
+                  <span class="solution-bottle__effect">{{ sol.effect }}</span>
+                  <span class="solution-bottle__price">{{ sol.price }}</span>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- 溶液類型 -->
-        <div class="solutions-section">
-          <h4 class="solutions-section__title">
-            <Droplets :size="18" />
-            <span>溶液類型</span>
-          </h4>
-
-          <div class="solution-bottles">
-            <div
-              v-for="sol in clentaminatorData.solutions"
-              :key="sol.nameEn"
-              :class="[
-                'solution-bottle',
-                { 'solution-bottle--recommended': sol.recommended },
-              ]"
-            >
-              <div class="solution-bottle__icon-wrapper">
-                <BaseIcon :icon="sol.icon" :size="36" />
-                <span v-if="sol.recommended" class="solution-bottle__badge"
-                  >推薦</span
-                >
-              </div>
-              <div class="solution-bottle__info">
-                <span class="solution-bottle__name">{{ sol.name }}</span>
-                <span class="solution-bottle__effect">{{ sol.effect }}</span>
-                <span class="solution-bottle__price">{{ sol.price }}</span>
+          <!-- 操作提示 -->
+          <div class="operation-tips">
+            <h4 class="operation-tips__title">操作技巧</h4>
+            <div class="operation-tips__grid">
+              <div
+                v-for="(tip, index) in operationTips"
+                :key="index"
+                class="tip-card"
+              >
+                <component :is="tip.icon" :size="20" class="tip-card__icon" />
+                <span class="tip-card__text">{{ tip.text }}</span>
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- 操作提示 -->
-        <div class="operation-tips">
-          <h4 class="operation-tips__title">操作技巧</h4>
-          <div class="operation-tips__grid">
-            <div
-              v-for="(tip, index) in operationTips"
-              :key="index"
-              class="tip-card"
-            >
-              <component :is="tip.icon" :size="20" class="tip-card__icon" />
-              <span class="tip-card__text">{{ tip.text }}</span>
-            </div>
-          </div>
-        </div>
         </div>
       </section>
 
