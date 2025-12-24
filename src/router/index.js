@@ -31,6 +31,8 @@ const WeaponSanguineStaff = () => import("@/views/weapons/SanguineStaff.vue");
 
 // Boss 頁面
 const BossTheTwins = () => import("@/views/boss/TheTwins.vue");
+const BossTheDestroyer = () => import("@/views/boss/TheDestroyer.vue");
+const BossSkeletronPrime = () => import("@/views/boss/SkeletronPrime.vue");
 
 /**
  * 路由表
@@ -179,6 +181,26 @@ const routes = [
           group: "boss",
         },
       },
+      {
+        path: "boss/the-destroyer",
+        name: "BossTheDestroyer",
+        component: BossTheDestroyer,
+        meta: {
+          title: "毀滅者 (The Destroyer)",
+          icon: "https://terraria.wiki.gg/images/a/a7/The_Destroyer.png",
+          group: "boss",
+        },
+      },
+      {
+        path: "boss/skeletron-prime",
+        name: "BossSkeletronPrime",
+        component: BossSkeletronPrime,
+        meta: {
+          title: "機械骷髏王 (Skeletron Prime)",
+          icon: "https://terraria.wiki.gg/images/2/2a/Skeletron_Prime.png",
+          group: "boss",
+        },
+      },
     ],
   },
 
@@ -297,6 +319,16 @@ export const menuConfig = [
         title: "機械魔眼 (The Twins)",
         path: "/boss/the-twins",
         icon: "https://terraria.wiki.gg/images/5/55/Retinazer.png",
+      },
+      {
+        title: "毀滅者 (The Destroyer)",
+        path: "/boss/the-destroyer",
+        icon: "https://terraria.wiki.gg/images/a/a7/The_Destroyer.png",
+      },
+      {
+        title: "機械骷髏王 (Skeletron Prime)",
+        path: "/boss/skeletron-prime",
+        icon: "https://terraria.wiki.gg/images/2/2a/Skeletron_Prime.png",
       },
     ],
   },
