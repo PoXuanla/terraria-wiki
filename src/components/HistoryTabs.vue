@@ -88,11 +88,14 @@ const handleContextMenu = (event, tag) => {
   background-color: var(--color-bg-card);
   border-bottom: 1px solid var(--color-border);
   padding: 0.5rem 1rem;
+  max-width: 100%;
 }
 
 .history-tabs-wrapper {
   overflow-x: auto;
+  overflow-y: hidden;
   scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
 }
 
 .history-tabs {
