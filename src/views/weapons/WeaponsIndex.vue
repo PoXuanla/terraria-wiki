@@ -788,7 +788,8 @@ const clearFilters = () => {
   transform: translateY(-6px);
   box-shadow: 
     0 16px 32px -8px rgba(0, 0, 0, 0.2),
-    0 0 0 1px var(--rarity-color);
+    0 0 0 1px var(--rarity-color),
+    0 0 12px -2px var(--rarity-color);
 }
 
 .weapon-card:hover::before {
@@ -842,15 +843,17 @@ const clearFilters = () => {
 
 .weapon-card__icon-glow {
   position: absolute;
-  inset: -20px;
+  inset: -16px;
   background: radial-gradient(circle, var(--rarity-color) 0%, transparent 70%);
-  opacity: 0.3;
-  filter: blur(16px);
-  transition: opacity 0.3s ease;
+  opacity: 0.2;
+  filter: blur(12px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .weapon-card:hover .weapon-card__icon-glow {
-  opacity: 0.6;
+  inset: -40px;
+  opacity: 0.8;
+  filter: blur(24px);
 }
 
 .weapon-card__icon {
