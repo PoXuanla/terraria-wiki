@@ -1,6 +1,6 @@
 <script setup>
-import WeaponLayout from '@/components/WeaponLayout.vue'
-import { meteorStaff as weaponData } from '@/data/weapons'
+import WeaponLayout from "@/components/WeaponLayout.vue";
+import { meteorStaff as weaponData } from "@/data/weapons";
 </script>
 
 <template>
@@ -55,4 +55,3 @@ import { meteorStaff as weaponData } from '@/data/weapons'
   color: var(--color-text-primary);
 }
 </style>
-
