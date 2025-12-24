@@ -81,20 +81,34 @@ export default {
   whyGood:
     "百鯊的最佳替代品！瑪瑙爆破槍擁有極高的爆發傷害，製作材料容易取得，可以在挑戰任何機械 Boss 之前就製作完成。黑色能量彈的穿透效果讓它在面對群體敵人時也非常有效。對於沒有刷到代達羅斯風暴弓的遠程職業玩家來說，這是進入困難模式後的首選武器。",
 
-  // 使用技巧
-  tips: [
-    {
-      title: "彈藥選擇",
-      content: "建議搭配隕石彈或水晶子彈使用，可以最大化 DPS 輸出。",
+  // 額外攻略資訊
+  meta: {
+    bestModifier: {
+      name: "虛幻",
+      nameEn: "Unreal",
+      description: "最佳重鑄前綴，提供最大化的傷害與暴擊加成",
     },
-    {
-      title: "射擊距離",
-      content:
-        "雖然霰彈會散射，但黑色能量彈是直線飛行的，嘗試保持中等距離以確保兩種攻擊都能命中。",
+    bestAmmo: {
+      name: "水晶子彈",
+      nameEn: "Crystal Bullets",
+      icon: "https://terraria.wiki.gg/images/2/26/Crystal_Bullet.png",
+      description: "擊中時分裂成碎片，造成額外傷害，非常適合近距離爆發",
     },
-    {
-      title: "對付機械 Boss",
-      content: "對雙子魔眼效果極佳，能量彈可以同時命中兩隻眼睛。",
-    },
-  ],
+    recommendedAccessories: ["遊俠徽章", "狙擊鏡", "魔法箭袋"],
+    bestAgainst: [
+      {
+        name: "雙子魔眼",
+        nameEn: "The Twins",
+        reason: "能量彈可同時命中兩隻眼睛，高爆發傷害效率極佳",
+      },
+    ],
+  },
+
+  // 詳細描述
+  detailedDescription: {
+    attackPattern:
+      "每次射擊會發射散射的霰彈子彈，同時發射一顆穿透性的黑色能量彈。能量彈可穿透多個敵人，適合對付成群的敵人。",
+    strategy:
+      "保持中等距離確保霰彈和能量彈都能命中目標。對付機械 Boss 時，能量彈的穿透效果可以同時命中多個部位，大幅提升傷害效率。",
+  },
 };

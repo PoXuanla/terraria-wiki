@@ -81,27 +81,34 @@ export default {
   whyGood:
     "優秀的手感與穩定的 DPS 輸出！天裂是困難模式初期最可靠的魔法武器之一。三連發的攻擊方式讓它在面對任何目標時都能保持穩定的傷害輸出，無論是單體 Boss 還是群體敵人都能應對自如。製作材料相對容易取得，是法師玩家的必備武器。",
 
-  // 使用技巧
-  tips: [
-    {
-      title: "暴擊堆疊",
-      content:
-        "天裂的每一把劍都有獨立的暴擊判定，配合法師暴擊裝備可以頻繁觸發暴擊，大幅提升 DPS。",
+  // 額外攻略資訊
+  meta: {
+    bestModifier: {
+      name: "神話",
+      nameEn: "Mythical",
+      description: "魔法武器最佳重鑄前綴，全面提升屬性",
     },
-    {
-      title: "取得魔法導彈",
-      content:
-        "魔法導彈可以在地牢的黃金寶箱中找到，或者使用黃金鑰匙開啟。建議在進入困難模式前先取得。",
+    bestAccessory: {
+      name: "法師徽章",
+      nameEn: "Sorcerer Emblem",
+      icon: "https://terraria.wiki.gg/images/8/89/Sorcerer_Emblem.png",
+      description: "提升 15% 魔法傷害，必備的魔法傷害提升飾品",
     },
-    {
-      title: "刷取光明碎片",
-      content:
-        "光明碎片由地表神聖沙漠的光明木乃伊掉落，掉落率為 10%。建議在神聖沙漠建立簡單的刷怪場。",
-    },
-    {
-      title: "多用途武器",
-      content:
-        "天裂在各種情況下都表現穩定，即使後期也可以作為清理雜魚的備用武器使用。",
-    },
-  ],
+    recommendedAccessories: ["天界徽章", "魔力花", "魔法手銬"],
+    bestAgainst: [
+      {
+        name: "通用型武器",
+        nameEn: "All-Purpose Weapon",
+        reason: "三連發穩定輸出，適合各種 Boss 和敵人",
+      },
+    ],
+  },
+
+  // 詳細描述
+  detailedDescription: {
+    attackPattern:
+      "每次攻擊快速連續發射三把追蹤光劍，光劍會自動追蹤游標方向。每把劍都有獨立的暴擊判定，配合法師暴擊裝備可以頻繁觸發暴擊。",
+    strategy:
+      "天裂是多用途武器，在各種情況下都表現穩定。三連發的攻擊方式讓它面對任何目標都能保持穩定輸出。配合法師暴擊裝備可以大幅提升 DPS，即使後期也可以作為清理雜魚的備用武器使用。",
+  },
 };

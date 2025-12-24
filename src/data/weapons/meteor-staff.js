@@ -81,26 +81,34 @@ export default {
   whyGood:
     "法師版的代達羅斯風暴弓！流星法杖對大型目標如毀滅者 (The Destroyer) 或雙子魔眼 (The Twins) 擁有極高的爆發傷害。流星的範圍傷害可以同時命中毀滅者的多個體節，快速疊加傷害。製作材料簡單易取得，只需要一些隕石和神聖之地的素材即可。",
 
-  // 使用技巧
-  tips: [
-    {
-      title: "瞄準技巧",
-      content:
-        "將游標放在敵人「上方」一小段距離，讓流星在落下途中就能命中目標，增加有效攻擊時間。",
+  // 額外攻略資訊
+  meta: {
+    bestModifier: {
+      name: "神話",
+      nameEn: "Mythical",
+      description: "魔法武器最佳重鑄前綴，全面提升屬性",
     },
-    {
-      title: "魔力管理",
-      content: "每次使用消耗 9 點魔力，建議搭配魔力再生藥水和魔力花裝備。",
+    bestAccessory: {
+      name: "魔力花",
+      nameEn: "Mana Flower",
+      icon: "https://terraria.wiki.gg/images/1/1b/Mana_Flower.png",
+      description: "自動使用魔力藥水，讓你持續召喚流星不間斷",
     },
-    {
-      title: "最佳場景",
-      content:
-        "在開闘場地（天空競技場）效果最好，沒有障礙物阻擋流星落下。地下洞穴中效果會大打折扣。",
-    },
-    {
-      title: "對付毀滅者",
-      content:
-        "持續在毀滅者身體中段召喚流星，範圍傷害可以同時打中多個體節，傷害非常可觀。",
-    },
-  ],
+    recommendedAccessories: ["法師徽章", "天界徽章", "魔法手銬"],
+    bestAgainst: [
+      {
+        name: "毀滅者",
+        nameEn: "The Destroyer",
+        reason: "範圍傷害同時命中多個體節，造成恐怖 DPS",
+      },
+    ],
+  },
+
+  // 詳細描述
+  detailedDescription: {
+    attackPattern:
+      "從天空召喚流星攻擊游標位置。流星從畫面上方隨機位置落下，造成範圍傷害並產生小型爆炸效果。",
+    strategy:
+      "將游標放在敵人上方一小段距離，讓流星在落下途中就能命中。在開闊場地（天空競技場）效果最好，地下洞穴會被障礙物阻擋。對付毀滅者時持續在身體中段召喚流星，範圍傷害可以同時打中多個體節，造成毀滅性傷害。",
+  },
 };

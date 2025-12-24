@@ -64,31 +64,34 @@ export default {
   whyGood:
     "蝙蝠永不脫靶！血紅法杖召喚的蝙蝠擁有遊戲中最好的追蹤 AI，會緊緊黏住快速移動的目標。雖然恐懼鸚鵡螺 (Dreadnautilus) 很難對付，但這把武器絕對值得你花時間刷取。它是機械 Boss 前最強的召喚武器，沒有之一。完美追蹤的特性讓召喚師可以專心閃避，不用擔心召喚物打空。",
 
-  // 使用技巧
-  tips: [
-    {
-      title: "刷取恐懼鸚鵡螺",
-      content:
-        "在血月期間於任何水域釣魚即可。建議建造一個安全的釣魚小屋，搭配召喚裝和鞭子應戰。",
+  // 額外攻略資訊
+  meta: {
+    bestModifier: {
+      name: "無情",
+      nameEn: "Ruthless",
+      description: "召喚武器最佳重鑄前綴，提供最大傷害加成",
     },
-    {
-      title: "完美追蹤",
-      content:
-        "血紅蝙蝠會自動追蹤最近的敵人，即使雙子魔眼的第二階段瘋狂衝刺也能命中。",
+    bestWhip: {
+      name: "冷鞭",
+      nameEn: "Cool Whip",
+      icon: "https://terraria.wiki.gg/images/4/44/Cool_Whip.png",
+      description: "施加雪花標記，蝙蝠每次攻擊觸發額外傷害",
     },
-    {
-      title: "召喚數量",
-      content: "盡可能提升召喚上限，多隻蝙蝠可以對單一目標造成恐怖的持續傷害。",
-    },
-    {
-      title: "搭配鞭子",
-      content:
-        "建議使用冷鞭 (Cool Whip) 或刺花鞭 (Durendal) 來標記目標並提供額外傷害加成。",
-    },
-    {
-      title: "血月觸發",
-      content:
-        "可以使用血腥淚滴 (Bloody Tear) 手動觸發血月，而血腥淚滴也是恐懼鸚鵡螺的掉落物，形成良性循環。",
-    },
-  ],
+    recommendedAccessories: ["召喚師徽章", "蜜蜂背包", "侏儒項鍊"],
+    bestAgainst: [
+      {
+        name: "雙子魔眼",
+        nameEn: "The Twins",
+        reason: "完美追蹤 AI 能緊緊跟隨高速移動的眼睛",
+      },
+    ],
+  },
+
+  // 詳細描述
+  detailedDescription: {
+    attackPattern:
+      "召喚血紅蝙蝠為你作戰。蝙蝠擁有完美的追蹤 AI，會緊緊跟隨敵人不放，即使目標快速移動也能精準命中。",
+    strategy:
+      "利用蝙蝠完美的追蹤特性專心閃避，讓召喚物自動輸出。搭配冷鞭標記目標提供額外傷害加成。盡可能提升召喚上限，多隻蝙蝠可以對單一目標造成恐怖的持續傷害，特別適合對付雙子魔眼這類高機動性 Boss。",
+  },
 };

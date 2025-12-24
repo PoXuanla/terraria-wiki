@@ -64,22 +64,34 @@ export default {
   whyGood:
     "不消耗魔力、不消耗彈藥！暗影焰飛刀是近戰職業玩家的完美「風箏」武器。你可以一邊跑動一邊持續輸出，完美應對雙子魔眼 (The Twins) 的高機動性戰鬥。暗影焰減益還能讓敵人持續掉血，即使你在閃避時也能造成傷害。",
 
-  // 使用技巧
-  tips: [
-    {
-      title: "風箏戰術",
-      content:
-        "保持移動並持續投擲飛刀，利用彈跳效果讓傷害最大化。非常適合在長平台上與 Boss 戰鬥。",
+  // 額外攻略資訊
+  meta: {
+    bestModifier: {
+      name: "神聖",
+      nameEn: "Godly",
+      description: "近戰武器最佳重鑄前綴之一，提供優秀的傷害和暴擊加成",
     },
-    {
-      title: "暗影焰減益",
-      content:
-        "每秒造成 15 點傷害，持續 3 秒。這個 DoT 效果不受防禦影響，對高防禦敵人特別有效。",
+    bestAccessory: {
+      name: "火徽章",
+      nameEn: "Fire Gauntlet",
+      icon: "https://terraria.wiki.gg/images/2/2a/Fire_Gauntlet.png",
+      description: "提升近戰傷害和攻速，並施加額外的燃燒效果",
     },
-    {
-      title: "刷取建議",
-      content:
-        "在困難模式初期專門刷一波哥布林軍團，不僅可以獲得這把武器，還能順便取得其他實用裝備。",
-    },
-  ],
+    recommendedAccessories: ["惡魔之翼", "閃電靴", "黑曜石盾"],
+    bestAgainst: [
+      {
+        name: "雙子魔眼",
+        nameEn: "The Twins",
+        reason: "風箏戰術完美應對高機動性，持續輸出不間斷",
+      },
+    ],
+  },
+
+  // 詳細描述
+  detailedDescription: {
+    attackPattern:
+      "投擲會在敵人之間彈跳的飛刀，每次命中施加暗影焰減益（每秒 15 點傷害，持續 3 秒）。飛刀最多彈跳 3 次，適合對付成群敵人。",
+    strategy:
+      "保持移動並持續投擲飛刀，利用彈跳效果讓傷害最大化。暗影焰的 DoT 效果不受防禦影響，讓你在閃避時也能持續造成傷害。非常適合在長平台上與高機動性 Boss 戰鬥，是風箏戰術的完美武器。",
+  },
 };
