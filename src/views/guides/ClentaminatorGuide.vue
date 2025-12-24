@@ -3,7 +3,6 @@ import {
   AlertTriangle, 
   Shield, 
   Droplets,
-  Leaf,
   TreePine,
   Skull,
   Sparkles,
@@ -18,6 +17,7 @@ import {
   Layers,
   BookOpen
 } from 'lucide-vue-next'
+import DocLayout from '@/layouts/DocLayout.vue'
 import BaseIcon from '@/components/BaseIcon.vue'
 
 /**
@@ -131,7 +131,6 @@ const earlySolutions = [
     icon: 'https://terraria.wiki.gg/images/5/5a/Sunflower_%28placed%29.gif',
     effect: '阻止腐化/猩紅從地表草地擴散',
     limitation: '僅對表面草地有效，無法阻止地下擴散',
-    tier: 1,
   },
   {
     id: 'holy-water',
@@ -140,7 +139,6 @@ const earlySolutions = [
     icon: 'https://terraria.wiki.gg/images/3/3b/Holy_Water.png',
     effect: '將區域轉化為神聖之地',
     limitation: '範圍小，主要用於建立緩衝區',
-    tier: 1,
   },
   {
     id: 'hellevator',
@@ -150,7 +148,6 @@ const earlySolutions = [
     isEmoji: true,
     effect: '挖掘 4 格寬的垂直通道，物理隔離區域',
     limitation: '需要大量時間挖掘，且刺藤可能跨越',
-    tier: 1,
   },
   {
     id: 'purification-powder',
@@ -159,7 +156,6 @@ const earlySolutions = [
     icon: 'https://terraria.wiki.gg/images/8/8b/Purification_Powder.png',
     effect: '將腐化/猩紅方塊恢復為正常',
     limitation: '範圍極小，僅適合小規模清理',
-    tier: 1,
   },
 ]
 
@@ -228,11 +224,11 @@ const operationTips = [
 </script>
 
 <template>
-  <div class="guide-page">
+  <DocLayout title="本頁目錄">
     <!-- ========================================
-         Hero Banner
+         Hero Banner (不被 prose 影響)
          ======================================== -->
-    <header class="hero-banner">
+    <header class="not-prose hero-banner">
       <div class="hero-banner__bg"></div>
       <div class="hero-banner__content">
         <div class="hero-banner__icon">
@@ -255,125 +251,124 @@ const operationTips = [
       </div>
     </header>
 
+    <!-- 簡介段落 -->
+    <p>
+      在困難模式開啟後，<strong>腐化之地</strong>、<strong>猩紅之地</strong>和<strong>神聖之地</strong>會加速擴散，
+      威脅你辛苦建立的世界。本指南將幫助你了解侵蝕機制、早期對策，以及終極解決方案——<em>環境改造槍</em>。
+    </p>
+
     <!-- ========================================
-         侵蝕機制 - The Threat
+         Section 1: 侵蝕機制
          ======================================== -->
-    <section class="section-card">
-      <h2 class="section-title">
-        <Skull :size="20" class="section-title__icon" />
-        <span>侵蝕性生物群系</span>
-      </h2>
-      
-      <p class="section-intro">
-        困難模式開啟後，腐化/猩紅/神聖之地會加速擴散，威脅你的世界。
-        了解它們的特性是治理的第一步。
-      </p>
-      
-      <div class="biome-grid">
-        <article 
-          v-for="biome in biomeThreats" 
-          :key="biome.id"
-          :class="['biome-card', biome.colors.bg, biome.colors.border]"
-        >
-          <div class="biome-card__header">
-            <BaseIcon :icon="biome.icon" :size="40" class="biome-card__icon" />
-            <div class="biome-card__title-group">
-              <h3 :class="['biome-card__name', biome.colors.text]">{{ biome.name }}</h3>
-              <span class="biome-card__name-en">{{ biome.nameEn }}</span>
-            </div>
-            <span 
-              v-if="biome.isProtective"
-              class="biome-card__badge biome-card__badge--safe"
-            >
-              <Shield :size="12" />
-              安全
-            </span>
+    <h2 id="erosion">侵蝕機制</h2>
+    
+    <p>
+      了解三種侵蝕性生物群系的特性是治理的第一步。
+      每種都有獨特的外觀和行為，但擴散方式相似。
+    </p>
+
+    <!-- 生物群系卡片網格 (不被 prose 影響) -->
+    <div class="not-prose biome-grid">
+      <article 
+        v-for="biome in biomeThreats" 
+        :key="biome.id"
+        :class="['biome-card', biome.colors.bg, biome.colors.border]"
+      >
+        <div class="biome-card__header">
+          <BaseIcon :icon="biome.icon" :size="40" class="biome-card__icon" />
+          <div class="biome-card__title-group">
+            <h3 :class="['biome-card__name', biome.colors.text]">{{ biome.name }}</h3>
+            <span class="biome-card__name-en">{{ biome.nameEn }}</span>
           </div>
-          
-          <p :class="['biome-card__desc', biome.colors.text]">
-            {{ biome.description }}
-          </p>
-          
-          <div class="biome-card__spread">
-            <span class="biome-card__label">擴散速度</span>
-            <span class="biome-card__value">{{ biome.spreadRate }}</span>
-          </div>
-          
-          <div class="biome-card__blocks">
-            <span class="biome-card__label">影響方塊</span>
-            <div class="biome-card__tags">
-              <span 
-                v-for="block in biome.affectedBlocks" 
-                :key="block"
-                class="biome-card__tag"
-              >{{ block }}</span>
-            </div>
-          </div>
-          
-          <div 
-            :class="[
-              'biome-card__danger',
-              biome.isProtective ? 'biome-card__danger--safe' : 'biome-card__danger--warning'
-            ]"
+          <span 
+            v-if="biome.isProtective"
+            class="biome-card__badge biome-card__badge--safe"
           >
-            <CheckCircle2 v-if="biome.isProtective" :size="16" />
-            <AlertTriangle v-else :size="16" />
-            <span>{{ biome.danger }}</span>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- ========================================
-         擴散機制表
-         ======================================== -->
-    <section class="section-card">
-      <h2 class="section-title">
-        <Layers :size="20" class="section-title__icon" />
-        <span>方塊擴散機制</span>
-      </h2>
-      
-      <div class="spread-table">
-        <div class="spread-table__header">
-          <span>方塊類型</span>
-          <span>可被侵蝕</span>
-          <span>備註</span>
+            <Shield :size="12" />
+            安全
+          </span>
         </div>
+        
+        <p :class="['biome-card__desc', biome.colors.text]">
+          {{ biome.description }}
+        </p>
+        
+        <div class="biome-card__spread">
+          <span class="biome-card__label">擴散速度</span>
+          <span class="biome-card__value">{{ biome.spreadRate }}</span>
+        </div>
+        
+        <div class="biome-card__blocks">
+          <span class="biome-card__label">影響方塊</span>
+          <div class="biome-card__tags">
+            <span 
+              v-for="block in biome.affectedBlocks" 
+              :key="block"
+              class="biome-card__tag"
+            >{{ block }}</span>
+          </div>
+        </div>
+        
         <div 
-          v-for="block in spreadMechanics" 
-          :key="block.blockEn"
-          :class="['spread-table__row', { 'spread-table__row--critical': block.critical }]"
+          :class="[
+            'biome-card__danger',
+            biome.isProtective ? 'biome-card__danger--safe' : 'biome-card__danger--warning'
+          ]"
         >
-          <div class="spread-table__cell spread-table__cell--block">
-            <BaseIcon :icon="block.icon" :size="24" />
-            <div class="spread-table__block-info">
-              <span class="spread-table__block-name">{{ block.block }}</span>
-              <span class="spread-table__block-en">{{ block.blockEn }}</span>
-            </div>
-          </div>
-          <div class="spread-table__cell spread-table__cell--status">
-            <CheckCircle2 
-              v-if="block.canSpread" 
-              :size="20" 
-              class="spread-table__icon--yes" 
-            />
-            <XCircle 
-              v-else 
-              :size="20" 
-              class="spread-table__icon--no" 
-            />
-          </div>
-          <div class="spread-table__cell spread-table__cell--note">
-            {{ block.note }}
+          <CheckCircle2 v-if="biome.isProtective" :size="16" />
+          <AlertTriangle v-else :size="16" />
+          <span>{{ biome.danger }}</span>
+        </div>
+      </article>
+    </div>
+
+    <!-- 方塊擴散機制表 -->
+    <h3>方塊擴散一覽</h3>
+    <p>不同類型的方塊對侵蝕的反應不同，以下是詳細對照表：</p>
+
+    <div class="not-prose spread-table">
+      <div class="spread-table__header">
+        <span>方塊類型</span>
+        <span>可被侵蝕</span>
+        <span>備註</span>
+      </div>
+      <div 
+        v-for="block in spreadMechanics" 
+        :key="block.blockEn"
+        :class="['spread-table__row', { 'spread-table__row--critical': block.critical }]"
+      >
+        <div class="spread-table__cell spread-table__cell--block">
+          <BaseIcon :icon="block.icon" :size="24" />
+          <div class="spread-table__block-info">
+            <span class="spread-table__block-name">{{ block.block }}</span>
+            <span class="spread-table__block-en">{{ block.blockEn }}</span>
           </div>
         </div>
+        <div class="spread-table__cell spread-table__cell--status">
+          <CheckCircle2 
+            v-if="block.canSpread" 
+            :size="20" 
+            class="spread-table__icon--yes" 
+          />
+          <XCircle 
+            v-else 
+            :size="20" 
+            class="spread-table__icon--no" 
+          />
+        </div>
+        <div class="spread-table__cell spread-table__cell--note">
+          {{ block.note }}
+        </div>
       </div>
-    </section>
+    </div>
 
     <!-- ========================================
-         叢林危機 - Critical Alert
+         Section 2: 緊急警告：叢林
          ======================================== -->
-    <section class="jungle-alert">
+    <h2 id="jungle-warning">緊急警告：叢林</h2>
+
+    <!-- 叢林危機警告區塊 (不被 prose 影響) -->
+    <div class="not-prose jungle-alert">
       <div class="jungle-alert__header">
         <div class="jungle-alert__icon-wrapper">
           <BaseIcon 
@@ -386,16 +381,16 @@ const operationTips = [
             <AlertTriangle :size="14" />
             緊急警告
           </span>
-          <h2 class="jungle-alert__title">叢林危機：不可逆的破壞</h2>
+          <h3 class="jungle-alert__title">叢林危機：不可逆的破壞</h3>
         </div>
       </div>
       
       <div class="jungle-alert__content">
         <div class="jungle-alert__main">
-          <h3 class="jungle-alert__subtitle">
+          <h4 class="jungle-alert__subtitle">
             <TreePine :size="18" />
             為什麼必須保護叢林？
-          </h3>
+          </h4>
           <p class="jungle-alert__text">
             叢林是由<strong>淤泥 (Mud)</strong> 構成的。當腐化或猩紅侵蝕到叢林邊緣時：
           </p>
@@ -439,11 +434,11 @@ const operationTips = [
             </li>
             <li>
               <XCircle :size="16" class="list-icon--danger" />
-              <span>無法刷叢林特有資源（如：叢林孢子、葉綠礦）</span>
+              <span>無法刷叢林特有資源</span>
             </li>
             <li>
               <XCircle :size="16" class="list-icon--danger" />
-              <span>可能無法召喚世紀之花 (Plantera)</span>
+              <span>可能無法召喚世紀之花</span>
             </li>
           </ul>
         </div>
@@ -456,61 +451,70 @@ const operationTips = [
           神聖之地不會侵蝕淤泥，可以有效阻擋腐化/猩紅的推進。
         </p>
       </div>
-    </section>
+    </div>
 
     <!-- ========================================
-         早期解決方案
+         Section 3: 早期對策
          ======================================== -->
-    <section class="section-card">
-      <h2 class="section-title">
-        <Shield :size="20" class="section-title__icon" />
-        <span>早期防禦手段</span>
-      </h2>
-      
-      <p class="section-intro">
-        在取得環境改造槍之前，可以使用這些方法減緩擴散速度。
-      </p>
-      
-      <div class="solutions-grid">
-        <div 
-          v-for="solution in earlySolutions" 
-          :key="solution.id"
-          class="solution-card"
-        >
-          <div class="solution-card__header">
-            <div v-if="solution.isEmoji" class="solution-card__emoji">
-              {{ solution.icon }}
-            </div>
-            <BaseIcon 
-              v-else
-              :icon="solution.icon" 
-              :size="36" 
-              class="solution-card__icon"
-            />
-            <div class="solution-card__title">
-              <span class="solution-card__name">{{ solution.name }}</span>
-              <span class="solution-card__name-en">{{ solution.nameEn }}</span>
-            </div>
+    <h2 id="early-solutions">早期對策</h2>
+    
+    <p>
+      在取得環境改造槍之前，可以使用這些方法減緩擴散速度，爭取時間。
+    </p>
+
+    <!-- 早期解決方案卡片 (不被 prose 影響) -->
+    <div class="not-prose solutions-grid">
+      <div 
+        v-for="solution in earlySolutions" 
+        :key="solution.id"
+        class="solution-card"
+      >
+        <div class="solution-card__header">
+          <div v-if="solution.isEmoji" class="solution-card__emoji">
+            {{ solution.icon }}
           </div>
-          
-          <div class="solution-card__content">
-            <div class="solution-card__effect">
-              <CheckCircle2 :size="14" class="solution-card__effect-icon" />
-              <span>{{ solution.effect }}</span>
-            </div>
-            <div class="solution-card__limitation">
-              <AlertTriangle :size="14" class="solution-card__limit-icon" />
-              <span>{{ solution.limitation }}</span>
-            </div>
+          <BaseIcon 
+            v-else
+            :icon="solution.icon" 
+            :size="36" 
+            class="solution-card__icon"
+          />
+          <div class="solution-card__title">
+            <span class="solution-card__name">{{ solution.name }}</span>
+            <span class="solution-card__name-en">{{ solution.nameEn }}</span>
+          </div>
+        </div>
+        
+        <div class="solution-card__content">
+          <div class="solution-card__effect">
+            <CheckCircle2 :size="14" class="solution-card__effect-icon" />
+            <span>{{ solution.effect }}</span>
+          </div>
+          <div class="solution-card__limitation">
+            <AlertTriangle :size="14" class="solution-card__limit-icon" />
+            <span>{{ solution.limitation }}</span>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+
+    <blockquote>
+      <strong>💡 專家提示：</strong>擊敗肉山後，立即在叢林邊界挖掘 4 格寬的隔離帶。
+      這能為你爭取足夠的時間來準備環境改造槍。
+    </blockquote>
 
     <!-- ========================================
-         終極兵器：環境改造槍
+         Section 4: 終極方案：環境槍
          ======================================== -->
-    <section class="clentaminator-section">
+    <h2 id="clentaminator">終極方案：環境槍</h2>
+    
+    <p>
+      <strong>環境改造槍 (Clentaminator)</strong> 是遊戲中最強大的環境控制工具，
+      能夠快速、大範圍地改變生物群系。
+    </p>
+
+    <!-- 環境改造槍 Hero Section (不被 prose 影響) -->
+    <div class="not-prose clentaminator-section">
       <div class="clentaminator-hero">
         <div class="clentaminator-hero__bg"></div>
         
@@ -530,7 +534,7 @@ const operationTips = [
             </div>
             
             <div class="clentaminator-hero__info">
-              <h2 class="clentaminator-hero__title">{{ clentaminatorData.name }}</h2>
+              <h3 class="clentaminator-hero__title">{{ clentaminatorData.name }}</h3>
               <p class="clentaminator-hero__subtitle">{{ clentaminatorData.nameEn }}</p>
               
               <div class="clentaminator-hero__stats">
@@ -593,10 +597,10 @@ const operationTips = [
       
       <!-- 溶液類型 -->
       <div class="solutions-section">
-        <h3 class="solutions-section__title">
+        <h4 class="solutions-section__title">
           <Droplets :size="18" />
           <span>溶液類型</span>
-        </h3>
+        </h4>
         
         <div class="solution-bottles">
           <div 
@@ -622,7 +626,7 @@ const operationTips = [
       
       <!-- 操作提示 -->
       <div class="operation-tips">
-        <h3 class="operation-tips__title">操作技巧</h3>
+        <h4 class="operation-tips__title">操作技巧</h4>
         <div class="operation-tips__grid">
           <div 
             v-for="(tip, index) in operationTips" 
@@ -634,37 +638,38 @@ const operationTips = [
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
     <!-- ========================================
          最終提示
          ======================================== -->
-    <section class="final-tip">
+    <h2 id="summary">總結與建議</h2>
+    
+    <p>環境治理是困難模式中不可忽視的重要任務。以下是關鍵建議：</p>
+    
+    <ul>
+      <li><strong>預防優於治療</strong> - 擊敗肉山後立即挖掘隔離帶</li>
+      <li><strong>保護叢林優先</strong> - 叢林破壞是不可逆的</li>
+      <li><strong>善用神聖之地</strong> - 作為緩衝區阻擋腐化/猩紅</li>
+      <li><strong>儲備資金</strong> - 環境改造槍和溶液需要大量金幣</li>
+    </ul>
+
+    <!-- 最終提示框 (不被 prose 影響) -->
+    <div class="not-prose final-tip">
       <div class="final-tip__icon">💡</div>
       <div class="final-tip__content">
-        <h3 class="final-tip__title">專業建議</h3>
+        <h4 class="final-tip__title">專業建議</h4>
         <p class="final-tip__text">
           擊敗肉山後，立即在叢林邊界挖掘 4 格寬的隔離帶。
           這能為你爭取足夠的時間來準備環境改造槍。
           記住：預防永遠比治療更省資源！
         </p>
       </div>
-    </section>
-  </div>
+    </div>
+  </DocLayout>
 </template>
 
 <style scoped>
-/* ==========================================
-   頁面容器
-   ========================================== */
-.guide-page {
-  max-width: 1000px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
 /* ==========================================
    Hero Banner
    ========================================== */
@@ -674,6 +679,7 @@ const operationTips = [
   border-radius: 1rem;
   overflow: hidden;
   padding: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .hero-banner__bg {
@@ -744,43 +750,13 @@ const operationTips = [
 }
 
 /* ==========================================
-   Section Card & Title
-   ========================================== */
-.section-card {
-  background: var(--color-bg-card);
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
-}
-
-.section-title {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin: 0 0 1rem;
-}
-
-.section-title__icon {
-  color: var(--color-primary);
-}
-
-.section-intro {
-  color: var(--color-text-secondary);
-  font-size: 0.9375rem;
-  line-height: 1.6;
-  margin: 0 0 1.25rem;
-}
-
-/* ==========================================
    Biome Grid
    ========================================== */
 .biome-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
+  margin: 1.5rem 0;
 }
 
 .biome-card {
@@ -802,6 +778,7 @@ const operationTips = [
 
 .biome-card__title-group {
   flex: 1;
+  min-width: 0;
 }
 
 .biome-card__name {
@@ -812,7 +789,7 @@ const operationTips = [
 }
 
 .biome-card__name-en {
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   opacity: 0.7;
 }
 
@@ -822,7 +799,7 @@ const operationTips = [
   gap: 0.25rem;
   padding: 0.25rem 0.5rem;
   border-radius: 9999px;
-  font-size: 0.625rem;
+  font-size: 0.5625rem;
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -846,7 +823,7 @@ const operationTips = [
 
 .biome-card__label {
   display: block;
-  font-size: 0.625rem;
+  font-size: 0.5625rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -869,7 +846,7 @@ const operationTips = [
   padding: 0.125rem 0.5rem;
   background: rgba(0, 0, 0, 0.05);
   border-radius: 9999px;
-  font-size: 0.6875rem;
+  font-size: 0.625rem;
   font-weight: 500;
 }
 
@@ -879,7 +856,7 @@ const operationTips = [
   gap: 0.5rem;
   padding: 0.625rem 0.75rem;
   border-radius: 0.375rem;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   line-height: 1.4;
   margin-top: 0.75rem;
 }
@@ -901,6 +878,7 @@ const operationTips = [
   border: 1px solid var(--color-border);
   border-radius: 0.5rem;
   overflow: hidden;
+  margin: 1.5rem 0;
 }
 
 .spread-table__header {
@@ -977,6 +955,7 @@ const operationTips = [
   border-left-width: 6px;
   border-radius: 0.75rem;
   padding: 1.5rem;
+  margin: 1.5rem 0;
   box-shadow: 0 4px 20px -4px rgba(251, 191, 36, 0.2);
 }
 
@@ -1018,7 +997,7 @@ const operationTips = [
 }
 
 .jungle-alert__title {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: #78350f;
   margin: 0;
@@ -1035,14 +1014,14 @@ const operationTips = [
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 1rem;
+  font-size: 0.9375rem;
   font-weight: 600;
   color: #166534;
   margin: 0 0 0.75rem;
 }
 
 .jungle-alert__text {
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   color: #713f12;
   line-height: 1.6;
   margin: 0 0 0.75rem;
@@ -1147,12 +1126,13 @@ const operationTips = [
 }
 
 /* ==========================================
-   Solutions Grid (Early)
+   Solutions Grid
    ========================================== */
 .solutions-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
+  margin: 1.5rem 0;
 }
 
 .solution-card {
@@ -1245,6 +1225,7 @@ const operationTips = [
   border-radius: 0.75rem;
   overflow: hidden;
   box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
+  margin: 1.5rem 0;
 }
 
 .clentaminator-hero {
@@ -1341,7 +1322,7 @@ const operationTips = [
 
 .clentaminator-hero__acquire {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 }
 
@@ -1428,7 +1409,7 @@ const operationTips = [
 
 .solution-bottles {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
 }
 
@@ -1507,7 +1488,7 @@ const operationTips = [
 
 .operation-tips__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
 }
 
@@ -1543,6 +1524,7 @@ const operationTips = [
   background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
   border: 1px solid #93c5fd;
   border-radius: 0.75rem;
+  margin: 1.5rem 0;
 }
 
 .final-tip__icon {
@@ -1571,6 +1553,24 @@ const operationTips = [
 /* ==========================================
    響應式設計
    ========================================== */
+@media (max-width: 900px) {
+  .biome-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .clentaminator-hero__acquire {
+    grid-template-columns: 1fr;
+  }
+  
+  .solution-bottles {
+    grid-template-columns: 1fr;
+  }
+  
+  .operation-tips__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 768px) {
   .hero-banner__content {
     flex-direction: column;
@@ -1598,12 +1598,8 @@ const operationTips = [
   .spread-table__cell--note {
     display: none;
   }
-}
-
-@media (max-width: 480px) {
-  .biome-grid,
-  .solutions-grid,
-  .solution-bottles {
+  
+  .solutions-grid {
     grid-template-columns: 1fr;
   }
 }
