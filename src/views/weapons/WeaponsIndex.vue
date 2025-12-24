@@ -1,5 +1,6 @@
 <script setup>
 import { Crosshair, Star, ChevronRight } from 'lucide-vue-next'
+import { weapons as weaponData, classColors } from '@/data/weapons'
 
 /**
  * 武器圖鑑 - 索引頁面
@@ -7,81 +8,13 @@ import { Crosshair, Star, ChevronRight } from 'lucide-vue-next'
  * 顯示所有困難模式 Tier 1 推薦武器的網格列表
  */
 
-// 武器列表資料
-const weapons = [
-  {
-    id: 'onyx-blaster',
-    name: '瑪瑙爆破槍',
-    nameEn: 'Onyx Blaster',
-    class: 'Ranger',
-    classLabel: '遠程',
-    icon: 'https://terraria.wiki.gg/images/c/c0/Onyx_Blaster.png',
-    rarity: { level: 5, color: '#f472b6' },
-    damage: 24,
-    description: '霰彈槍的強化版，同時發射黑色能量彈',
-    path: '/weapons/onyx-blaster',
-  },
-  {
-    id: 'shadowflame-knife',
-    name: '暗影焰飛刀',
-    nameEn: 'Shadowflame Knife',
-    class: 'Melee',
-    classLabel: '近戰',
-    icon: 'https://terraria.wiki.gg/images/6/67/Shadowflame_Knife.png',
-    rarity: { level: 5, color: '#f472b6' },
-    damage: 38,
-    description: '可在敵人間彈跳的投擲飛刀',
-    path: '/weapons/shadowflame-knife',
-  },
-  {
-    id: 'meteor-staff',
-    name: '流星法杖',
-    nameEn: 'Meteor Staff',
-    class: 'Mage',
-    classLabel: '魔法',
-    icon: 'https://terraria.wiki.gg/images/c/cd/Meteor_Staff.png',
-    rarity: { level: 5, color: '#f472b6' },
-    damage: 50,
-    description: '從天空召喚流星攻擊',
-    path: '/weapons/meteor-staff',
-  },
-  {
-    id: 'sky-fracture',
-    name: '天裂',
-    nameEn: 'Sky Fracture',
-    class: 'Mage',
-    classLabel: '魔法',
-    icon: 'https://terraria.wiki.gg/images/5/50/Sky_Fracture.png',
-    rarity: { level: 5, color: '#f472b6' },
-    damage: 38,
-    description: '快速發射三把光劍，高暴擊率',
-    path: '/weapons/sky-fracture',
-  },
-  {
-    id: 'sanguine-staff',
-    name: '血紅法杖',
-    nameEn: 'Sanguine Staff',
-    class: 'Summoner',
-    classLabel: '召喚',
-    icon: 'https://terraria.wiki.gg/images/e/e7/Sanguine_Staff.png',
-    rarity: { level: 5, color: '#f472b6' },
-    damage: 35,
-    description: '召喚完美追蹤的血紅蝙蝠',
-    path: '/weapons/sanguine-staff',
-  },
-  {
-    id: 'daedalus',
-    name: '代達羅斯風暴弓',
-    nameEn: 'Daedalus Stormbow',
-    class: 'Ranger',
-    classLabel: '遠程',
-    icon: 'https://terraria.wiki.gg/images/e/e6/Daedalus_Stormbow.png',
-    rarity: { level: 5, color: '#f472b6' },
-    damage: 43,
-    description: '箭矢從天空降落攻擊敵人',
-    path: '/weapons/daedalus',
-  },
-]
+// 將武器資料轉換為列表顯示格式
+const weapons = weaponData.map(w => ({
+  ...w,
+  id: w.slug,
+  damage: w.stats.damage.value,
+  path: `/weapons/${w.slug}`,
+}))
 
 // 職業圖示對應
 const classIcons = {
@@ -91,13 +24,8 @@ const classIcons = {
   'Summoner': '👻',
 }
 
-// 職業顏色對應
-const classColors = {
-  'Ranger': '#22c55e',
-  'Melee': '#ef4444',
-  'Mage': '#3b82f6',
-  'Summoner': '#a855f7',
-}
+// 取得職業顏色
+const getClassColor = (className) => classColors[className]?.hex || '#6b7280'
 </script>
 
 <template>
@@ -128,7 +56,7 @@ const classColors = {
         :key="weapon.id"
         :to="weapon.path"
         class="weapon-card"
-        :style="{ '--class-color': classColors[weapon.class] }"
+        :style="{ '--class-color': getClassColor(weapon.class) }"
       >
         <!-- 職業標籤 -->
         <div class="weapon-card__class-badge">
