@@ -31,8 +31,7 @@ const WeaponSanguineStaff = () => import("@/views/weapons/SanguineStaff.vue");
 const WeaponGoldenShower = () => import("@/views/weapons/GoldenShower.vue");
 const WeaponBladeStaff = () => import("@/views/weapons/BladeStaff.vue");
 const WeaponDartRifle = () => import("@/views/weapons/DartRifle.vue");
-const WeaponFetidBaghnakhs = () =>
-  import("@/views/weapons/FetidBaghnakhs.vue");
+const WeaponFetidBaghnakhs = () => import("@/views/weapons/FetidBaghnakhs.vue");
 
 // Boss 頁面
 const BossTheTwins = () => import("@/views/boss/TheTwins.vue");
