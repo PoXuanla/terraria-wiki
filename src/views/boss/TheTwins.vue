@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref } from "vue";
 import {
   ExternalLink,
   Skull,
@@ -17,18 +17,14 @@ import {
   Crosshair,
   Eye,
   Moon,
-  Wand2,
-  Ghost,
-  List,
 } from "lucide-vue-next";
+import DocLayout from "@/layouts/DocLayout.vue";
 
 // 當前選中的職業 Tab
 const activeClassTab = ref("ranger");
 
-// ==========================================
-// 浮動目錄 (Table of Contents)
-// ==========================================
-const tocItems = ref([
+// 目錄項目 (傳給 DocLayout)
+const tocItems = [
   { id: "summoning", text: "召喚方式" },
   { id: "arena", text: "場地準備" },
   { id: "stats", text: "雙眼屬性比較" },
@@ -36,52 +32,7 @@ const tocItems = ref([
   { id: "strategy", text: "核心戰術" },
   { id: "equipment", text: "推薦裝備" },
   { id: "drops", text: "掉落物" },
-]);
-
-const activeId = ref("summoning");
-let observer = null;
-
-// 設定 IntersectionObserver 進行 Scroll Spy
-const setupScrollSpy = () => {
-  observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          activeId.value = entry.target.id;
-        }
-      });
-    },
-    {
-      rootMargin: "-10% 0px -80% 0px",
-      threshold: 0,
-    }
-  );
-
-  tocItems.value.forEach((item) => {
-    const el = document.getElementById(item.id);
-    if (el) observer.observe(el);
-  });
-};
-
-// 平滑捲動到指定區塊
-const scrollToSection = (id) => {
-  const el = document.getElementById(id);
-  if (el) {
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-    activeId.value = id;
-  }
-};
-
-onMounted(() => {
-  setTimeout(setupScrollSpy, 100);
-});
-
-onUnmounted(() => {
-  if (observer) {
-    observer.disconnect();
-    observer = null;
-  }
-});
+];
 
 /**
  * 機械魔眼 (The Twins) - BOSS 資料
@@ -472,36 +423,16 @@ const bossData = {
 </script>
 
 <template>
-  <div class="boss-page">
-    <!-- ========================================
-         浮動目錄 (Table of Contents)
-         ======================================== -->
-    <aside class="floating-toc">
-      <div class="floating-toc__inner">
-        <div class="floating-toc__header">
-          <List :size="16" />
-          <span>目錄</span>
-        </div>
-        <nav class="floating-toc__nav">
-          <a
-            v-for="item in tocItems"
-            :key="item.id"
-            :href="`#${item.id}`"
-            :class="[
-              'floating-toc__link',
-              { 'floating-toc__link--active': activeId === item.id },
-            ]"
-            @click.prevent="scrollToSection(item.id)"
-          >
-            {{ item.text }}
-          </a>
-        </nav>
-      </div>
-    </aside>
-
-    <!-- ========================================
-         Hero Section - 頂部展示區
-         ======================================== -->
+  <DocLayout
+    title="目錄"
+    :transparent="true"
+    :floating="true"
+    :manual-toc-items="tocItems"
+  >
+    <div class="boss-page">
+      <!-- ========================================
+           Hero Section - 頂部展示區
+           ======================================== -->
     <section class="hero">
       <!-- 背景裝飾 -->
       <div class="hero__bg">
@@ -978,7 +909,8 @@ const bossData = {
         </div>
       </div>
     </section>
-  </div>
+    </div>
+  </DocLayout>
 </template>
 
 <style scoped>
@@ -991,93 +923,6 @@ const bossData = {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-}
-
-/* 大螢幕時為浮動目錄留出空間 */
-@media (min-width: 1400px) {
-  .boss-page {
-    margin-right: 240px;
-  }
-}
-
-/* ==========================================
-   浮動目錄 (Table of Contents)
-   ========================================== */
-.floating-toc {
-  position: fixed;
-  right: 2rem;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 40;
-  display: none;
-}
-
-@media (min-width: 1400px) {
-  .floating-toc {
-    display: block;
-  }
-}
-
-.floating-toc__inner {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: 0.75rem;
-  padding: 1rem;
-  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.1);
-  max-width: 180px;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-:global(.dark) .floating-toc__inner {
-  box-shadow: none;
-}
-
-.floating-toc__header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding-bottom: 0.75rem;
-  margin-bottom: 0.75rem;
-  border-bottom: 1px solid var(--color-border);
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--color-text-muted);
-}
-
-.floating-toc__header svg {
-  color: var(--color-primary);
-}
-
-.floating-toc__nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0.125rem;
-}
-
-.floating-toc__link {
-  display: block;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--color-text-secondary);
-  text-decoration: none;
-  border-radius: 0.375rem;
-  border-left: 3px solid transparent;
-  transition: all 0.15s ease;
-}
-
-.floating-toc__link:hover {
-  color: var(--color-text-primary);
-  background: var(--color-bg-main);
-}
-
-.floating-toc__link--active {
-  color: var(--color-primary);
-  font-weight: 600;
-  background: rgba(99, 102, 241, 0.08);
-  border-left-color: var(--color-primary);
 }
 
 /* 區塊捲動定位偏移 */
