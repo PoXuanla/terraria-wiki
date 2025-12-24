@@ -1,52 +1,51 @@
 <script setup>
-import { computed } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { useTagsViewStore } from '@/stores/tagsView'
+import { computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { useTagsViewStore } from "@/stores/tagsView";
+import { X } from "lucide-vue-next";
+import BaseIcon from "@/components/BaseIcon.vue";
 
-const router = useRouter()
-const route = useRoute()
-const tagsViewStore = useTagsViewStore()
+const router = useRouter();
+const route = useRoute();
+const tagsViewStore = useTagsViewStore();
 
 // 取得所有標籤
-const tags = computed(() => tagsViewStore.tags)
+const tags = computed(() => tagsViewStore.tags);
 
 // 判斷標籤是否為當前活動頁面
-const isActive = (path) => route.path === path
+const isActive = (path) => route.path === path;
 
 // 點擊標籤跳轉
 const handleTagClick = (tag) => {
   if (route.path !== tag.path) {
-    router.push(tag.path)
+    router.push(tag.path);
   }
-}
+};
 
 // 關閉標籤
 const handleTagClose = (event, path) => {
-  event.stopPropagation()
-  
-  const nextTag = tagsViewStore.removeTag(path)
-  
+  event.stopPropagation();
+
+  const nextTag = tagsViewStore.removeTag(path);
+
   // 如果關閉的是當前頁面，跳轉到相鄰頁面
   if (route.path === path && nextTag) {
-    router.push(nextTag.path)
+    router.push(nextTag.path);
   } else if (route.path === path && !nextTag) {
     // 如果沒有其他標籤，跳轉到首頁
-    router.push('/')
+    router.push("/");
   }
-}
+};
 
 // 右鍵選單功能 (可擴展)
 const handleContextMenu = (event, tag) => {
-  event.preventDefault()
+  event.preventDefault();
   // 未來可以加入右鍵選單：關閉其他、關閉所有等
-}
+};
 </script>
 
 <template>
-  <div 
-    v-if="tags.length > 0"
-    class="history-tabs-container"
-  >
+  <div v-if="tags.length > 0" class="history-tabs-container">
     <div class="history-tabs-wrapper">
       <TransitionGroup name="tag" tag="div" class="history-tabs">
         <div
@@ -54,28 +53,29 @@ const handleContextMenu = (event, tag) => {
           :key="tag.path"
           :class="[
             'history-tag',
-            { 'history-tag--active': isActive(tag.path) }
+            { 'history-tag--active': isActive(tag.path) },
           ]"
           @click="handleTagClick(tag)"
           @contextmenu="handleContextMenu($event, tag)"
         >
+          <!-- Icon -->
+          <BaseIcon
+            v-if="tag.icon"
+            :icon="tag.icon"
+            :size="16"
+            class="history-tag__icon"
+          />
+
           <!-- 標籤標題 -->
           <span class="history-tag__title">{{ tag.title }}</span>
-          
+
           <!-- 關閉按鈕 -->
           <button
             class="history-tag__close"
             @click="handleTagClose($event, tag.path)"
             :aria-label="`關閉 ${tag.title}`"
           >
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              viewBox="0 0 20 20" 
-              fill="currentColor"
-              class="w-3.5 h-3.5"
-            >
-              <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-            </svg>
+            <X :size="14" />
           </button>
         </div>
       </TransitionGroup>
@@ -114,7 +114,7 @@ const handleContextMenu = (event, tag) => {
   color: var(--color-tag-text);
   cursor: pointer;
   transition: all var(--transition-fast) ease-out;
-  box-shadow: var(--shadow-tag, 0 1px 3px -1px rgba(0,0,0,0.1));
+  box-shadow: var(--shadow-tag, 0 1px 3px -1px rgba(0, 0, 0, 0.1));
 }
 
 .history-tag:hover {
@@ -130,6 +130,10 @@ const handleContextMenu = (event, tag) => {
 
 .history-tag--active:hover {
   background-color: var(--color-primary-hover);
+}
+
+.history-tag__icon {
+  flex-shrink: 0;
 }
 
 .history-tag__title {
@@ -185,4 +189,3 @@ const handleContextMenu = (event, tag) => {
   }
 }
 </style>
-

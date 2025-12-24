@@ -1,5 +1,6 @@
 <script setup>
 import { useRoute } from 'vue-router'
+import BaseIcon from '@/components/BaseIcon.vue'
 
 const props = defineProps({
   menuConfig: {
@@ -23,7 +24,7 @@ const isActive = (path) => route.path === path
     >
       <!-- 分組標題 -->
       <div class="menu-group__header">
-        <span class="menu-group__icon">{{ group.icon }}</span>
+        <BaseIcon :icon="group.icon" :size="14" class="menu-group__icon" />
         <span class="menu-group__title">{{ group.group }}</span>
       </div>
       
@@ -40,7 +41,7 @@ const isActive = (path) => route.path === path
               { 'menu-item--active': isActive(item.path) }
             ]"
           >
-            <span class="menu-item__icon">{{ item.icon }}</span>
+            <BaseIcon :icon="item.icon" :size="20" class="menu-item__icon" />
             <span class="menu-item__title">{{ item.title }}</span>
           </RouterLink>
         </li>
@@ -73,7 +74,7 @@ const isActive = (path) => route.path === path
 }
 
 .menu-group__icon {
-  font-size: 0.875rem;
+  opacity: 0.8;
 }
 
 .menu-group__items {
@@ -132,7 +133,6 @@ const isActive = (path) => route.path === path
 }
 
 .menu-item__icon {
-  font-size: 1rem;
   flex-shrink: 0;
 }
 
@@ -143,4 +143,3 @@ const isActive = (path) => route.path === path
   white-space: nowrap;
 }
 </style>
-

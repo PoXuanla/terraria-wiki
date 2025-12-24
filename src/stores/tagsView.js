@@ -12,7 +12,7 @@ export const useTagsViewStore = defineStore('tagsView', () => {
   
   /**
    * 訪問過的標籤列表
-   * @type {Ref<Array<{title: string, path: string, name: string}>>}
+   * @type {Ref<Array<{title: string, path: string, name: string, icon: any}>>}
    */
   const visitedTags = ref([])
   
@@ -42,7 +42,7 @@ export const useTagsViewStore = defineStore('tagsView', () => {
   
   /**
    * 新增標籤
-   * @param {Object} route - 路由物件，包含 path, name, meta.title
+   * @param {Object} route - 路由物件，包含 path, name, meta.title, meta.icon
    */
   function addTag(route) {
     // 檢查是否為有效路由
@@ -56,11 +56,12 @@ export const useTagsViewStore = defineStore('tagsView', () => {
       return
     }
     
-    // 新增標籤
+    // 新增標籤 (包含 icon)
     visitedTags.value.push({
       title: route.meta.title,
       path: route.path,
       name: route.name || '',
+      icon: route.meta.icon || null, // 存入 icon
     })
     
     // 加入快取列表 (用於 KeepAlive)
@@ -154,4 +155,3 @@ export const useTagsViewStore = defineStore('tagsView', () => {
     hasTag,
   }
 })
-

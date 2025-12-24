@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { Home, BookOpen, Crosshair } from 'lucide-vue-next'
 
 /**
  * 路由配置
@@ -21,6 +22,10 @@ const routes = [
     path: '/',
     component: MainLayout,
     redirect: '/guides/mimic',
+    meta: {
+      title: '首頁',
+      icon: Home,
+    },
     children: [
       // ==========================================
       // 指南 (Guides)
@@ -31,7 +36,7 @@ const routes = [
         component: GuideMimic,
         meta: {
           title: '寶藏怪狩獵指南',
-          icon: 'treasure',
+          icon: 'https://terraria.wiki.gg/images/f/f5/Mimic.png',
           group: 'guides',
         },
       },
@@ -41,7 +46,7 @@ const routes = [
         component: GuideClentaminator,
         meta: {
           title: '環境治理指南',
-          icon: 'environment',
+          icon: 'https://terraria.wiki.gg/images/9/9b/Clentaminator.png',
           group: 'guides',
         },
       },
@@ -55,7 +60,7 @@ const routes = [
         component: WeaponDaedalus,
         meta: {
           title: '代達羅斯風暴弓',
-          icon: 'bow',
+          icon: 'https://terraria.wiki.gg/images/e/e6/Daedalus_Stormbow.png',
           group: 'weapons',
         },
       },
@@ -95,21 +100,32 @@ export const menuConfig = [
   {
     group: '指南',
     groupKey: 'guides',
-    icon: '📖',
+    icon: BookOpen,
     items: [
-      { title: '寶藏怪狩獵指南', path: '/guides/mimic', icon: '💎' },
-      { title: '環境治理指南', path: '/guides/clentaminator', icon: '🌿' },
+      { 
+        title: '寶藏怪狩獵指南', 
+        path: '/guides/mimic', 
+        icon: 'https://terraria.wiki.gg/images/f/f5/Mimic.png',
+      },
+      { 
+        title: '環境治理指南', 
+        path: '/guides/clentaminator', 
+        icon: 'https://terraria.wiki.gg/images/9/9b/Clentaminator.png',
+      },
     ],
   },
   {
     group: '武器',
     groupKey: 'weapons',
-    icon: '⚔️',
+    icon: Crosshair,
     items: [
-      { title: '代達羅斯風暴弓', path: '/weapons/daedalus', icon: '🏹' },
+      { 
+        title: '代達羅斯風暴弓', 
+        path: '/weapons/daedalus', 
+        icon: 'https://terraria.wiki.gg/images/e/e6/Daedalus_Stormbow.png',
+      },
     ],
   },
 ]
 
 export default router
-
