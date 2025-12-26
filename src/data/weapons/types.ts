@@ -3,8 +3,8 @@
  */
 
 // 從 source 資料夾導入取得方式相關類型
-export * from './source'
-import type { WeaponSource } from './source'
+export * from "./source";
+import type { WeaponSource } from "./source";
 
 // ==========================================
 // 職業類型
@@ -133,7 +133,7 @@ export interface ProjectilePhysics {
   /** 穿牆 (忽略地形碰撞) */
   tileIgnore?: boolean;
   /** 追蹤能力 */
-  homing?: boolean | 'weak' | 'strong';
+  homing?: boolean | "weak" | "strong";
   /** 飛行速度 */
   velocity?: number;
 }
@@ -177,9 +177,9 @@ export interface SummonBehavior {
   /** 召喚欄位消耗 */
   slots: number;
   /** AI 類型 */
-  aiType: 'melee' | 'ranged' | 'flying' | 'stationary' | 'whip';
+  aiType: "melee" | "ranged" | "flying" | "stationary" | "whip";
   /** 追蹤能力 */
-  tracking?: boolean | 'weak' | 'strong' | 'perfect';
+  tracking?: boolean | "weak" | "strong" | "perfect";
   /** 攻擊速度描述 */
   attackSpeed?: string;
   /** 是否需要鞭子標記 */
@@ -248,4 +248,3 @@ export interface WeaponData {
   /** 武器機制（選填） */
   mechanics?: WeaponMechanics;
 }
-
