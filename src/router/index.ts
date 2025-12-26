@@ -8,6 +8,8 @@ import type { Component } from "vue";
 import { Home, BookOpen, Crosshair, FileText, Skull } from "lucide-vue-next";
 import { weapons } from "@/data/weapons";
 import { guides } from "@/data/guides";
+import { bosses } from "@/data/boss";
+import { isTheTwins } from "@/data/boss/types";
 
 /**
  * 路由配置
@@ -86,14 +88,26 @@ const weaponModules = import.meta.glob<{ default: Component }>(
   "@/views/weapons/*.vue"
 );
 
-// Boss 頁面
-const BossTheTwins = () => import("@/views/boss/TheTwins.vue");
-const BossTheDestroyer = () => import("@/views/boss/TheDestroyer.vue");
-const BossSkeletronPrime = () => import("@/views/boss/SkeletronPrime.vue");
+// Boss 頁面 - 使用 import.meta.glob 動態導入
+const bossModules = import.meta.glob<{ default: Component }>(
+  "@/views/boss/*.vue"
+);
 
 // ==========================================
 // 動態路由生成
 // ==========================================
+
+/**
+ * 取得 Boss 的圖標 URL
+ * 處理 TheTwins 的特殊情況（使用 icons 而非 icon）
+ */
+const getBossIcon = (boss: (typeof bosses)[number]): string => {
+  if (isTheTwins(boss)) {
+    // TheTwins 使用第一個圖標（雷射眼）作為代表
+    return boss.icons.retinazer;
+  }
+  return boss.icon;
+};
 
 /**
  * 動態生成指南路由
@@ -131,6 +145,41 @@ const generateWeaponRoutes = () => {
         title: weapon.name,
         icon: weapon.icon,
         group: "weapons",
+      },
+    };
+  });
+};
+
+/**
+ * 動態生成 Boss 路由
+ */
+const generateBossRoutes = () => {
+  // 調試：輸出 bossModules 的所有鍵
+  if (import.meta.env.DEV) {
+    console.log("Boss modules keys:", Object.keys(bossModules));
+  }
+
+  return bosses.map((boss) => {
+    const componentName = kebabToPascal(boss.slug);
+    const componentPath = `/src/views/boss/${componentName}.vue`;
+
+    if (import.meta.env.DEV) {
+      console.log(`Boss: ${boss.slug} -> ${componentName} -> ${componentPath}`);
+      console.log(
+        `Module exists:`,
+        componentPath in bossModules,
+        bossModules[componentPath]
+      );
+    }
+
+    return {
+      path: `boss/${boss.slug}`,
+      name: `Boss${componentName}`,
+      component: bossModules[componentPath],
+      meta: {
+        title: `${boss.name} (${boss.nameEn})`,
+        icon: getBossIcon(boss),
+        group: "boss",
       },
     };
   });
@@ -188,38 +237,9 @@ const routes: RouteRecordRaw[] = [
       ...generateWeaponRoutes(),
 
       // ==========================================
-      // BOSS
+      // BOSS - 動態生成
       // ==========================================
-      {
-        path: "boss/the-twins",
-        name: "BossTheTwins",
-        component: BossTheTwins,
-        meta: {
-          title: "機械魔眼 (The Twins)",
-          icon: "https://terraria.wiki.gg/images/5/55/Retinazer.png",
-          group: "boss",
-        },
-      },
-      {
-        path: "boss/the-destroyer",
-        name: "BossTheDestroyer",
-        component: BossTheDestroyer,
-        meta: {
-          title: "毀滅者 (The Destroyer)",
-          icon: "https://terraria.wiki.gg/images/a/a7/The_Destroyer.png",
-          group: "boss",
-        },
-      },
-      {
-        path: "boss/skeletron-prime",
-        name: "BossSkeletronPrime",
-        component: BossSkeletronPrime,
-        meta: {
-          title: "機械骷髏王 (Skeletron Prime)",
-          icon: "https://terraria.wiki.gg/images/2/2a/Skeletron_Prime.png",
-          group: "boss",
-        },
-      },
+      ...generateBossRoutes(),
     ],
   },
 
@@ -286,6 +306,17 @@ const generateWeaponMenuItems = (): MenuItem[] => {
 };
 
 /**
+ * 動態生成 Boss 選單項目
+ */
+const generateBossMenuItems = (): MenuItem[] => {
+  return bosses.map((boss) => ({
+    title: `${boss.name} (${boss.nameEn})`,
+    path: `/boss/${boss.slug}`,
+    icon: getBossIcon(boss),
+  }));
+};
+
+/**
  * 側邊欄選單配置
  * 導出供 Sidebar 組件使用
  */
@@ -318,23 +349,7 @@ export const menuConfig: MenuGroup[] = [
     group: "BOSS",
     groupKey: "boss",
     icon: Skull,
-    items: [
-      {
-        title: "機械魔眼 (The Twins)",
-        path: "/boss/the-twins",
-        icon: "https://terraria.wiki.gg/images/5/55/Retinazer.png",
-      },
-      {
-        title: "毀滅者 (The Destroyer)",
-        path: "/boss/the-destroyer",
-        icon: "https://terraria.wiki.gg/images/a/a7/The_Destroyer.png",
-      },
-      {
-        title: "機械骷髏王 (Skeletron Prime)",
-        path: "/boss/skeletron-prime",
-        icon: "https://terraria.wiki.gg/images/2/2a/Skeletron_Prime.png",
-      },
-    ],
+    items: generateBossMenuItems(),
   },
 ];
 
