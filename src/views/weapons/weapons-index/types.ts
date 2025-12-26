@@ -3,6 +3,8 @@
  */
 
 import type { WeaponData } from "@/data/weapons/types";
+import { WeaponClass } from "@/data/weapons/types";
+import { SourceType } from "@/data/weapons/source";
 
 // ==========================================
 // 篩選選項類型
@@ -57,16 +59,6 @@ export type SortKey = "damage" | "rarity" | "name";
  */
 export type SortOrder = "asc" | "desc";
 
-/**
- * 職業類型
- */
-export type WeaponClass = "Ranger" | "Melee" | "Mage" | "Summoner" | "";
-
-/**
- * 取得方式類型
- */
-export type SourceType = "crafting" | "drop" | "";
-
 // ==========================================
 // 武器列表項目
 // ==========================================
@@ -108,14 +100,31 @@ export const DEFAULT_COLOR = "#6b7280";
 /**
  * 職業配置（用於篩選器顯示）
  */
-export const CLASS_CONFIG: Record<
-  string,
-  { label: string; icon: string }
-> = {
+export const CLASS_CONFIG: Record<string, { label: string; icon: string }> = {
   "": { label: "全部", icon: "🎯" },
-  Ranger: { label: "遠程", icon: "🏹" },
-  Melee: { label: "近戰", icon: "⚔️" },
-  Mage: { label: "魔法", icon: "🔮" },
-  Summoner: { label: "召喚", icon: "👻" },
+  [WeaponClass.Ranger]: { label: "遠程", icon: "🏹" },
+  [WeaponClass.Melee]: { label: "近戰", icon: "⚔️" },
+  [WeaponClass.Mage]: { label: "魔法", icon: "🔮" },
+  [WeaponClass.Summoner]: { label: "召喚", icon: "👻" },
 };
 
+// ==========================================
+// 取得方式選項配置
+// ==========================================
+
+/**
+ * 取得方式配置（用於篩選器顯示）
+ */
+export const SOURCE_CONFIG: Record<string, { label: string; icon: string }> = {
+  "": { label: "全部", icon: "📦" },
+  [SourceType.Crafting]: { label: "製作", icon: "🔨" },
+  [SourceType.Drop]: { label: "掉落", icon: "💀" },
+  [SourceType.Purchase]: { label: "購買", icon: "💰" },
+  [SourceType.Chest]: { label: "寶箱", icon: "🎁" },
+  [SourceType.Fishing]: { label: "釣魚", icon: "🎣" },
+  [SourceType.Crate]: { label: "木箱", icon: "📦" },
+  [SourceType.Quest]: { label: "任務", icon: "📜" },
+  [SourceType.Event]: { label: "事件", icon: "🎉" },
+  [SourceType.Bag]: { label: "寶藏袋", icon: "💼" },
+  [SourceType.Other]: { label: "其他", icon: "❓" },
+};

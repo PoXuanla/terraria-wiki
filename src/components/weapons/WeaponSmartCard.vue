@@ -36,58 +36,58 @@ const isSummoner = computed(() => props.weapon.class === WeaponClass.Summoner);
 const isMelee = computed(() => props.weapon.class === WeaponClass.Melee);
 
 // 是否有投射物（魔法/遠程）
-const hasProjectile = computed(() => isMage.value || isRanger.value)
+const hasProjectile = computed(() => isMage.value || isRanger.value);
 
 // Header 右側資源顯示
 const resourceDisplay = computed(() => {
-  const m = props.weapon.mechanics
-  if (!m) return null
-  
+  const m = props.weapon.mechanics;
+  if (!m) return null;
+
   // 召喚武器優先顯示欄位
   if (isSummoner.value && m.summon?.slots) {
-    return { type: 'slots', value: m.summon.slots, label: '欄位' }
+    return { type: "slots", value: m.summon.slots, label: "欄位" };
   }
   // 魔力消耗
   if (m.resource?.manaCost) {
-    return { type: 'mana', value: m.resource.manaCost, label: 'Mana' }
+    return { type: "mana", value: m.resource.manaCost, label: "Mana" };
   }
   // 彈藥
   if (m.resource?.ammo) {
-    return { 
-      type: 'ammo', 
-      value: m.resource.ammo.type, 
-      infinite: m.resource.ammo.saveChance === 100 
-    }
+    return {
+      type: "ammo",
+      value: m.resource.ammo.type,
+      infinite: m.resource.ammo.saveChance === 100,
+    };
   }
   // 近戰無消耗
   if (isMelee.value) {
-    return { type: 'none', label: '無消耗' }
+    return { type: "none", label: "無消耗" };
   }
-  return null
-})
+  return null;
+});
 
 // AI 類型中文對照
 const aiTypeLabel = computed(() => {
-  const ai = props.weapon.mechanics?.summon?.aiType
+  const ai = props.weapon.mechanics?.summon?.aiType;
   const labels: Record<string, string> = {
-    melee: '近戰型',
-    ranged: '遠程型',
-    flying: '飛行型',
-    stationary: '固定型',
-    whip: '鞭子'
-  }
-  return labels[ai || ''] || ai
-})
+    melee: "近戰型",
+    ranged: "遠程型",
+    flying: "飛行型",
+    stationary: "固定型",
+    whip: "鞭子",
+  };
+  return labels[ai || ""] || ai;
+});
 
 // 追蹤能力中文對照
 const trackingLabel = computed(() => {
-  const t = props.weapon.mechanics?.summon?.tracking
-  if (t === true) return '追蹤'
-  if (t === 'weak') return '弱追蹤'
-  if (t === 'strong') return '強追蹤'
-  if (t === 'perfect') return '完美追蹤'
-  return null
-})
+  const t = props.weapon.mechanics?.summon?.tracking;
+  if (t === true) return "追蹤";
+  if (t === "weak") return "弱追蹤";
+  if (t === "strong") return "強追蹤";
+  if (t === "perfect") return "完美追蹤";
+  return null;
+});
 </script>
 
 <template>
@@ -95,13 +95,9 @@ const trackingLabel = computed(() => {
     <!-- Header: 身份與代價 -->
     <header class="smart-card__header">
       <div class="smart-card__identity">
-        <img 
-          :src="weapon.icon" 
-          :alt="weapon.name"
-          class="smart-card__icon"
-        />
+        <img :src="weapon.icon" :alt="weapon.name" class="smart-card__icon" />
         <div class="smart-card__name-group">
-          <span 
+          <span
             class="smart-card__name"
             :style="{ color: weapon.rarity.color }"
           >
@@ -111,22 +107,34 @@ const trackingLabel = computed(() => {
         </div>
       </div>
       <div v-if="resourceDisplay" class="smart-card__cost">
-        <span v-if="resourceDisplay.type === 'mana'" class="cost-pill cost-pill--mana">
+        <span
+          v-if="resourceDisplay.type === 'mana'"
+          class="cost-pill cost-pill--mana"
+        >
           💧 {{ resourceDisplay.value }} {{ resourceDisplay.label }}
         </span>
-        <span v-else-if="resourceDisplay.type === 'slots'" class="cost-pill cost-pill--slots">
+        <span
+          v-else-if="resourceDisplay.type === 'slots'"
+          class="cost-pill cost-pill--slots"
+        >
           👻 {{ resourceDisplay.value }} {{ resourceDisplay.label }}
         </span>
-        <span v-else-if="resourceDisplay.type === 'ammo'" class="cost-pill cost-pill--ammo">
+        <span
+          v-else-if="resourceDisplay.type === 'ammo'"
+          class="cost-pill cost-pill--ammo"
+        >
           🎯 {{ resourceDisplay.value }}
           <template v-if="resourceDisplay.infinite"> ∞</template>
         </span>
-        <span v-else-if="resourceDisplay.type === 'none'" class="cost-pill cost-pill--none">
+        <span
+          v-else-if="resourceDisplay.type === 'none'"
+          class="cost-pill cost-pill--none"
+        >
           ⚡ {{ resourceDisplay.label }}
         </span>
       </div>
     </header>
-    
+
     <!-- Body: 2x2 Smart Grid -->
     <div class="smart-grid">
       <!-- ===== 左上：輸出能力（通用） ===== -->
@@ -136,7 +144,9 @@ const trackingLabel = computed(() => {
           <span class="smart-module__title">輸出能力</span>
         </div>
         <div class="smart-module__main">
-          <span class="smart-module__value">{{ weapon.stats.damage.value }}</span>
+          <span class="smart-module__value">{{
+            weapon.stats.damage.value
+          }}</span>
           <span class="smart-module__label">{{ weapon.classLabel }}傷害</span>
         </div>
         <div class="smart-module__sub">
@@ -146,15 +156,18 @@ const trackingLabel = computed(() => {
           </span>
         </div>
         <!-- 減益效果 -->
-        <div v-if="weapon.mechanics?.combat?.debuffs?.length" class="smart-module__tags">
-          <span 
-            v-for="debuff in weapon.mechanics.combat.debuffs" 
+        <div
+          v-if="weapon.mechanics?.combat?.debuffs?.length"
+          class="smart-module__tags"
+        >
+          <span
+            v-for="debuff in weapon.mechanics.combat.debuffs"
             :key="debuff.nameEn"
             class="smart-tag smart-tag--debuff"
           >
-            <img 
-              v-if="debuff.icon" 
-              :src="debuff.icon" 
+            <img
+              v-if="debuff.icon"
+              :src="debuff.icon"
               :alt="debuff.name"
               class="smart-tag__icon"
             />
@@ -163,7 +176,7 @@ const trackingLabel = computed(() => {
           </span>
         </div>
       </div>
-      
+
       <!-- ===== 右上：操作手感（通用） ===== -->
       <div class="smart-module smart-module--handling">
         <div class="smart-module__header">
@@ -171,35 +184,39 @@ const trackingLabel = computed(() => {
           <span class="smart-module__title">操作手感</span>
         </div>
         <div class="smart-module__main">
-          <span class="smart-module__value">{{ weapon.stats.useTime.value }}</span>
-          <span class="smart-module__label">{{ weapon.stats.useTime.description || '使用時間' }}</span>
+          <span class="smart-module__value">{{
+            weapon.stats.useTime.value
+          }}</span>
+          <span class="smart-module__label">{{
+            weapon.stats.useTime.description || "使用時間"
+          }}</span>
         </div>
         <div class="smart-module__tags">
-          <span 
-            v-if="weapon.mechanics?.input?.autoReuse" 
+          <span
+            v-if="weapon.mechanics?.input?.autoReuse"
             class="smart-tag smart-tag--positive"
           >
             <Repeat :size="12" />
             自動連發
           </span>
           <span v-else class="smart-tag smart-tag--neutral">單次攻擊</span>
-          <span 
-            v-if="weapon.mechanics?.input?.useTurn" 
+          <span
+            v-if="weapon.mechanics?.input?.useTurn"
             class="smart-tag smart-tag--neutral"
           >
             可轉向
           </span>
-          <span 
-            v-if="weapon.mechanics?.input?.channeling" 
+          <span
+            v-if="weapon.mechanics?.input?.channeling"
             class="smart-tag smart-tag--info"
           >
             持續引導
           </span>
         </div>
       </div>
-      
+
       <!-- ===== 左下：根據職業動態顯示 ===== -->
-      
+
       <!-- 魔法/遠程：彈道物理 -->
       <div v-if="hasProjectile" class="smart-module smart-module--projectile">
         <div class="smart-module__header">
@@ -207,45 +224,50 @@ const trackingLabel = computed(() => {
           <span class="smart-module__title">彈道物理</span>
         </div>
         <div class="smart-module__main">
-          <span class="smart-module__value">{{ weapon.mechanics?.projectile?.velocity || '-' }}</span>
+          <span class="smart-module__value">{{
+            weapon.mechanics?.projectile?.velocity || "-"
+          }}</span>
           <span class="smart-module__label">飛行速度</span>
         </div>
         <div class="smart-module__tags">
-          <span 
-            v-if="weapon.mechanics?.projectile?.piercing === -1" 
+          <span
+            v-if="weapon.mechanics?.projectile?.piercing === -1"
             class="smart-tag smart-tag--positive"
           >
             <Crosshair :size="12" />
             無限穿透
           </span>
-          <span 
-            v-else-if="weapon.mechanics?.projectile?.piercing && weapon.mechanics.projectile.piercing > 0" 
+          <span
+            v-else-if="
+              weapon.mechanics?.projectile?.piercing &&
+              weapon.mechanics.projectile.piercing > 0
+            "
             class="smart-tag smart-tag--info"
           >
             穿透 {{ weapon.mechanics.projectile.piercing }}
           </span>
-          <span 
-            v-if="weapon.mechanics?.projectile?.homing" 
+          <span
+            v-if="weapon.mechanics?.projectile?.homing"
             class="smart-tag smart-tag--positive"
           >
             <Target :size="12" />
             追蹤
           </span>
-          <span 
-            v-if="weapon.mechanics?.projectile?.tileIgnore" 
+          <span
+            v-if="weapon.mechanics?.projectile?.tileIgnore"
             class="smart-tag smart-tag--positive"
           >
             穿牆
           </span>
-          <span 
-            v-if="weapon.mechanics?.projectile?.bounces" 
+          <span
+            v-if="weapon.mechanics?.projectile?.bounces"
             class="smart-tag smart-tag--info"
           >
             反彈 {{ weapon.mechanics.projectile.bounces }}
           </span>
         </div>
       </div>
-      
+
       <!-- 召喚：召喚物特性 -->
       <div v-else-if="isSummoner" class="smart-module smart-module--summon">
         <div class="smart-module__header">
@@ -253,7 +275,7 @@ const trackingLabel = computed(() => {
           <span class="smart-module__title">召喚物特性</span>
         </div>
         <div class="smart-module__main">
-          <span class="smart-module__value">{{ aiTypeLabel || '-' }}</span>
+          <span class="smart-module__value">{{ aiTypeLabel || "-" }}</span>
           <span class="smart-module__label">AI 類型</span>
         </div>
         <div class="smart-module__tags">
@@ -261,21 +283,21 @@ const trackingLabel = computed(() => {
             <Target :size="12" />
             {{ trackingLabel }}
           </span>
-          <span 
-            v-if="weapon.mechanics?.summon?.attackSpeed" 
+          <span
+            v-if="weapon.mechanics?.summon?.attackSpeed"
             class="smart-tag smart-tag--info"
           >
             {{ weapon.mechanics.summon.attackSpeed }}
           </span>
-          <span 
-            v-if="weapon.mechanics?.summon?.requiresWhip" 
+          <span
+            v-if="weapon.mechanics?.summon?.requiresWhip"
             class="smart-tag smart-tag--neutral"
           >
             需鞭子標記
           </span>
         </div>
       </div>
-      
+
       <!-- 近戰：攻擊特性 -->
       <div v-else-if="isMelee" class="smart-module smart-module--melee">
         <div class="smart-module__header">
@@ -283,34 +305,38 @@ const trackingLabel = computed(() => {
           <span class="smart-module__title">攻擊特性</span>
         </div>
         <div class="smart-module__main">
-          <span class="smart-module__value">{{ weapon.mechanics?.melee?.range || '-' }}</span>
+          <span class="smart-module__value">{{
+            weapon.mechanics?.melee?.range || "-"
+          }}</span>
           <span class="smart-module__label">攻擊範圍</span>
         </div>
         <div class="smart-module__tags">
-          <span 
-            v-if="weapon.mechanics?.combat?.trueMelee" 
+          <span
+            v-if="weapon.mechanics?.combat?.trueMelee"
             class="smart-tag smart-tag--melee"
           >
             <Swords :size="12" />
             真近戰
           </span>
-          <span 
-            v-if="weapon.mechanics?.melee?.projectile" 
+          <span
+            v-if="weapon.mechanics?.melee?.projectile"
             class="smart-tag smart-tag--info"
           >
             發射劍氣
           </span>
-          <span 
-            v-if="weapon.mechanics?.melee?.armorPenetration" 
+          <span
+            v-if="weapon.mechanics?.melee?.armorPenetration"
             class="smart-tag smart-tag--positive"
           >
-            無視 {{ Math.round(weapon.mechanics.melee.armorPenetration * 100) }}% 防禦
+            無視
+            {{ Math.round(weapon.mechanics.melee.armorPenetration * 100) }}%
+            防禦
           </span>
         </div>
       </div>
-      
+
       <!-- ===== 右下：控制能力（通用）===== -->
-      <div 
+      <div
         class="smart-module smart-module--control"
         :class="{ 'smart-module--dimmed': weapon.stats.knockback.value === 0 }"
       >
@@ -319,10 +345,17 @@ const trackingLabel = computed(() => {
           <span class="smart-module__title">控制能力</span>
         </div>
         <div class="smart-module__main">
-          <span class="smart-module__value">{{ weapon.stats.knockback.value }}</span>
-          <span class="smart-module__label">{{ weapon.stats.knockback.description || '擊退' }}</span>
+          <span class="smart-module__value">{{
+            weapon.stats.knockback.value
+          }}</span>
+          <span class="smart-module__label">{{
+            weapon.stats.knockback.description || "擊退"
+          }}</span>
         </div>
-        <div v-if="weapon.mechanics?.combat?.lifeSteal" class="smart-module__tags">
+        <div
+          v-if="weapon.mechanics?.combat?.lifeSteal"
+          class="smart-module__tags"
+        >
           <span class="smart-tag smart-tag--lifesteal">
             <Heart :size="12" />
             吸血 {{ weapon.mechanics.combat.lifeSteal * 100 }}%
@@ -330,20 +363,26 @@ const trackingLabel = computed(() => {
         </div>
       </div>
     </div>
-    
+
     <!-- Footer: 特殊效果 -->
-    <footer 
-      v-if="weapon.mechanics?.combat?.specialEffects?.length || weapon.mechanics?.summon?.specialAbility" 
+    <footer
+      v-if="
+        weapon.mechanics?.combat?.specialEffects?.length ||
+        weapon.mechanics?.summon?.specialAbility
+      "
       class="smart-card__footer"
     >
-      <span 
-        v-for="effect in weapon.mechanics?.combat?.specialEffects || []" 
+      <span
+        v-for="effect in weapon.mechanics?.combat?.specialEffects || []"
         :key="effect"
         class="smart-card__special"
       >
         ✦ {{ effect }}
       </span>
-      <span v-if="weapon.mechanics?.summon?.specialAbility" class="smart-card__special">
+      <span
+        v-if="weapon.mechanics?.summon?.specialAbility"
+        class="smart-card__special"
+      >
         ✦ {{ weapon.mechanics.summon.specialAbility }}
       </span>
     </footer>
@@ -372,7 +411,11 @@ const trackingLabel = computed(() => {
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.25rem;
-  background: linear-gradient(135deg, var(--color-bg-main) 0%, var(--color-bg-card) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-bg-main) 0%,
+    var(--color-bg-card) 100%
+  );
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -641,19 +684,18 @@ const trackingLabel = computed(() => {
     align-items: flex-start;
     gap: 0.75rem;
   }
-  
+
   .smart-card__cost {
     width: 100%;
     justify-content: flex-start;
   }
-  
+
   .smart-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .smart-module__value {
     font-size: 1.5rem;
   }
 }
 </style>
-

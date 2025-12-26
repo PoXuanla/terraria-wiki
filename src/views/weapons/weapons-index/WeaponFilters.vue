@@ -3,13 +3,14 @@ import { ref, computed } from "vue";
 import { Search, X, ArrowUpDown, Star } from "lucide-vue-next";
 import { useWeaponStore } from "@/stores/weapon";
 import { WeaponClass } from "@/data/weapons/types";
+import { SourceType } from "@/data/weapons/source";
 import type {
   ClassOption,
   RarityOption,
   SourceOption,
   SortOption,
 } from "./types";
-import { CLASS_CONFIG } from "./types";
+import { CLASS_CONFIG, SOURCE_CONFIG } from "./types";
 
 /**
  * 武器篩選器組件
@@ -46,12 +47,25 @@ const rarityOptions = ref<RarityOption[]>([
   })),
 ]);
 
-// 取得方式選項
-const sourceOptions: SourceOption[] = [
-  { key: "", label: "全部", icon: "📦" },
-  { key: "crafting", label: "製作", icon: "🔨" },
-  { key: "drop", label: "掉落", icon: "💀" },
-];
+// 取得方式選項（基於 enum 和實際資料動態生成）
+const sourceOptions = computed<SourceOption[]>(() => {
+  // 從所有武器中提取實際使用的取得方式類型
+  const usedTypes = [
+    ...new Set(
+      weaponStore.weapons.flatMap((w: any) =>
+        w.sources.map((s: any) => s.type as string)
+      )
+    ),
+  ].sort() as string[];
+
+  return [
+    { key: "", ...SOURCE_CONFIG[""] },
+    ...usedTypes.map((sourceType: string) => ({
+      key: sourceType,
+      ...SOURCE_CONFIG[sourceType],
+    })),
+  ];
+});
 
 // 排序選項
 const sortOptions: SortOption[] = [
