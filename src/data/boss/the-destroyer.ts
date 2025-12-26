@@ -15,6 +15,8 @@ export const theDestroyer: TheDestroyerData = {
   nameEn: "The Destroyer",
   type: "機械 Boss",
   difficulty: "困難模式",
+  description:
+    "世界吞噬怪的機械版本。由多個體節組成的巨型機械蠕蟲。若準備得當，通常被認為是三個機械 Boss 中「最容易」擊敗的一個。擁有穿透武器的玩家可以輕鬆秒殺它。",
 
   // 圖片
   icon: "https://terraria.wiki.gg/images/a/a7/The_Destroyer.png",
@@ -317,4 +319,3 @@ export const theDestroyer: TheDestroyerData = {
 };
 
 export default theDestroyer;
-

@@ -1,8 +1,6 @@
 <script setup>
 import { ref } from "vue";
 import {
-  ExternalLink,
-  Skull,
   Heart,
   Swords,
   Shield,
@@ -12,13 +10,13 @@ import {
   Target,
   AlertTriangle,
   ChevronRight,
-  Star,
   Package,
   Crosshair,
   Eye,
   Moon,
 } from "lucide-vue-next";
 import DocLayout from "@/layouts/DocLayout.vue";
+import BossHero from "@/components/boss/BossHero.vue";
 import { theTwins as bossData } from "@/data/boss";
 
 // 當前選中的職業 Tab
@@ -31,16 +29,9 @@ const activeClassTab = ref("ranger");
       <!-- ========================================
            Hero Section - 頂部展示區
            ======================================== -->
-      <section class="hero">
-        <!-- 背景裝飾 -->
-        <div class="hero__bg">
-          <div class="hero__bg-pattern"></div>
-          <div class="hero__bg-glow hero__bg-glow--red"></div>
-          <div class="hero__bg-glow hero__bg-glow--green"></div>
-        </div>
-
-        <div class="hero__content">
-          <!-- BOSS 圖示 - 雙眼 -->
+      <BossHero :boss-data="bossData" :glow-variants="['red', 'green']">
+        <!-- 自定义双图标 -->
+        <template #icon>
           <div class="hero__icons">
             <div class="hero__icon-wrapper hero__icon-wrapper--red">
               <div class="hero__icon-glow hero__icon-glow--red"></div>
@@ -63,40 +54,8 @@ const activeClassTab = ref("ranger");
               </div>
             </div>
           </div>
-
-          <!-- BOSS 資訊 -->
-          <div class="hero__info">
-            <div class="hero__badges">
-              <span class="badge badge--boss">
-                <Skull :size="12" class="mr-1" />
-                {{ bossData.type }}
-              </span>
-              <span class="badge badge--difficulty">
-                <Star :size="12" class="mr-1" />
-                {{ bossData.difficulty }}
-              </span>
-            </div>
-
-            <h1 class="hero__title">{{ bossData.name }}</h1>
-            <p class="hero__subtitle">{{ bossData.nameEn }}</p>
-            <p class="hero__description">
-              困難模式三大機械 Boss 之一。由雷射眼 (Retinazer) 與魔焰眼
-              (Spazmatism) 組成的雙子 Boss，
-              需要同時應對兩種截然不同的攻擊模式。
-            </p>
-
-            <a
-              :href="bossData.wikiUrl"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="hero__wiki-link"
-            >
-              <span>查看 Wiki 頁面</span>
-              <ExternalLink :size="16" />
-            </a>
-          </div>
-        </div>
-      </section>
+        </template>
+      </BossHero>
 
       <!-- ========================================
          Summoning Section - 召喚方式
@@ -545,80 +504,8 @@ const activeClassTab = ref("ranger");
 }
 
 /* ==========================================
-   Hero Section
+   Custom Hero Styles for TheTwins
    ========================================== */
-.hero {
-  position: relative;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-  border-radius: 1rem;
-  overflow: hidden;
-  padding: 2rem;
-}
-
-.hero__bg {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
-
-.hero__bg-pattern {
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(
-      circle at 30% 30%,
-      rgba(239, 68, 68, 0.1) 0%,
-      transparent 40%
-    ),
-    radial-gradient(
-      circle at 70% 60%,
-      rgba(34, 197, 94, 0.1) 0%,
-      transparent 40%
-    ),
-    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l30 30-30 30L0 30z' fill='%23ffffff' fill-opacity='0.02'/%3E%3C/svg%3E");
-}
-
-.hero__bg-glow {
-  position: absolute;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  filter: blur(60px);
-  animation: pulse-glow 4s ease-in-out infinite;
-}
-
-.hero__bg-glow--red {
-  top: 20%;
-  left: 20%;
-  background: rgba(239, 68, 68, 0.3);
-}
-
-.hero__bg-glow--green {
-  top: 40%;
-  right: 20%;
-  background: rgba(34, 197, 94, 0.3);
-  animation-delay: 2s;
-}
-
-@keyframes pulse-glow {
-  0%,
-  100% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.1);
-  }
-}
-
-.hero__content {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  z-index: 1;
-}
-
 /* BOSS 雙圖示 */
 .hero__icons {
   display: flex;
@@ -679,82 +566,6 @@ const activeClassTab = ref("ranger");
   height: 56px;
   object-fit: contain;
   image-rendering: pixelated;
-}
-
-/* BOSS 資訊 */
-.hero__info {
-  flex: 1;
-  color: white;
-}
-
-.hero__badges {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.25rem 0.625rem;
-  border-radius: 9999px;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.badge--boss {
-  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
-  color: white;
-}
-
-.badge--difficulty {
-  background-color: rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.hero__title {
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 0;
-  letter-spacing: -0.02em;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
-}
-
-.hero__subtitle {
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.7);
-  margin: 0.25rem 0 0;
-  font-style: italic;
-}
-
-.hero__description {
-  margin: 1rem 0;
-  font-size: 0.9375rem;
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.6;
-}
-
-.hero__wiki-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 0.5rem;
-  color: white;
-  font-size: 0.875rem;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.hero__wiki-link:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-1px);
-  color: white;
 }
 
 /* ==========================================
@@ -1587,21 +1398,8 @@ const activeClassTab = ref("ranger");
    響應式設計
    ========================================== */
 @media (max-width: 640px) {
-  .hero__content {
-    flex-direction: column;
-    text-align: center;
-  }
-
   .hero__icons {
     justify-content: center;
-  }
-
-  .hero__badges {
-    justify-content: center;
-  }
-
-  .hero__title {
-    font-size: 1.5rem;
   }
 
   .hero__icon-frame {

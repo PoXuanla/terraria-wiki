@@ -161,6 +161,7 @@ export interface BaseBossData {
   nameEn: string;
   type: string;
   difficulty: string;
+  description: string;
   wikiUrl: string;
   summoning: BossSummoning;
   combat: BossCombat;

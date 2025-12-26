@@ -1,8 +1,6 @@
 <script setup>
 import { ref } from "vue";
 import {
-  ExternalLink,
-  Skull,
   Heart,
   Swords,
   Shield,
@@ -11,12 +9,12 @@ import {
   Target,
   AlertTriangle,
   ChevronRight,
-  Star,
   Package,
   Crosshair,
   Moon,
 } from "lucide-vue-next";
 import DocLayout from "@/layouts/DocLayout.vue";
+import BossHero from "@/components/boss/BossHero.vue";
 import { skeletronPrime as bossData } from "@/data/boss";
 
 // 當前選中的職業 Tab
@@ -29,62 +27,11 @@ const activeClassTab = ref("ranger");
       <!-- ========================================
            Hero Section - 頂部展示區
            ======================================== -->
-      <section class="hero">
-        <!-- 背景裝飾 -->
-        <div class="hero__bg">
-          <div class="hero__bg-pattern"></div>
-          <div class="hero__bg-glow"></div>
-        </div>
-
-        <div class="hero__content">
-          <!-- BOSS 圖示 -->
-          <div class="hero__icon-wrapper">
-            <div class="hero__icon-glow"></div>
-            <div class="hero__icon-frame">
-              <img
-                :src="bossData.icon"
-                alt="Skeletron Prime"
-                class="hero__icon-img"
-              />
-            </div>
-          </div>
-
-          <!-- BOSS 資訊 -->
-          <div class="hero__info">
-            <div class="hero__badges">
-              <span class="badge badge--boss">
-                <Skull :size="12" class="mr-1" />
-                {{ bossData.type }}
-              </span>
-              <span class="badge badge--difficulty">
-                <Star :size="12" class="mr-1" />
-                {{ bossData.difficulty }}
-              </span>
-              <span class="badge badge--danger">
-                ⚠️ 高難度
-              </span>
-            </div>
-
-            <h1 class="hero__title">{{ bossData.name }}</h1>
-            <p class="hero__subtitle">{{ bossData.nameEn }}</p>
-            <p class="hero__description">
-              骷髏王的機械版本。擁有四隻手臂（雷射砲、火砲、電鋸、鉗子）和一顆會旋轉的頭顱。
-              通常被認為是機械三王中最難對付的一個。
-              頭部旋轉攻擊的傷害極高，被擊中可能直接死亡！
-            </p>
-
-            <a
-              :href="bossData.wikiUrl"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="hero__wiki-link"
-            >
-              <span>查看 Wiki 頁面</span>
-              <ExternalLink :size="16" />
-            </a>
-          </div>
-        </div>
-      </section>
+      <BossHero :boss-data="bossData">
+        <template #extra-badges>
+          <span class="badge badge--danger">⚠️ 高難度</span>
+        </template>
+      </BossHero>
 
       <!-- ========================================
          Summoning Section - 召喚方式
@@ -104,15 +51,23 @@ const activeClassTab = ref("ranger");
               class="summon-item__icon"
             />
             <div class="summon-item__info">
-              <span class="summon-item__name">{{ bossData.summoning.item }}</span>
-              <span class="summon-item__name-en">{{ bossData.summoning.itemEn }}</span>
+              <span class="summon-item__name">{{
+                bossData.summoning.item
+              }}</span>
+              <span class="summon-item__name-en">{{
+                bossData.summoning.itemEn
+              }}</span>
             </div>
           </div>
 
           <!-- 時間限制 -->
           <div class="time-restriction">
             <Clock :size="18" />
-            <span>需在 <strong>{{ bossData.summoning.timeRestriction }}</strong> 使用</span>
+            <span
+              >需在
+              <strong>{{ bossData.summoning.timeRestriction }}</strong>
+              使用</span
+            >
           </div>
 
           <!-- 合成配方 -->
@@ -131,7 +86,9 @@ const activeClassTab = ref("ranger");
                 />
                 <div class="recipe-item__info">
                   <span class="recipe-item__name">{{ ingredient.name }}</span>
-                  <span class="recipe-item__amount">x{{ ingredient.amount }}</span>
+                  <span class="recipe-item__amount"
+                    >x{{ ingredient.amount }}</span
+                  >
                 </div>
               </div>
             </div>
@@ -185,8 +142,13 @@ const activeClassTab = ref("ranger");
                 <span class="part-card__name">{{ part.name }}</span>
                 <span class="part-card__name-en">{{ part.nameEn }}</span>
               </div>
-              <span :class="['part-card__danger', `part-card__danger--${part.danger}`]">
-                {{ part.danger === 'high' ? '高威脅' : '中等' }}
+              <span
+                :class="[
+                  'part-card__danger',
+                  `part-card__danger--${part.danger}`,
+                ]"
+              >
+                {{ part.danger === "high" ? "高威脅" : "中等" }}
               </span>
             </div>
             <div class="part-card__stats">
@@ -254,7 +216,9 @@ const activeClassTab = ref("ranger");
 
         <div class="strategy-highlight__priority">
           <span class="priority-badge">🎯 關鍵戰術</span>
-          <p class="priority-text">{{ bossData.combat.coreStrategy.priority }}</p>
+          <p class="priority-text">
+            {{ bossData.combat.coreStrategy.priority }}
+          </p>
         </div>
 
         <p class="strategy-highlight__reason">
@@ -289,7 +253,10 @@ const activeClassTab = ref("ranger");
           <button
             v-for="tab in bossData.equipment.classTabs"
             :key="tab.id"
-            :class="['class-tab', { 'class-tab--active': activeClassTab === tab.id }]"
+            :class="[
+              'class-tab',
+              { 'class-tab--active': activeClassTab === tab.id },
+            ]"
             :style="{ '--tab-color': tab.color }"
             @click="activeClassTab = tab.id"
           >
@@ -312,14 +279,22 @@ const activeClassTab = ref("ranger");
               { 'equipment-card--highlight': weapon.highlight },
             ]"
           >
-            <img :src="weapon.icon" :alt="weapon.name" class="equipment-card__icon" />
+            <img
+              :src="weapon.icon"
+              :alt="weapon.name"
+              class="equipment-card__icon"
+            />
             <div class="equipment-card__content">
               <span class="equipment-card__name">
                 {{ weapon.name }}
                 <small>({{ weapon.nameEn }})</small>
-                <span v-if="weapon.highlight" class="equipment-card__star">⭐ 推薦</span>
+                <span v-if="weapon.highlight" class="equipment-card__star"
+                  >⭐ 推薦</span
+                >
               </span>
-              <span class="equipment-card__ammo">{{ weapon.ammo === "無" ? "無消耗" : `消耗：${weapon.ammo}` }}</span>
+              <span class="equipment-card__ammo">{{
+                weapon.ammo === "無" ? "無消耗" : `消耗：${weapon.ammo}`
+              }}</span>
               <p class="equipment-card__desc">{{ weapon.description }}</p>
             </div>
             <div class="equipment-card__link-indicator">
@@ -340,7 +315,11 @@ const activeClassTab = ref("ranger");
             :key="accessory.name"
             class="equipment-card equipment-card--compact"
           >
-            <img :src="accessory.icon" :alt="accessory.name" class="equipment-card__icon" />
+            <img
+              :src="accessory.icon"
+              :alt="accessory.name"
+              class="equipment-card__icon"
+            />
             <div class="equipment-card__content">
               <span class="equipment-card__name">{{ accessory.name }}</span>
               <p class="equipment-card__desc">{{ accessory.description }}</p>
@@ -361,14 +340,20 @@ const activeClassTab = ref("ranger");
               {{ bossData.equipment.armor.name }}
               <small>({{ bossData.equipment.armor.nameEn }})</small>
             </span>
-            <p class="armor-card__desc">{{ bossData.equipment.armor.description }}</p>
+            <p class="armor-card__desc">
+              {{ bossData.equipment.armor.description }}
+            </p>
           </div>
         </div>
 
         <!-- Buff 藥水 -->
         <h3 class="subsection-title">🧪 推薦 Buff</h3>
         <div class="buffs-list">
-          <span v-for="buff in bossData.equipment.buffs" :key="buff" class="buff-tag">
+          <span
+            v-for="buff in bossData.equipment.buffs"
+            :key="buff"
+            class="buff-tag"
+          >
             {{ buff }}
           </span>
         </div>
@@ -433,121 +418,8 @@ const activeClassTab = ref("ranger");
 }
 
 /* ==========================================
-   Hero Section
+   Badge Styles (for extra-badges slot)
    ========================================== */
-.hero {
-  position: relative;
-  background: linear-gradient(135deg, #18181b 0%, #27272a 50%, #3f3f46 100%);
-  border-radius: 1rem;
-  overflow: hidden;
-  padding: 2rem;
-}
-
-.hero__bg {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
-
-.hero__bg-pattern {
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(
-      circle at 50% 50%,
-      rgba(244, 114, 182, 0.15) 0%,
-      transparent 50%
-    ),
-    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l30 30-30 30L0 30z' fill='%23ffffff' fill-opacity='0.02'/%3E%3C/svg%3E");
-}
-
-.hero__bg-glow {
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  top: 30%;
-  left: 40%;
-  border-radius: 50%;
-  background: rgba(244, 114, 182, 0.3);
-  filter: blur(80px);
-  animation: pulse-glow 4s ease-in-out infinite;
-}
-
-@keyframes pulse-glow {
-  0%, 100% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.1);
-  }
-}
-
-.hero__content {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  z-index: 1;
-}
-
-/* BOSS 圖示 */
-.hero__icon-wrapper {
-  position: relative;
-  flex-shrink: 0;
-}
-
-.hero__icon-glow {
-  position: absolute;
-  inset: -20px;
-  border-radius: 50%;
-  background: rgba(244, 114, 182, 0.5);
-  filter: blur(20px);
-  animation: icon-glow 3s ease-in-out infinite;
-}
-
-@keyframes icon-glow {
-  0%, 100% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-.hero__icon-frame {
-  position: relative;
-  width: 100px;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  border-radius: 1rem;
-  backdrop-filter: blur(8px);
-}
-
-.hero__icon-img {
-  width: 72px;
-  height: 72px;
-  object-fit: contain;
-  image-rendering: pixelated;
-}
-
-/* BOSS 資訊 */
-.hero__info {
-  flex: 1;
-  color: white;
-}
-
-.hero__badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
-}
-
 .badge {
   display: inline-flex;
   align-items: center;
@@ -559,61 +431,8 @@ const activeClassTab = ref("ranger");
   letter-spacing: 0.05em;
 }
 
-.badge--boss {
-  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
-  color: white;
-}
-
-.badge--difficulty {
-  background-color: rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.9);
-}
-
 .badge--danger {
   background: linear-gradient(135deg, #f59e0b 0%, #dc2626 100%);
-  color: white;
-}
-
-.hero__title {
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 0;
-  letter-spacing: -0.02em;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
-}
-
-.hero__subtitle {
-  font-size: 1rem;
-  color: rgba(255, 255, 255, 0.7);
-  margin: 0.25rem 0 0;
-  font-style: italic;
-}
-
-.hero__description {
-  margin: 1rem 0;
-  font-size: 0.9375rem;
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.6;
-}
-
-.hero__wiki-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 0.5rem;
-  color: white;
-  font-size: 0.875rem;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.hero__wiki-link:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-1px);
   color: white;
 }
 
@@ -822,7 +641,11 @@ const activeClassTab = ref("ranger");
 }
 
 .part-card--high {
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, var(--color-bg-main) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.05) 0%,
+    var(--color-bg-main) 100%
+  );
 }
 
 .part-card__header {
@@ -911,7 +734,11 @@ const activeClassTab = ref("ranger");
   display: flex;
   gap: 0.75rem;
   padding: 1rem;
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.1) 0%,
+    rgba(239, 68, 68, 0.05) 100%
+  );
   border: 1px solid rgba(239, 68, 68, 0.3);
   border-radius: 0.5rem;
 }
@@ -1147,7 +974,11 @@ const activeClassTab = ref("ranger");
 
 .equipment-card--highlight {
   border-color: #f59e0b;
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, var(--color-bg-main) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.1) 0%,
+    var(--color-bg-main) 100%
+  );
 }
 
 .equipment-card__icon {
@@ -1237,7 +1068,11 @@ const activeClassTab = ref("ranger");
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, var(--color-bg-main) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.1) 0%,
+    var(--color-bg-main) 100%
+  );
   border: 1px solid rgba(59, 130, 246, 0.3);
   border-radius: 0.5rem;
 }
@@ -1307,7 +1142,11 @@ const activeClassTab = ref("ranger");
 
 .drop-card--highlight {
   border-color: #f59e0b;
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, var(--color-bg-main) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.1) 0%,
+    var(--color-bg-main) 100%
+  );
 }
 
 .drop-card__icon {
@@ -1373,19 +1212,6 @@ const activeClassTab = ref("ranger");
    Responsive
    ========================================== */
 @media (max-width: 640px) {
-  .hero__content {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .hero__badges {
-    justify-content: center;
-  }
-
-  .hero__title {
-    font-size: 1.5rem;
-  }
-
   .class-tabs {
     justify-content: center;
   }
@@ -1406,4 +1232,3 @@ const activeClassTab = ref("ranger");
   margin-right: 0.25rem;
 }
 </style>
-

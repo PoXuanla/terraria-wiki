@@ -15,6 +15,8 @@ export const theTwins: TheTwinsData = {
   nameEn: "The Twins",
   type: "機械 Boss",
   difficulty: "困難模式",
+  description:
+    "困難模式三大機械 Boss 之一。由雷射眼 (Retinazer) 與魔焰眼 (Spazmatism) 組成的雙子 Boss，需要同時應對兩種截然不同的攻擊模式。",
 
   // 圖片
   icons: {

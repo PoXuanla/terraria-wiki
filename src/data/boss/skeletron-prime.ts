@@ -15,6 +15,8 @@ export const skeletronPrime: SkeletronPrimeData = {
   nameEn: "Skeletron Prime",
   type: "機械 Boss",
   difficulty: "困難模式",
+  description:
+    "骷髏王的機械版本。擁有四隻手臂（雷射砲、火砲、電鋸、鉗子）和一顆會旋轉的頭顱。通常被認為是機械三王中最難對付的一個。頭部旋轉攻擊的傷害極高，被擊中可能直接死亡！",
 
   // 圖片
   icon: "https://terraria.wiki.gg/images/2/2a/Skeletron_Prime.png",
@@ -385,4 +387,3 @@ export const skeletronPrime: SkeletronPrimeData = {
 };
 
 export default skeletronPrime;
-
