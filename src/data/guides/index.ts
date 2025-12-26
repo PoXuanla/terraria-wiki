@@ -2,7 +2,6 @@
  * 指南資料庫 - 統一匯出
  */
 import type { Component } from 'vue'
-import { FileText } from 'lucide-vue-next'
 
 /**
  * 指南資料類型
@@ -41,14 +40,6 @@ export const guides: GuideData[] = [
     componentName: 'ClentaminatorGuide',
     icon: 'https://terraria.wiki.gg/images/9/9b/Clentaminator.png',
     description: '淨化世界的完整指南'
-  },
-  {
-    slug: 'mimic-doc',
-    name: '寶箱怪指南 (文檔版)',
-    nameEn: 'Mimic Guide (Doc Version)',
-    componentName: 'MimicHuntingDoc',
-    icon: FileText,
-    description: '詳細的文檔版本指南'
   }
 ]
 
