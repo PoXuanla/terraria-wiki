@@ -4,7 +4,6 @@ import {
   Heart,
   Swords,
   Shield,
-  Zap,
   AlertTriangle,
   Package,
   Crosshair,
@@ -16,6 +15,7 @@ import BossSummoning from "@/components/boss/BossSummoning.vue";
 import BossArena from "@/components/boss/BossArena.vue";
 import BossSwitcher from "@/components/boss/BossSwitcher.vue";
 import BossStatsSection from "@/components/boss/BossStatsSection.vue";
+import BossBehavior from "@/components/boss/BossBehavior.vue";
 import { skeletronPrime as bossData, getBossSeriesConfig } from "@/data/boss";
 import { BossSlug } from "@/data/boss/boss-slug.enum";
 import { useSkeletronPrimeStats } from "@/components/boss/composables/useBossStats";
@@ -75,26 +75,7 @@ const statsCards = useSkeletronPrimeStats(bossData);
       <!-- ========================================
          Behavior Section - 行為模式
          ======================================== -->
-      <section class="section-card">
-        <h2 id="behavior" class="section-heading">
-          <Zap :size="20" class="section-heading__icon" />
-          <span>行為模式</span>
-        </h2>
-
-        <div class="behavior-grid">
-          <div
-            v-for="behavior in bossData.combat.behavior"
-            :key="behavior.title"
-            class="behavior-card"
-          >
-            <div class="behavior-card__icon">{{ behavior.icon }}</div>
-            <div class="behavior-card__content">
-              <h4 class="behavior-card__title">{{ behavior.title }}</h4>
-              <p class="behavior-card__desc">{{ behavior.description }}</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <BossBehavior :behaviors="bossData.combat.behavior" />
 
       <!-- ========================================
          Core Strategy - 核心戰術
@@ -135,8 +116,9 @@ const statsCards = useSkeletronPrimeStats(bossData);
          ======================================== -->
       <section class="section-card">
         <h2 id="equipment" class="section-heading">
+          <span class="section-heading__accent-line"></span>
           <Crosshair :size="20" class="section-heading__icon" />
-          <span>推薦裝備</span>
+          <span class="section-heading__text">推薦裝備</span>
         </h2>
 
         <!-- 職業 Tabs -->
@@ -257,8 +239,9 @@ const statsCards = useSkeletronPrimeStats(bossData);
          ======================================== -->
       <section class="section-card">
         <h2 id="drops" class="section-heading">
+          <span class="section-heading__accent-line"></span>
           <Package :size="20" class="section-heading__icon" />
-          <span>掉落物</span>
+          <span class="section-heading__text">掉落物</span>
         </h2>
 
         <div class="drops-grid">
@@ -347,15 +330,48 @@ const statsCards = useSkeletronPrimeStats(bossData);
 .section-heading {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin: 0 0 1rem;
+  gap: 0.625rem;
+  margin: 0 0 1.5rem;
+}
+
+.section-heading__accent-line {
+  width: 3px;
+  height: 1.5rem;
+  background: linear-gradient(
+    180deg,
+    rgba(168, 85, 247, 1) 0%,
+    rgba(59, 130, 246, 1) 100%
+  );
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.6), 0 0 16px rgba(168, 85, 247, 0.3);
+  animation: accent-pulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes accent-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 8px rgba(168, 85, 247, 0.6),
+      0 0 16px rgba(168, 85, 247, 0.3);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.8),
+      0 0 24px rgba(168, 85, 247, 0.4);
+  }
 }
 
 .section-heading__icon {
   color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.section-heading__text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: 0.02em;
 }
 
 .subsection-title {
@@ -530,46 +546,6 @@ const statsCards = useSkeletronPrimeStats(bossData);
   font-size: 0.875rem;
   color: var(--color-text-primary);
   line-height: 1.6;
-}
-
-/* ==========================================
-   Behavior Grid
-   ========================================== */
-.behavior-grid {
-  display: grid;
-  gap: 1rem;
-}
-
-.behavior-card {
-  display: flex;
-  gap: 1rem;
-  padding: 1rem;
-  background: var(--color-bg-main);
-  border-radius: 0.625rem;
-  border: 1px solid var(--color-border);
-}
-
-.behavior-card__icon {
-  font-size: 1.5rem;
-  flex-shrink: 0;
-}
-
-.behavior-card__content {
-  flex: 1;
-}
-
-.behavior-card__title {
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin: 0 0 0.25rem;
-}
-
-.behavior-card__desc {
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-  margin: 0;
-  line-height: 1.5;
 }
 
 /* ==========================================

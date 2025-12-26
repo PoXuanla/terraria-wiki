@@ -1,5 +1,43 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import type { Ref } from 'vue'
+import type { RouteLocationNormalizedLoaded } from 'vue-router'
+
+/**
+ * 標籤視圖項目介面
+ */
+export interface TagItem {
+  /** 標籤標題 */
+  title: string
+  /** 路由路徑 */
+  path: string
+  /** 路由名稱 */
+  name: string
+  /** 圖示 */
+  icon: any
+}
+
+/**
+ * 路由元資訊介面
+ */
+export interface RouteMeta {
+  /** 頁面標題 */
+  title?: string
+  /** 頁面圖示 */
+  icon?: any
+}
+
+/**
+ * 路由物件介面
+ */
+export interface RouteInfo {
+  /** 路由路徑 */
+  path: string
+  /** 路由名稱 */
+  name?: string
+  /** 路由元資訊 */
+  meta?: RouteMeta
+}
 
 /**
  * 歷史標籤狀態管理
@@ -12,15 +50,13 @@ export const useTagsViewStore = defineStore('tagsView', () => {
   
   /**
    * 訪問過的標籤列表
-   * @type {Ref<Array<{title: string, path: string, name: string, icon: any}>>}
    */
-  const visitedTags = ref([])
+  const visitedTags: Ref<TagItem[]> = ref([])
   
   /**
    * 快取的路由名稱列表 (用於 KeepAlive)
-   * @type {Ref<string[]>}
    */
-  const cachedViews = ref([])
+  const cachedViews: Ref<string[]> = ref([])
 
   // ==========================================
   // Getters
@@ -29,12 +65,12 @@ export const useTagsViewStore = defineStore('tagsView', () => {
   /**
    * 取得所有已訪問的標籤
    */
-  const tags = computed(() => visitedTags.value)
+  const tags = computed<TagItem[]>(() => visitedTags.value)
   
   /**
    * 取得所有快取的視圖名稱
    */
-  const cachedViewNames = computed(() => cachedViews.value)
+  const cachedViewNames = computed<string[]>(() => cachedViews.value)
 
   // ==========================================
   // Actions
@@ -42,9 +78,9 @@ export const useTagsViewStore = defineStore('tagsView', () => {
   
   /**
    * 新增標籤
-   * @param {Object} route - 路由物件，包含 path, name, meta.title, meta.icon
+   * @param route - 路由物件，包含 path, name, meta.title, meta.icon
    */
-  function addTag(route) {
+  function addTag(route: RouteInfo | RouteLocationNormalizedLoaded): void {
     // 檢查是否為有效路由
     if (!route.path || !route.meta?.title) {
       return
@@ -58,24 +94,24 @@ export const useTagsViewStore = defineStore('tagsView', () => {
     
     // 新增標籤 (包含 icon)
     visitedTags.value.push({
-      title: route.meta.title,
+      title: route.meta.title as string,
       path: route.path,
-      name: route.name || '',
+      name: typeof route.name === 'string' ? route.name : '',
       icon: route.meta.icon || null, // 存入 icon
     })
     
     // 加入快取列表 (用於 KeepAlive)
-    if (route.name && !cachedViews.value.includes(route.name)) {
+    if (route.name && typeof route.name === 'string' && !cachedViews.value.includes(route.name)) {
       cachedViews.value.push(route.name)
     }
   }
   
   /**
    * 移除標籤
-   * @param {string} path - 要移除的路由路徑
-   * @returns {Object|null} 返回相鄰的標籤 (用於自動跳轉)
+   * @param path - 要移除的路由路徑
+   * @returns 返回相鄰的標籤 (用於自動跳轉)
    */
-  function removeTag(path) {
+  function removeTag(path: string): TagItem | null {
     const index = visitedTags.value.findIndex(tag => tag.path === path)
     
     if (index === -1) {
@@ -112,9 +148,9 @@ export const useTagsViewStore = defineStore('tagsView', () => {
   
   /**
    * 關閉其他標籤 (保留當前)
-   * @param {string} currentPath - 當前路由路徑
+   * @param currentPath - 當前路由路徑
    */
-  function removeOtherTags(currentPath) {
+  function removeOtherTags(currentPath: string): void {
     const currentTag = visitedTags.value.find(tag => tag.path === currentPath)
     
     if (currentTag) {
@@ -126,17 +162,17 @@ export const useTagsViewStore = defineStore('tagsView', () => {
   /**
    * 關閉所有標籤
    */
-  function removeAllTags() {
+  function removeAllTags(): void {
     visitedTags.value = []
     cachedViews.value = []
   }
   
   /**
    * 檢查標籤是否存在
-   * @param {string} path - 路由路徑
-   * @returns {boolean}
+   * @param path - 路由路徑
+   * @returns 是否存在
    */
-  function hasTag(path) {
+  function hasTag(path: string): boolean {
     return visitedTags.value.some(tag => tag.path === path)
   }
 

@@ -100,8 +100,9 @@ const statsCards = useTwinsStats(bossData);
          ======================================== -->
       <section class="section-card">
         <h2 id="phases" class="section-heading">
+          <span class="section-heading__accent-line"></span>
           <Swords :size="20" class="section-heading__icon" />
-          <span>戰鬥階段</span>
+          <span class="section-heading__text">戰鬥階段</span>
         </h2>
 
         <div class="phases-grid">
@@ -165,8 +166,9 @@ const statsCards = useTwinsStats(bossData);
          ======================================== -->
       <section class="section-card">
         <h2 id="equipment" class="section-heading">
+          <span class="section-heading__accent-line"></span>
           <Crosshair :size="20" class="section-heading__icon" />
-          <span>推薦裝備</span>
+          <span class="section-heading__text">推薦裝備</span>
         </h2>
 
         <!-- 職業 Tabs -->
@@ -283,8 +285,9 @@ const statsCards = useTwinsStats(bossData);
          ======================================== -->
       <section class="section-card">
         <h2 id="drops" class="section-heading">
+          <span class="section-heading__accent-line"></span>
           <Package :size="20" class="section-heading__icon" />
-          <span>掉落物</span>
+          <span class="section-heading__text">掉落物</span>
         </h2>
 
         <div class="drops-grid">
@@ -411,15 +414,48 @@ const statsCards = useTwinsStats(bossData);
 .section-heading {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin: 0 0 1rem;
+  gap: 0.625rem;
+  margin: 0 0 1.5rem;
+}
+
+.section-heading__accent-line {
+  width: 3px;
+  height: 1.5rem;
+  background: linear-gradient(
+    180deg,
+    rgba(168, 85, 247, 1) 0%,
+    rgba(59, 130, 246, 1) 100%
+  );
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.6), 0 0 16px rgba(168, 85, 247, 0.3);
+  animation: accent-pulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes accent-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 8px rgba(168, 85, 247, 0.6),
+      0 0 16px rgba(168, 85, 247, 0.3);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.8),
+      0 0 24px rgba(168, 85, 247, 0.4);
+  }
 }
 
 .section-heading__icon {
   color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.section-heading__text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: 0.02em;
 }
 
 .subsection-title {
