@@ -1,36 +1,43 @@
-<script setup>
+<script setup lang="ts">
 import { ExternalLink, Skull, Star } from "lucide-vue-next";
+
+/**
+ * Boss 基础数据接口
+ */
+interface BossData {
+  /** Boss 中文名称 */
+  name: string;
+  /** Boss 英文名称 */
+  nameEn: string;
+  /** Boss 类型 */
+  type: string;
+  /** 难度等级 */
+  difficulty: string;
+  /** Boss 描述 */
+  description: string;
+  /** Wiki 链接 */
+  wikiUrl: string;
+  /** Boss 图标 URL */
+  icon: string;
+}
+
+/**
+ * Glow 颜色变体类型
+ */
+type GlowVariant = "red" | "green";
 
 /**
  * BossHero 组件 Props
  */
-const props = defineProps({
-  /**
-   * Boss 基础数据
-   */
-  bossData: {
-    type: Object,
-    required: true,
-    validator: (value) => {
-      return (
-        value.name &&
-        value.nameEn &&
-        value.type &&
-        value.difficulty &&
-        value.description &&
-        value.wikiUrl
-      );
-    },
-  },
+interface Props {
+  /** Boss 基础数据 */
+  bossData: BossData;
+  /** 背景 glow 颜色变体（可选，支持多个） */
+  glowVariants?: GlowVariant[];
+}
 
-  /**
-   * 背景 glow 颜色变体（可选，支持多个）
-   * 例如: ['red'], ['red', 'green'], [] (使用默认粉色)
-   */
-  glowVariants: {
-    type: Array,
-    default: () => [],
-  },
+const props = withDefaults(defineProps<Props>(), {
+  glowVariants: () => [],
 });
 </script>
 
