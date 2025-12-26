@@ -124,7 +124,8 @@ withDefaults(defineProps<Props>(), {
 
 .strategy-highlight__icon {
   color: #ec4899;
-  filter: drop-shadow(0 0 8px rgba(236, 72, 153, 0.4));
+  filter: drop-shadow(0 0 12px rgba(236, 72, 153, 0.6))
+         drop-shadow(0 0 6px rgba(236, 72, 153, 0.4));
 }
 
 .strategy-highlight__title {
@@ -149,10 +150,8 @@ withDefaults(defineProps<Props>(), {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 10px 0 0 10px;
+  border: none;
   border-left: 4px solid #ec4899;
-  border-top: none;
-  border-right: none;
-  border-bottom: none;
 }
 
 .priority-badge {
@@ -164,7 +163,15 @@ withDefaults(defineProps<Props>(), {
   padding: 0.375rem 0.875rem;
   border-radius: 6px;
   margin-bottom: 0.75rem;
-  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.3);
+  /* Badge 光暈效果 */
+  box-shadow: 
+    0 2px 8px rgba(236, 72, 153, 0.4),
+    0 0 16px rgba(236, 72, 153, 0.3),
+    0 0 8px rgba(236, 72, 153, 0.35);
+  /* 文字光暈 */
+  text-shadow: 
+    0 0 8px rgba(255, 255, 255, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .priority-text {
@@ -235,7 +242,7 @@ withDefaults(defineProps<Props>(), {
   border-radius: 2px;
 }
 
-/* 數字圓圈 - 空心設計 + 等寬字體 */
+/* 數字圓圈 - 空心設計 + 等寬字體 + 霓虹光環 */
 .strategy-step__number {
   flex-shrink: 0;
   width: 38px;
@@ -253,18 +260,35 @@ withDefaults(defineProps<Props>(), {
   color: #f472b6;
   position: relative;
   z-index: 1;
-  box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.08),
-    0 0 16px rgba(236, 72, 153, 0.15);
+  /* 多層光環效果 */
+  box-shadow: 
+    0 0 0 4px rgba(236, 72, 153, 0.08),
+    0 0 16px rgba(236, 72, 153, 0.25),
+    0 0 8px rgba(236, 72, 153, 0.3),
+    0 0 4px rgba(236, 72, 153, 0.4);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* 數字自發光 */
+  text-shadow: 
+    0 0 8px rgba(244, 114, 182, 0.6),
+    0 0 4px rgba(244, 114, 182, 0.4);
 }
 
 .strategy-step:hover .strategy-step__number {
   border-color: #f472b6;
-  box-shadow: 0 0 0 6px rgba(236, 72, 153, 0.12),
-    0 0 24px rgba(236, 72, 153, 0.5),
-    inset 0 0 12px rgba(236, 72, 153, 0.2);
+  /* 懸停時光暈增強 */
+  box-shadow: 
+    0 0 0 6px rgba(236, 72, 153, 0.15),
+    0 0 32px rgba(236, 72, 153, 0.6),
+    0 0 16px rgba(236, 72, 153, 0.5),
+    0 0 8px rgba(236, 72, 153, 0.7),
+    inset 0 0 12px rgba(236, 72, 153, 0.25);
   transform: scale(1.08);
   color: #fda4af;
+  /* 數字光暈增強 */
+  text-shadow: 
+    0 0 12px rgba(253, 164, 175, 0.8),
+    0 0 6px rgba(253, 164, 175, 0.6),
+    0 0 3px rgba(253, 164, 175, 0.4);
 }
 
 /* 步驟文字 - 提升對比度 + 語義化上色支持 */
@@ -278,52 +302,76 @@ withDefaults(defineProps<Props>(), {
   letter-spacing: -0.01em;
 }
 
-/* 語義化上色樣式 - 供 HTML 標記使用 */
+/* 語義化上色樣式 - 供 HTML 標記使用 + 自發光效果 */
 .strategy-step__text :deep(strong) {
   font-weight: 700;
   color: #fbbf24;
+  text-shadow: 
+    0 0 10px rgba(251, 191, 36, 0.5),
+    0 0 4px rgba(251, 191, 36, 0.3);
 }
 
 .strategy-step__text :deep(.enemy-primary) {
   color: #34d399;
   font-weight: 600;
-  text-shadow: 0 0 8px rgba(52, 211, 153, 0.3);
+  text-shadow: 
+    0 0 12px rgba(52, 211, 153, 0.6),
+    0 0 6px rgba(52, 211, 153, 0.4),
+    0 0 3px rgba(52, 211, 153, 0.3);
 }
 
 .strategy-step__text :deep(.enemy-secondary) {
   color: #fb7185;
   font-weight: 600;
-  text-shadow: 0 0 8px rgba(251, 113, 133, 0.3);
+  text-shadow: 
+    0 0 12px rgba(251, 113, 133, 0.6),
+    0 0 6px rgba(251, 113, 133, 0.4),
+    0 0 3px rgba(251, 113, 133, 0.3);
 }
 
 .strategy-step__text :deep(.highlight) {
   color: #60a5fa;
   font-weight: 600;
+  text-shadow: 
+    0 0 10px rgba(96, 165, 250, 0.5),
+    0 0 4px rgba(96, 165, 250, 0.3);
 }
 
 .strategy-step__text :deep(.weapon) {
   color: #c084fc;
   font-weight: 600;
+  text-shadow: 
+    0 0 10px rgba(192, 132, 252, 0.5),
+    0 0 4px rgba(192, 132, 252, 0.3);
 }
 
 .strategy-highlight__priority :deep(strong),
 .strategy-highlight__reason :deep(strong) {
   font-weight: 700;
   color: #fbbf24;
+  text-shadow: 
+    0 0 10px rgba(251, 191, 36, 0.5),
+    0 0 4px rgba(251, 191, 36, 0.3);
 }
 
 .strategy-highlight__priority :deep(.enemy-primary),
 .strategy-highlight__reason :deep(.enemy-primary) {
   color: #34d399;
   font-weight: 600;
-  text-shadow: 0 0 8px rgba(52, 211, 153, 0.3);
+  text-shadow: 
+    0 0 12px rgba(52, 211, 153, 0.6),
+    0 0 6px rgba(52, 211, 153, 0.4),
+    0 0 3px rgba(52, 211, 153, 0.3);
 }
 
 .strategy-highlight__priority :deep(.enemy-secondary),
 .strategy-highlight__reason :deep(.enemy-secondary) {
   color: #fb7185;
   font-weight: 600;
-  text-shadow: 0 0 8px rgba(251, 113, 133, 0.3);
+  text-shadow: 
+    0 0 12px rgba(251, 113, 133, 0.6),
+    0 0 6px rgba(251, 113, 133, 0.4),
+    0 0 3px rgba(251, 113, 133, 0.3);
 }
 
 /* 響應式設計 */
