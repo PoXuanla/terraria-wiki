@@ -7,6 +7,14 @@ interface Props {
 }
 
 defineProps<Props>();
+
+// 生成漂浮粒子数据
+const particles = Array.from({ length: 20 }, (_, i) => ({
+  id: i,
+  delay: i * 0.3,
+  duration: 8 + i * 0.5,
+  x: Math.random() * 100,
+}));
 </script>
 
 <template>
@@ -17,10 +25,34 @@ defineProps<Props>();
       <span class="section-heading__text">掉落物</span>
     </h2>
 
-    <!-- 機械紋理背景 -->
+    <!-- 藏宝库能量场背景 -->
     <div class="drops-background" aria-hidden="true">
+      <!-- 放射状聚光灯 -->
       <div class="drops-background__circuit"></div>
+      <!-- 六角形科技网格 -->
       <div class="drops-background__glow"></div>
+      <!-- 神圣光束 -->
+      <div class="drops-background__god-rays">
+        <div class="god-ray god-ray--1"></div>
+        <div class="god-ray god-ray--2"></div>
+        <div class="god-ray god-ray--3"></div>
+      </div>
+      <!-- 漂浮粒子 -->
+      <div class="drops-background__particles">
+        <div
+          class="particle"
+          v-for="particle in particles"
+          :key="particle.id"
+          :style="{
+            '--particle-delay': `${particle.delay}s`,
+            '--particle-duration': `${particle.duration}s`,
+            '--particle-x': `${particle.x}%`
+          }"
+        ></div>
+      </div>
+      <!-- 金属边框装饰 -->
+      <div class="drops-background__frame-top"></div>
+      <div class="drops-background__frame-bottom"></div>
     </div>
 
     <div class="drops-grid">
@@ -69,11 +101,24 @@ defineProps<Props>();
 
 <style scoped>
 /* ==========================================
-   Section Container
+   Section Container - 藏宝库容器
    ========================================== */
 .drops-section {
   position: relative;
   overflow: hidden;
+  padding: 2rem;
+  background: linear-gradient(
+    180deg,
+    rgba(9, 9, 11, 0.4) 0%,
+    rgba(17, 17, 19, 0.6) 50%,
+    rgba(9, 9, 11, 0.4) 100%
+  );
+  border-radius: 1rem;
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.8), inset 0 2px 1px rgba(255, 255, 255, 0.05);
+}
+
+:global(.dark) .drops-section {
+  box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.9), inset 0 2px 1px rgba(255, 255, 255, 0.08);
 }
 
 /* ==========================================
@@ -129,39 +174,203 @@ defineProps<Props>();
 }
 
 /* ==========================================
-   Background Atmosphere - 機械紋理與氛圍
+   Background Atmosphere - 藏宝库能量场
    ========================================== */
 .drops-background {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.4;
+  overflow: hidden;
 }
 
-/* 機械電路紋理 */
+/* 1. 放射状聚光灯 - 中心舞台效果 */
 .drops-background__circuit {
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px),
-    linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px);
-  background-size: 20px 20px;
-  mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
+  background: radial-gradient(
+    circle at center,
+    rgba(88, 28, 135, 0.35) 0%,
+    rgba(59, 130, 246, 0.15) 30%,
+    rgba(17, 24, 39, 0.05) 60%,
+    transparent 100%
+  );
+  animation: spotlightPulse 8s ease-in-out infinite;
 }
 
-/* 頂部藍光照明 */
+@keyframes spotlightPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+/* 2. 六角形科技网格 */
 .drops-background__glow {
   position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(30deg, rgba(139, 92, 246, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(139, 92, 246, 0.02) 87.5%, rgba(139, 92, 246, 0.02)),
+    linear-gradient(150deg, rgba(139, 92, 246, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(139, 92, 246, 0.02) 87.5%, rgba(139, 92, 246, 0.02)),
+    linear-gradient(30deg, rgba(139, 92, 246, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(139, 92, 246, 0.02) 87.5%, rgba(139, 92, 246, 0.02)),
+    linear-gradient(150deg, rgba(139, 92, 246, 0.02) 12%, transparent 12.5%, transparent 87%, rgba(139, 92, 246, 0.02) 87.5%, rgba(139, 92, 246, 0.02)),
+    linear-gradient(60deg, rgba(59, 130, 246, 0.03) 25%, transparent 25.5%, transparent 75%, rgba(59, 130, 246, 0.03) 75%, rgba(59, 130, 246, 0.03)),
+    linear-gradient(60deg, rgba(59, 130, 246, 0.03) 25%, transparent 25.5%, transparent 75%, rgba(59, 130, 246, 0.03) 75%, rgba(59, 130, 246, 0.03));
+  background-size: 80px 140px;
+  background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+  opacity: 0.4;
+  mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+}
+
+
+/* 3. 神圣光束 (God Rays) - 史诗感 */
+.drops-background__god-rays {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.god-ray {
+  position: absolute;
   top: -50%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(59, 130, 246, 0.12) 0%,
-    transparent 70%
+  width: 120px;
+  height: 200%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(251, 191, 36, 0.08) 20%,
+    rgba(251, 191, 36, 0.04) 50%,
+    transparent 100%
   );
+  filter: blur(20px);
+  transform-origin: top center;
+  opacity: 0;
+  animation: rayShine 12s ease-in-out infinite;
+}
+
+:global(.dark) .god-ray {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(251, 191, 36, 0.12) 20%,
+    rgba(251, 191, 36, 0.06) 50%,
+    transparent 100%
+  );
+}
+
+.god-ray--1 {
+  left: 20%;
+  transform: rotate(-15deg);
+  animation-delay: 0s;
+}
+
+.god-ray--2 {
+  left: 50%;
+  transform: translateX(-50%) rotate(5deg);
+  animation-delay: 4s;
+}
+
+.god-ray--3 {
+  right: 20%;
+  transform: rotate(12deg);
+  animation-delay: 8s;
+}
+
+@keyframes rayShine {
+  0%, 100% {
+    opacity: 0;
+  }
+  10%, 30% {
+    opacity: 0.6;
+  }
+  40%, 100% {
+    opacity: 0;
+  }
+}
+
+/* 4. 漂浮粒子 - 能量满溢 */
+.drops-background__particles {
+  position: absolute;
+  inset: 0;
+}
+
+.particle {
+  position: absolute;
+  bottom: -10px;
+  left: var(--particle-x);
+  width: 3px;
+  height: 3px;
+  background: rgba(251, 191, 36, 0.6);
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(251, 191, 36, 0.8), 0 0 8px rgba(251, 191, 36, 0.4);
+  animation: particleFloat var(--particle-duration, 10s) ease-in-out infinite;
+  animation-delay: var(--particle-delay, 0s);
+  opacity: 0;
+}
+
+:global(.dark) .particle {
+  background: rgba(251, 191, 36, 0.8);
+  box-shadow: 0 0 6px rgba(251, 191, 36, 1), 0 0 12px rgba(251, 191, 36, 0.6);
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(20px);
+    opacity: 0;
+  }
+}
+
+/* 5. 金属边框装饰 - 箱子边缘 */
+.drops-background__frame-top,
+.drops-background__frame-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(251, 191, 36, 0.3) 20%,
+    rgba(251, 191, 36, 0.5) 50%,
+    rgba(251, 191, 36, 0.3) 80%,
+    transparent 100%
+  );
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+}
+
+.drops-background__frame-top {
+  top: 0;
+}
+
+.drops-background__frame-bottom {
+  bottom: 0;
+}
+
+:global(.dark) .drops-background__frame-top,
+:global(.dark) .drops-background__frame-bottom {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(251, 191, 36, 0.4) 20%,
+    rgba(251, 191, 36, 0.6) 50%,
+    rgba(251, 191, 36, 0.4) 80%,
+    transparent 100%
+  );
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.6);
 }
 
 /* ==========================================
