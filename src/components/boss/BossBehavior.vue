@@ -40,6 +40,71 @@ defineProps<Props>()
 
 <style scoped>
 /* ==========================================
+   Section Card - 漸變紋理背景
+   ========================================== */
+.section-card {
+  position: relative;
+  background: 
+    /* 微妙噪點紋理 */
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E"),
+    /* 徑向漸變光暈 - 左上角 */
+    radial-gradient(
+      circle at 10% 10%,
+      rgba(59, 130, 246, 0.15) 0%,
+      transparent 50%
+    ),
+    /* 徑向漸變光暈 - 右下角 */
+    radial-gradient(
+      circle at 90% 90%,
+      rgba(147, 51, 234, 0.12) 0%,
+      transparent 50%
+    ),
+    /* 基礎漸變背景 - 創造深度 */
+    linear-gradient(
+      135deg,
+      rgba(30, 41, 59, 0.95) 0%,
+      rgba(15, 23, 42, 0.98) 100%
+    );
+  border-radius: 1.25rem;
+  padding: 2rem;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+}
+
+/* 為 section-card 添加動態光暈效果 */
+.section-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(
+      circle at 20% 30%,
+      rgba(99, 102, 241, 0.1) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 80% 70%,
+      rgba(168, 85, 247, 0.08) 0%,
+      transparent 40%
+    );
+  opacity: 1;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 確保內容在光暈之上 */
+.section-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================
    Section Heading - 標題樣式
    ========================================== */
 .section-heading {
@@ -106,8 +171,10 @@ defineProps<Props>()
   gap: 1.25rem;
   padding: 1.75rem 1.5rem;
   
-  /* 去除邊框，改用極低透明度背景營造層級感 */
-  background: rgba(255, 255, 255, 0.02);
+  /* 去除邊框，改用極低透明度背景營造層級感 + 噪點紋理 */
+  background: 
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E"),
+    rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(10px);
   border: none;
   border-radius: 1rem;
