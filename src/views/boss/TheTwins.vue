@@ -6,9 +6,7 @@ import {
   Shield,
   Zap,
   Flame,
-  Target,
   AlertTriangle,
-  ChevronRight,
   Package,
   Crosshair,
   Eye,
@@ -16,6 +14,7 @@ import {
 import DocLayout from "@/layouts/DocLayout.vue";
 import BossHero from "@/components/boss/BossHero.vue";
 import BossSummoning from "@/components/boss/BossSummoning.vue";
+import BossArena from "@/components/boss/BossArena.vue";
 import BossSwitcher from "@/components/boss/BossSwitcher.vue";
 import { theTwins as bossData, getBossSeriesConfig } from "@/data/boss";
 import { BossSlug } from "@/data/boss/boss-slug.enum";
@@ -78,23 +77,7 @@ const activeClassTab = ref("ranger");
       <!-- ========================================
          Arena Section - 場地準備
          ======================================== -->
-      <section class="section-card">
-        <h2 id="arena" class="section-heading">
-          <Target :size="20" class="section-heading__icon" />
-          <span>{{ bossData.combat.arena.title }}</span>
-        </h2>
-
-        <ul class="arena-tips">
-          <li
-            v-for="(tip, index) in bossData.combat.arena.tips"
-            :key="index"
-            class="arena-tip"
-          >
-            <ChevronRight :size="16" class="arena-tip__icon" />
-            <span>{{ tip }}</span>
-          </li>
-        </ul>
-      </section>
+      <BossArena :arena-data="bossData.combat.arena" />
 
       <!-- ========================================
          Stats Comparison Table - 屬性比較表格
@@ -553,36 +536,6 @@ const activeClassTab = ref("ranger");
 
 .subsection-title:first-of-type {
   margin-top: 0;
-}
-
-/* ==========================================
-   Arena Tips - 場地準備
-   ========================================== */
-.arena-tips {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.arena-tip {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  padding: 0.625rem 0.75rem;
-  background: var(--color-bg-main);
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
-  color: var(--color-text-primary);
-  line-height: 1.5;
-}
-
-.arena-tip__icon {
-  color: var(--color-primary);
-  flex-shrink: 0;
-  margin-top: 0.125rem;
 }
 
 /* ==========================================

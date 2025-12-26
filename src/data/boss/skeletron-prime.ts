@@ -124,13 +124,68 @@ export const skeletronPrime: SkeletronPrimeData = {
   combat: {
     arena: {
       title: "場地準備",
-      tips: [
-        "搭建多層水平平台（3-4 層，間隔 15-20 格）",
-        "平台長度建議 150 格以上，需要大量橫向移動空間",
-        "保持平台之間有足夠的垂直跳躍距離",
-        "放置營火與心型燈籠增加回復",
-        "準備蜂蜜池作為緊急回復點",
-      ],
+      architecture: {
+        subtitle: "建築規格",
+        icon: "🏗️",
+        specs: [
+          {
+            text: "搭建多層水平平台",
+            highlight: { value: "3-4 層", type: "layers" },
+            detail: "間隔 15-20 格，保持足夠的垂直跳躍距離",
+          },
+          {
+            text: "平台長度建議",
+            highlight: { value: "150 格", type: "length" },
+            detail: "需要大量橫向移動空間",
+          },
+        ],
+      },
+      facilities: {
+        subtitle: "必備設施",
+        icon: "⚡",
+        items: [
+          {
+            name: "營火",
+            nameEn: "Campfire",
+            icon: "https://terraria.wiki.gg/images/4/4c/Campfire.png",
+            effect: "生命回復",
+            effectIcon: "❤️",
+            buff: "+0.5 生命/秒",
+          },
+          {
+            name: "心型燈籠",
+            nameEn: "Heart Lantern",
+            icon: "https://terraria.wiki.gg/images/6/6f/Heart_Lantern.png",
+            effect: "生命回復",
+            effectIcon: "❤️",
+            buff: "+0.5 生命/秒",
+          },
+          {
+            name: "蜂蜜池",
+            nameEn: "Honey",
+            icon: "https://terraria.wiki.gg/images/d/d8/Honey_Block.png",
+            effect: "快速回復",
+            effectIcon: "✨",
+            buff: "+1 生命/秒",
+          },
+          {
+            name: "星星瓶",
+            nameEn: "Star in a Bottle",
+            icon: "https://terraria.wiki.gg/images/2/29/Star_in_a_Bottle.png",
+            effect: "魔力回復",
+            effectIcon: "💫",
+            buff: "+1.5 魔力/秒",
+          },
+          {
+            name: "向日葵",
+            nameEn: "Sunflower",
+            icon: "https://terraria.wiki.gg/images/9/93/Sunflower.png",
+            effect: "移動速度",
+            effectIcon: "🏃",
+            buff: "+10% 移速",
+          },
+        ],
+      },
     },
     behavior: [
       {

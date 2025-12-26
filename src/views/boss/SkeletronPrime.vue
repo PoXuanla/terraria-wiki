@@ -5,15 +5,14 @@ import {
   Swords,
   Shield,
   Zap,
-  Target,
   AlertTriangle,
-  ChevronRight,
   Package,
   Crosshair,
 } from "lucide-vue-next";
 import DocLayout from "@/layouts/DocLayout.vue";
 import BossHero from "@/components/boss/BossHero.vue";
 import BossSummoning from "@/components/boss/BossSummoning.vue";
+import BossArena from "@/components/boss/BossArena.vue";
 import BossSwitcher from "@/components/boss/BossSwitcher.vue";
 import { skeletronPrime as bossData, getBossSeriesConfig } from "@/data/boss";
 import { BossSlug } from "@/data/boss/boss-slug.enum";
@@ -54,23 +53,7 @@ const activeClassTab = ref("ranger");
       <!-- ========================================
          Arena Section - 場地準備
          ======================================== -->
-      <section class="section-card">
-        <h2 id="arena" class="section-heading">
-          <Target :size="20" class="section-heading__icon" />
-          <span>{{ bossData.combat.arena.title }}</span>
-        </h2>
-
-        <ul class="arena-tips">
-          <li
-            v-for="(tip, index) in bossData.combat.arena.tips"
-            :key="index"
-            class="arena-tip"
-          >
-            <ChevronRight :size="16" class="arena-tip__icon" />
-            <span>{{ tip }}</span>
-          </li>
-        </ul>
-      </section>
+      <BossArena :arena-data="bossData.combat.arena" />
 
       <!-- ========================================
          Stats Section - 各部位屬性

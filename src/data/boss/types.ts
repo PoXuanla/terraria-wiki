@@ -62,13 +62,51 @@ export interface BossCoreStrategy {
 }
 
 /**
+ * 場地建築規格
+ */
+export interface ArenaArchitecture {
+  subtitle: string;
+  icon: string;
+  specs: Array<{
+    text: string;
+    highlight?: {
+      value: string;
+      type: "layers" | "length" | "height";
+    };
+    detail?: string;
+  }>;
+}
+
+/**
+ * 場地設施
+ */
+export interface ArenaFacility {
+  name: string;
+  nameEn: string;
+  icon: string;
+  effect: string;
+  effectIcon: string;
+  buff: string;
+}
+
+/**
+ * 場地準備資訊
+ */
+export interface BossArena {
+  title: string;
+  architecture: ArenaArchitecture;
+  facilities: {
+    subtitle: string;
+    icon: string;
+    items: ArenaFacility[];
+  };
+}
+
+/**
  * 戰鬥資訊
  */
 export interface BossCombat {
-  arena: {
-    title: string;
-    tips: string[];
-  };
+  arena: BossArena;
   behavior: BossBehavior[];
   coreStrategy: BossCoreStrategy;
   phases?: BossPhase[]; // 可選，只有 The Twins 有
