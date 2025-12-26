@@ -188,13 +188,18 @@ defineProps<Props>();
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
   border-radius: 0.625rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
   /* 入場動畫 */
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeUp 0.6s ease-out forwards;
-  animation-delay: var(--animation-delay, 0s);
+  animation: fadeUp 0.6s ease-out forwards, cardFloat 3s ease-in-out infinite;
+  animation-delay: var(--animation-delay, 0s), calc(var(--animation-delay, 0s) + 0.6s);
+}
+
+:global(.dark) .drop-card {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 @keyframes fadeUp {
@@ -204,16 +209,26 @@ defineProps<Props>();
   }
 }
 
+@keyframes cardFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
 /* Hover 效果 */
 .drop-card:hover {
-  transform: translateY(-4px);
+  animation-play-state: paused;
+  transform: translateY(-8px);
   background: color-mix(in srgb, var(--color-bg-main) 90%, transparent);
   border-color: color-mix(in srgb, var(--color-border) 80%, transparent);
-  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
 }
 
 :global(.dark) .drop-card:hover {
-  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
 }
 
 /* ==========================================
