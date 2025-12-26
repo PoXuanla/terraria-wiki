@@ -1,26 +1,16 @@
-<script setup>
+<script setup lang="ts">
 import { Moon } from "lucide-vue-next";
-import { ref, onMounted, onUnmounted, computed } from "vue";
+import { ref, onMounted } from "vue";
+import type { BossSummoning, SummoningRecipeItem } from "@/data/boss/types";
 
-const props = defineProps({
-  summoning: {
-    type: Object,
-    required: true,
-    validator: (value) => {
-      return (
-        value.item &&
-        value.itemEn &&
-        value.itemIcon &&
-        value.timeRestriction &&
-        value.recipe &&
-        value.craftStation
-      );
-    },
-  },
-});
+interface Props {
+  summoning: BossSummoning;
+}
+
+const props = defineProps<Props>();
 
 // 追踪哪些素材需要切换显示替代图标
-const showAlternativeMap = ref(new Map());
+const showAlternativeMap = ref<Map<number, boolean>>(new Map());
 
 // 初始化并启动切换定时器
 onMounted(() => {
@@ -40,7 +30,10 @@ onMounted(() => {
 });
 
 // 获取当前应显示的图标
-const getDisplayIcon = (ingredient, index) => {
+const getDisplayIcon = (
+  ingredient: SummoningRecipeItem,
+  index: number
+): string => {
   if (!ingredient.alternativeIcon) {
     return ingredient.icon;
   }
