@@ -94,56 +94,102 @@ const formatValue = (value: number | string): string => {
 <style scoped>
 .stat-card {
   position: relative;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 0, 0, 0.4) 0%,
-    rgba(0, 0, 0, 0.2) 100%
-  );
-  border: 2px solid var(--card-color);
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: none;
+  border-radius: 0.75rem;
   padding: 1.25rem;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
+  box-shadow: 
+    inset 0 0 20px rgba(255, 255, 255, 0.02),
+    0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
+/* 顶部发光线 - 调整为更柔和的效果 */
 .stat-card__glow-line {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: var(--card-color);
-  box-shadow: 0 0 12px var(--card-color);
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--card-color) 50%,
+    transparent
+  );
+  box-shadow: 0 0 12px color-mix(in srgb, var(--card-color) 50%, transparent);
 }
 
 .stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 20px var(--card-color);
-  border-color: var(--card-color);
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 
+    inset 0 0 30px rgba(255, 255, 255, 0.04),
+    0 6px 24px rgba(0, 0, 0, 0.4),
+    0 0 30px color-mix(in srgb, var(--card-color) 20%, transparent);
 }
 
-/* 高亮卡片 */
+/* 高亮卡片 - 类似推荐装备的金色高亮 */
 .stat-card--highlight {
-  border-width: 3px;
   background: linear-gradient(
     135deg,
-    rgba(59, 130, 246, 0.15) 0%,
-    rgba(0, 0, 0, 0.3) 100%
+    color-mix(in srgb, var(--card-color) 8%, rgba(255, 255, 255, 0.03)),
+    rgba(255, 255, 255, 0.03) 100%
   );
+  animation: glow-pulse-highlight 3s ease-in-out infinite;
+}
+
+.stat-card--highlight::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 0.75rem;
+  padding: 0.5px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--card-color) 50%, transparent),
+    color-mix(in srgb, var(--card-color) 15%, transparent)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+@keyframes glow-pulse-highlight {
+  0%, 100% {
+    box-shadow: 
+      inset 0 0 40px color-mix(in srgb, var(--card-color) 10%, transparent),
+      0 4px 20px rgba(0, 0, 0, 0.4),
+      0 0 30px color-mix(in srgb, var(--card-color) 35%, transparent),
+      0 0 50px color-mix(in srgb, var(--card-color) 20%, transparent);
+  }
+  50% {
+    box-shadow: 
+      inset 0 0 50px color-mix(in srgb, var(--card-color) 15%, transparent),
+      0 6px 24px rgba(0, 0, 0, 0.5),
+      0 0 45px color-mix(in srgb, var(--card-color) 50%, transparent),
+      0 0 70px color-mix(in srgb, var(--card-color) 30%, transparent);
+  }
 }
 
 .stat-card--highlight .stat-card__glow-line {
-  height: 5px;
+  height: 2px;
   animation: glow-pulse 2s ease-in-out infinite;
 }
 
 @keyframes glow-pulse {
-  0%,
-  100% {
-    box-shadow: 0 0 12px var(--card-color);
+  0%, 100% {
+    box-shadow: 0 0 12px color-mix(in srgb, var(--card-color) 50%, transparent);
   }
   50% {
-    box-shadow: 0 0 20px var(--card-color), 0 0 30px var(--card-color);
+    box-shadow: 
+      0 0 20px color-mix(in srgb, var(--card-color) 70%, transparent),
+      0 0 30px color-mix(in srgb, var(--card-color) 50%, transparent);
   }
 }
 
@@ -154,15 +200,21 @@ const formatValue = (value: number | string): string => {
   gap: 0.75rem;
   margin-bottom: 1rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .stat-card__icon {
   width: 48px;
   height: 48px;
   object-fit: contain;
-  filter: drop-shadow(0 2px 8px var(--card-color));
+  image-rendering: pixelated;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
   flex-shrink: 0;
+}
+
+.stat-card--highlight .stat-card__icon {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5))
+         drop-shadow(0 0 12px color-mix(in srgb, var(--card-color) 40%, transparent));
 }
 
 .stat-card__title {
@@ -175,13 +227,13 @@ const formatValue = (value: number | string): string => {
 
 .stat-card__name {
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 600;
   color: rgba(255, 255, 255, 0.95);
 }
 
 .stat-card__name-en {
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.5);
   font-style: italic;
 }
 
@@ -189,28 +241,37 @@ const formatValue = (value: number | string): string => {
   padding: 0.25rem 0.5rem;
   border-radius: 6px;
   font-size: 0.6875rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .stat-card__badge--high {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-  color: white;
-  box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(220, 38, 38, 0.2) 100%);
+  color: rgba(252, 165, 165, 0.95);
+  box-shadow: 
+    0 0 12px rgba(239, 68, 68, 0.3),
+    inset 0 0 8px rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
 .stat-card__badge--medium {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-  color: white;
-  box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.3) 0%, rgba(217, 119, 6, 0.2) 100%);
+  color: rgba(253, 224, 71, 0.95);
+  box-shadow: 
+    0 0 12px rgba(245, 158, 11, 0.3),
+    inset 0 0 8px rgba(245, 158, 11, 0.2);
+  border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
 .stat-card__badge--low {
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: white;
-  box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.3) 0%, rgba(5, 150, 105, 0.2) 100%);
+  color: rgba(167, 243, 208, 0.95);
+  box-shadow: 
+    0 0 12px rgba(16, 185, 129, 0.3),
+    inset 0 0 8px rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
 /* 属性数据 */
@@ -220,8 +281,10 @@ const formatValue = (value: number | string): string => {
   gap: 1rem;
   margin-bottom: 1rem;
   padding: 1rem;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
   border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .stat-item {
@@ -234,6 +297,7 @@ const formatValue = (value: number | string): string => {
 .stat-item__icon {
   color: var(--card-color);
   flex-shrink: 0;
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--card-color) 30%, transparent));
 }
 
 .stat-item__content {
@@ -245,7 +309,7 @@ const formatValue = (value: number | string): string => {
 
 .stat-item__label {
   font-size: 0.6875rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.5);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -261,7 +325,7 @@ const formatValue = (value: number | string): string => {
   margin: 0;
   font-size: 0.875rem;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(148, 163, 184, 0.9);
 }
 
 /* 响应式 */
