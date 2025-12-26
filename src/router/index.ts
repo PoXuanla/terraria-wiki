@@ -83,10 +83,8 @@ const guideModules = import.meta.glob<{ default: Component }>(
 const WeaponsIndex = () =>
   import("@/views/weapons/weapons-index/WeaponsIndex.vue");
 
-// 使用 Vite 的 import.meta.glob 預載入所有武器組件
-const weaponModules = import.meta.glob<{ default: Component }>(
-  "@/views/weapons/*.vue"
-);
+// 通用武器詳情組件
+const WeaponDetail = () => import("@/views/weapons/WeaponDetail.vue");
 
 // Boss 頁面 - 使用 import.meta.glob 動態導入
 const bossModules = import.meta.glob<{ default: Component }>(
@@ -131,16 +129,16 @@ const generateGuideRoutes = () => {
 
 /**
  * 動態生成武器路由
+ * 所有武器使用統一的 WeaponDetail 組件，透過 route.params.slug 區分
  */
 const generateWeaponRoutes = () => {
   return weapons.map((weapon) => {
     const componentName = kebabToPascal(weapon.slug);
-    const componentPath = `/src/views/weapons/${componentName}.vue`;
 
     return {
       path: `weapons/${weapon.slug}`,
       name: `Weapon${componentName}`,
-      component: weaponModules[componentPath],
+      component: WeaponDetail, // 統一使用通用組件
       meta: {
         title: weapon.name,
         icon: weapon.icon,
