@@ -558,10 +558,6 @@ const damageColor = computed(() => {
   opacity: 0.85;
 }
 
-:global(.dark) .smart-card__name-en {
-  opacity: 0.9;
-}
-
 .smart-card__cost {
   display: flex;
   gap: 0.5rem;
