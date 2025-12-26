@@ -29,6 +29,14 @@ const pageTitle = computed(() => route.meta?.title || 'Terraria Wiki')
 
 // 當前頁面主題（用於 Boss Gallery 等特殊頁面）
 const currentTheme = computed(() => route.meta?.theme || '')
+
+// 判斷是否為 Boss Gallery 頁面（用於特殊過渡效果）
+const isBossGallery = computed(() => route.name === 'BossGallery')
+
+// 動態過渡名稱：Boss Gallery 使用黑色淡出效果，其他頁面使用一般淡入淡出
+const transitionName = computed(() => {
+  return isBossGallery.value ? 'boss-gallery-fade' : 'page-fade'
+})
 </script>
 
 <template>
@@ -70,7 +78,7 @@ const currentTheme = computed(() => route.meta?.theme || '')
       <!-- 頁面內容 -->
       <main class="content">
         <RouterView v-slot="{ Component }">
-          <Transition name="page-fade" mode="out-in">
+          <Transition :name="transitionName" mode="out-in">
             <KeepAlive :include="cachedViews">
               <component :is="Component" :key="route.path" />
             </KeepAlive>
@@ -197,6 +205,7 @@ const currentTheme = computed(() => route.meta?.theme || '')
    頁面切換動畫
    ========================================== */
 
+/* 一般頁面過渡 */
 .page-fade-enter-active,
 .page-fade-leave-active {
   transition: opacity 0.2s ease, transform 0.2s ease;
@@ -210,5 +219,49 @@ const currentTheme = computed(() => route.meta?.theme || '')
 .page-fade-leave-to {
   opacity: 0;
   transform: translateY(-8px);
+}
+
+/* Boss Gallery 特殊過渡：黑色全屏淡出效果 */
+.boss-gallery-fade-enter-active {
+  transition: opacity 1.2s ease-out;
+  position: relative;
+}
+
+.boss-gallery-fade-enter-from {
+  opacity: 0;
+}
+
+.boss-gallery-fade-enter-active::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 1) 70%
+  );
+  z-index: 9999;
+  pointer-events: none;
+  animation: black-veil-fade 1.5s ease-out forwards;
+}
+
+@keyframes black-veil-fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.boss-gallery-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.boss-gallery-fade-leave-to {
+  opacity: 0;
 }
 </style>
