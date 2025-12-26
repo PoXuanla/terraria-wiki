@@ -68,6 +68,105 @@ export const bossesByType = {
 export const mechanicalBosses = bossesByType.mechanical;
 
 // ==========================================
+// Boss 系列切換器配置
+// ==========================================
+
+/**
+ * Boss 切換器配置項
+ */
+export interface BossSwitcherConfig {
+  slug: string;
+  name: string;
+  nameEn: string;
+  icon: string;
+  route: string;
+  glowColor: string;
+}
+
+/**
+ * Boss 系列配置
+ */
+export interface BossSeriesConfig {
+  /** 系列 ID */
+  id: string;
+  /** 系列名稱 */
+  label: string;
+  /** 系列中的 Boss 列表 */
+  bosses: BossSwitcherConfig[];
+}
+
+/**
+ * 所有 Boss 系列配置
+ */
+export const bossSeriesConfigs: Record<string, BossSeriesConfig> = {
+  mechanical: {
+    id: "mechanical",
+    label: "機械三王",
+    bosses: [
+      {
+        slug: "the-twins",
+        name: "機械魔眼",
+        nameEn: "The Twins",
+        icon: "https://terraria.wiki.gg/images/5/55/Retinazer.png",
+        route: "/boss/the-twins",
+        glowColor: "rgba(220, 38, 38, 0.5)", // 红色
+      },
+      {
+        slug: "the-destroyer",
+        name: "毀滅者",
+        nameEn: "The Destroyer",
+        icon: "https://terraria.wiki.gg/images/a/a7/The_Destroyer.png",
+        route: "/boss/the-destroyer",
+        glowColor: "rgba(244, 114, 182, 0.5)", // 粉色
+      },
+      {
+        slug: "skeletron-prime",
+        name: "機械骷髏王",
+        nameEn: "Skeletron Prime",
+        icon: "https://terraria.wiki.gg/images/2/2a/Skeletron_Prime.png",
+        route: "/boss/skeletron-prime",
+        glowColor: "rgba(168, 85, 247, 0.5)", // 紫色
+      },
+    ],
+  },
+  // 未來可以添加其他系列，例如：
+  // prehardmode: {
+  //   id: "prehardmode",
+  //   label: "困難模式前 Boss",
+  //   bosses: [...],
+  // },
+  // pillars: {
+  //   id: "pillars",
+  //   label: "天界柱",
+  //   bosses: [...],
+  // },
+};
+
+/**
+ * 依 Boss slug 取得其所屬系列配置
+ * @param slug - Boss 識別碼
+ * @returns Boss 系列配置或 undefined
+ */
+export const getBossSeriesConfig = (
+  slug: string
+): BossSeriesConfig | undefined => {
+  return Object.values(bossSeriesConfigs).find((series) =>
+    series.bosses.some((boss) => boss.slug === slug)
+  );
+};
+
+/**
+ * 取得指定系列的切換器配置
+ * @param seriesId - 系列 ID
+ * @returns Boss 系列配置或 undefined
+ */
+export const getBossSeriesById = (
+  seriesId: string
+): BossSeriesConfig | undefined => {
+  return bossSeriesConfigs[seriesId];
+};
+
+// ==========================================
 // 工具函數
 // ==========================================
 

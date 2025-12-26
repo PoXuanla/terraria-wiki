@@ -73,19 +73,27 @@ const props = withDefaults(defineProps<Props>(), {
 
       <!-- BOSS 资讯 -->
       <div class="hero__info">
-        <!-- 徽章区域 -->
-        <div class="hero__badges">
-          <!-- 默认徽章：类型和难度 -->
-          <span class="badge badge--boss">
-            <Skull :size="12" class="mr-1" />
-            {{ bossData.type }}
-          </span>
-          <span class="badge badge--difficulty">
-            <Star :size="12" class="mr-1" />
-            {{ bossData.difficulty }}
-          </span>
-          <!-- 额外徽章 (通过 slot 插入) -->
-          <slot name="extra-badges"></slot>
+        <!-- 顶部区域：徽章 + 切换器 -->
+        <div class="hero__header">
+          <!-- 徽章区域 -->
+          <div class="hero__badges">
+            <!-- 默认徽章：类型和难度 -->
+            <span class="badge badge--boss">
+              <Skull :size="12" class="mr-1" />
+              {{ bossData.type }}
+            </span>
+            <span class="badge badge--difficulty">
+              <Star :size="12" class="mr-1" />
+              {{ bossData.difficulty }}
+            </span>
+            <!-- 额外徽章 (通过 slot 插入) -->
+            <slot name="extra-badges"></slot>
+          </div>
+
+          <!-- 右上角切换器 slot -->
+          <div class="hero__switcher">
+            <slot name="switcher"></slot>
+          </div>
         </div>
 
         <!-- 标题与副标题 -->
@@ -249,11 +257,22 @@ const props = withDefaults(defineProps<Props>(), {
   color: white;
 }
 
+.hero__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
 .hero__badges {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 0.75rem;
+}
+
+.hero__switcher {
+  flex-shrink: 0;
 }
 
 .badge {
@@ -339,8 +358,18 @@ const props = withDefaults(defineProps<Props>(), {
     text-align: center;
   }
 
+  .hero__header {
+    flex-direction: column;
+    align-items: center;
+  }
+
   .hero__badges {
+    order: 2;
     justify-content: center;
+  }
+
+  .hero__switcher {
+    order: 1;
   }
 
   .hero__title {

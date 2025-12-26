@@ -14,7 +14,11 @@ import {
 import DocLayout from "@/layouts/DocLayout.vue";
 import BossHero from "@/components/boss/BossHero.vue";
 import BossSummoning from "@/components/boss/BossSummoning.vue";
-import { skeletronPrime as bossData } from "@/data/boss";
+import BossSwitcher from "@/components/boss/BossSwitcher.vue";
+import { skeletronPrime as bossData, getBossSeriesConfig } from "@/data/boss";
+
+// 取得當前 Boss 所屬系列配置
+const seriesConfig = getBossSeriesConfig("skeletron-prime");
 
 // 當前選中的職業 Tab
 const activeClassTab = ref("ranger");
@@ -29,6 +33,15 @@ const activeClassTab = ref("ranger");
       <BossHero :boss-data="bossData">
         <template #extra-badges>
           <span class="badge badge--danger">⚠️ 高難度</span>
+        </template>
+
+        <!-- 右上角切换器 -->
+        <template v-if="seriesConfig" #switcher>
+          <BossSwitcher
+            current-slug="skeletron-prime"
+            :bosses="seriesConfig.bosses"
+            :label="seriesConfig.label"
+          />
         </template>
       </BossHero>
 

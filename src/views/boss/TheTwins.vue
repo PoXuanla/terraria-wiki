@@ -16,7 +16,11 @@ import {
 import DocLayout from "@/layouts/DocLayout.vue";
 import BossHero from "@/components/boss/BossHero.vue";
 import BossSummoning from "@/components/boss/BossSummoning.vue";
-import { theTwins as bossData } from "@/data/boss";
+import BossSwitcher from "@/components/boss/BossSwitcher.vue";
+import { theTwins as bossData, getBossSeriesConfig } from "@/data/boss";
+
+// 取得當前 Boss 所屬系列配置
+const seriesConfig = getBossSeriesConfig("the-twins");
 
 // 當前選中的職業 Tab
 const activeClassTab = ref("ranger");
@@ -53,6 +57,15 @@ const activeClassTab = ref("ranger");
               </div>
             </div>
           </div>
+        </template>
+
+        <!-- 右上角切换器 -->
+        <template v-if="seriesConfig" #switcher>
+          <BossSwitcher
+            current-slug="the-twins"
+            :bosses="seriesConfig.bosses"
+            :label="seriesConfig.label"
+          />
         </template>
       </BossHero>
 
