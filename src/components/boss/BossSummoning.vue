@@ -422,19 +422,19 @@ const getDisplayIcon = (
   height: 22px;
   padding: 0 0.25rem;
   
-  /* 幽灵样式 - 透明背景 + 有色边框 */
-  background: rgba(245, 158, 11, 0.15);
+  /* 幽灵样式 - 更透明的背景 + 有色边框，融入科技感 */
+  background: rgba(245, 158, 11, 0.08);
   color: #fbbf24;
-  border: 1.5px solid rgba(245, 158, 11, 0.6);
+  border: 1.5px solid rgba(245, 158, 11, 0.5);
   
   font-size: 0.625rem;
   font-weight: 700;
   border-radius: 0.25rem;
   
-  /* 柔和光晕 */
+  /* 极柔和的光晕，不抢戏 */
   box-shadow: 
-    0 0 8px rgba(245, 158, 11, 0.2),
-    inset 0 0 8px rgba(245, 158, 11, 0.1);
+    0 0 6px rgba(245, 158, 11, 0.12),
+    inset 0 0 6px rgba(245, 158, 11, 0.06);
 }
 
 /* Tooltip */
@@ -510,7 +510,7 @@ const getDisplayIcon = (
   padding: 0 1.5rem;
 }
 
-/* 深色金属容器 + 发光边框 - 降低光晕强度（配角） */
+/* 深色金属容器 + 发光边框 - 配角定位，克制的光晕 */
 .station-container {
   position: relative;
   display: flex;
@@ -522,12 +522,12 @@ const getDisplayIcon = (
   /* 深色金属质感背景 */
   background: linear-gradient(135deg, #1e1b2e 0%, #2d2640 50%, #1a1a2e 100%);
 
-  /* 发光的蓝紫色边框 - 减弱一半光晕 */
+  /* 发光的蓝紫色边框 - 更弱的光晕，配角定位 */
   border: 2px solid transparent;
   background-clip: padding-box;
   border-radius: 0.75rem;
-  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.25),
-    0 0 10px rgba(139, 92, 246, 0.15), 0 8px 24px rgba(0, 0, 0, 0.4),
+  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.15),
+    0 0 6px rgba(139, 92, 246, 0.08), 0 8px 24px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 
   /* 细微金属纹理 */
@@ -535,7 +535,7 @@ const getDisplayIcon = (
   overflow: visible;
 }
 
-/* 脉冲发光动画 - 降低透明度 */
+/* 脉冲发光动画 - 配角级别，更低调 */
 .station-container::before {
   content: "";
   position: absolute;
@@ -544,9 +544,9 @@ const getDisplayIcon = (
   padding: 2px;
   background: linear-gradient(
     135deg,
-    rgba(139, 92, 246, 0.35),
-    rgba(59, 130, 246, 0.35),
-    rgba(139, 92, 246, 0.35)
+    rgba(139, 92, 246, 0.2),
+    rgba(59, 130, 246, 0.2),
+    rgba(139, 92, 246, 0.2)
   );
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -559,10 +559,10 @@ const getDisplayIcon = (
 @keyframes pulse-border {
   0%,
   100% {
-    opacity: 0.4;
+    opacity: 0.3;
   }
   50% {
-    opacity: 0.7;
+    opacity: 0.5;
   }
 }
 
@@ -728,15 +728,16 @@ const getDisplayIcon = (
   border: 2px solid transparent;
   border-radius: 0.75rem;
   
-  /* 多层次阴影 - 营造深度 + 内发光 */
+  /* 多层次阴影 - 营造深度 + 强化内发光（主角定位） */
   box-shadow: 
-    0 0 0 1px rgba(168, 85, 247, 0.3),
+    0 0 0 1px rgba(168, 85, 247, 0.4),
     0 4px 16px rgba(0, 0, 0, 0.4),
     0 8px 32px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05),
-    /* 内发光 - 凹槽透出的能量感 */
-    inset 0 0 20px rgba(168, 85, 247, 0.15),
-    inset 0 0 40px rgba(220, 38, 38, 0.08);
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    /* 内发光 - 凹槽透出的能量感（加强） */
+    inset 0 0 24px rgba(168, 85, 247, 0.25),
+    inset 0 0 48px rgba(220, 38, 38, 0.15),
+    inset 0 0 80px rgba(220, 38, 38, 0.08);
 }
 
 /* 呼吸光晕效果 */
