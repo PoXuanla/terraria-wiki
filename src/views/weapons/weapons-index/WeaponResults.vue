@@ -31,18 +31,20 @@ const sortOptions = [
     <span class="result-count">
       顯示 <strong>{{ weaponStore.weaponCount }}</strong> 件武器
     </span>
-    
+
     <!-- 排序控制 -->
     <div class="sort-controls">
       <label class="sort-label">排序：</label>
-      <select 
+      <select
         :value="weaponStore.sortBy"
-        @change="weaponStore.setSortBy(($event.target as HTMLSelectElement).value)"
+        @change="
+          weaponStore.setSortBy(($event.target as HTMLSelectElement).value)
+        "
         class="sort-select"
       >
-        <option 
-          v-for="option in sortOptions" 
-          :key="option.key" 
+        <option
+          v-for="option in sortOptions"
+          :key="option.key"
           :value="option.key"
         >
           {{ option.label }}

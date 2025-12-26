@@ -71,6 +71,11 @@ const summonSlots = computed(() => props.weapon.mechanics?.summon?.slots)
       class="weapon-card__watermark"
     />
 
+    <!-- 稀有度標籤 -->
+    <div class="weapon-card__rarity-badge">
+      <span class="weapon-card__rarity-text">R{{ weapon.rarity.level }}</span>
+    </div>
+
     <!-- 職業標籤 -->
     <div class="weapon-card__class-badge">
       <span class="weapon-card__class-icon">{{ classIcon }}</span>
@@ -187,13 +192,43 @@ const summonSlots = computed(() => props.weapon.mechanics?.summon?.slots)
   border-color: var(--rarity-color);
   transform: translateY(-6px);
   box-shadow: 
-    0 16px 32px -8px rgba(0, 0, 0, 0.2),
+    0 16px 32px -8px rgba(0, 0, 0, 0.25),
     0 0 0 1px var(--rarity-color),
-    0 0 12px -2px var(--rarity-color);
+    0 0 20px -2px var(--rarity-color);
 }
 
 .weapon-card:hover::before {
   opacity: 0.15;
+}
+
+/* 稀有度標籤 */
+.weapon-card__rarity-badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--rarity-color);
+  border-radius: 0.375rem;
+  color: white;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 
+    0 2px 8px -2px var(--rarity-color),
+    0 0 0 2px var(--color-bg-card);
+  transition: transform 0.3s ease;
+}
+
+.weapon-card:hover .weapon-card__rarity-badge {
+  transform: scale(1.1);
+}
+
+.weapon-card__rarity-text {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 /* 職業標籤 */
