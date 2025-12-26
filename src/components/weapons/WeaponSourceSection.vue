@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import { Package } from 'lucide-vue-next'
-import WeaponSourceItem from './WeaponSourceItem.vue'
-import type { WeaponSource } from '@/data/weapons/types'
+import { Package } from "lucide-vue-next";
+import WeaponSourceItem from "./WeaponSourceItem.vue";
+import type { WeaponSource } from "@/data/weapons/types";
 
 /**
  * WeaponSourceSection - 取得方式區塊
- * 
+ *
  * 包含標題、容器與多個來源卡片
  */
 
 interface ResultInfo {
-  icon: string
-  name: string
+  icon: string;
+  name: string;
 }
 
 interface Props {
   /** 取得方式陣列 */
-  sources: WeaponSource[]
+  sources: WeaponSource[];
   /** 成品資訊 { icon, name } */
-  result: ResultInfo
+  result: ResultInfo;
 }
 
-defineProps<Props>()
+defineProps<Props>();
 </script>
 
 <template>
@@ -30,11 +30,11 @@ defineProps<Props>()
       <Package :size="20" class="section-heading__icon" />
       <span>取得方式</span>
     </h2>
-    
+
     <div class="source-list">
       <template v-for="(source, index) in sources" :key="index">
         <WeaponSourceItem :source="source" :result="result" />
-        
+
         <!-- 分隔線（非最後一個時顯示） -->
         <div v-if="index < sources.length - 1" class="source-divider">
           <span>或</span>
@@ -88,7 +88,7 @@ defineProps<Props>()
 
 .source-divider::before,
 .source-divider::after {
-  content: '';
+  content: "";
   flex: 1;
   height: 1px;
   background: var(--color-border);
@@ -103,4 +103,3 @@ defineProps<Props>()
   letter-spacing: 0.05em;
 }
 </style>
-

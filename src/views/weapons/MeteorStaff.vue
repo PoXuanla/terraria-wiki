@@ -6,9 +6,9 @@ import { meteorStaff as weaponData } from "@/data/weapons";
 
 <template>
   <WeaponLayout :weapon="weaponData">
-    <StrategyGuide 
-      :meta="weaponData.meta" 
-      :detailedDescription="weaponData.detailedDescription" 
+    <StrategyGuide
+      :meta="weaponData.meta"
+      :detailedDescription="weaponData.detailedDescription"
     />
   </WeaponLayout>
 </template>

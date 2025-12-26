@@ -1,5 +1,5 @@
-import type { WeaponData } from './types'
-import { SourceType } from './source'
+import type { WeaponData } from "./types";
+import { SourceType } from "./source";
 
 /**
  * 天裂 (Sky Fracture)
@@ -133,10 +133,9 @@ const skyFracture: WeaponData = {
       tileIgnore: false,
     },
     combat: {
-      specialEffects: ['每次攻擊連發三把光劍', '每把劍有獨立暴擊判定'],
+      specialEffects: ["每次攻擊連發三把光劍", "每把劍有獨立暴擊判定"],
     },
   },
-}
+};
 
-export default skyFracture
-
+export default skyFracture;

@@ -1,50 +1,47 @@
 <script setup lang="ts">
-import { Hammer } from 'lucide-vue-next'
-import { SourceType } from '@/data/weapons/source'
-import type { WeaponSource } from '@/data/weapons/types'
+import { Hammer } from "lucide-vue-next";
+import { SourceType } from "@/data/weapons/source";
+import type { WeaponSource } from "@/data/weapons/types";
 
 /**
  * WeaponSourceItem - 單一取得方式卡片
- * 
+ *
  * 根據 source.type 渲染不同的視覺樣式
  */
 
 interface ResultInfo {
-  icon: string
-  name: string
+  icon: string;
+  name: string;
 }
 
 interface Props {
   /** 取得方式資料 */
-  source: WeaponSource
+  source: WeaponSource;
   /** 成品資訊 */
-  result: ResultInfo
+  result: ResultInfo;
 }
 
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
 // 根據 type 取得對應的樣式配置
 const typeConfig = {
-  [SourceType.Crafting]: { icon: '🔨', label: '製作配方', color: '#10b981' },
-  [SourceType.Drop]: { icon: '💀', label: '怪物掉落', color: '#ef4444' },
-  [SourceType.Purchase]: { icon: '🛒', label: 'NPC 購買', color: '#3b82f6' },
-  [SourceType.Chest]: { icon: '📦', label: '寶箱獲得', color: '#f59e0b' },
-  [SourceType.Fishing]: { icon: '🎣', label: '釣魚獲得', color: '#06b6d4' },
-  [SourceType.Event]: { icon: '⚔️', label: '事件獎勵', color: '#8b5cf6' },
-  [SourceType.Bag]: { icon: '🎁', label: '寶藏袋', color: '#f97316' },
-  [SourceType.Crate]: { icon: '📦', label: '木箱獲得', color: '#eab308' },
-  [SourceType.Quest]: { icon: '📜', label: '任務獎勵', color: '#14b8a6' },
-  [SourceType.Other]: { icon: '⭐', label: '其他方式', color: '#6b7280' },
-}
+  [SourceType.Crafting]: { icon: "🔨", label: "製作配方", color: "#10b981" },
+  [SourceType.Drop]: { icon: "💀", label: "怪物掉落", color: "#ef4444" },
+  [SourceType.Purchase]: { icon: "🛒", label: "NPC 購買", color: "#3b82f6" },
+  [SourceType.Chest]: { icon: "📦", label: "寶箱獲得", color: "#f59e0b" },
+  [SourceType.Fishing]: { icon: "🎣", label: "釣魚獲得", color: "#06b6d4" },
+  [SourceType.Event]: { icon: "⚔️", label: "事件獎勵", color: "#8b5cf6" },
+  [SourceType.Bag]: { icon: "🎁", label: "寶藏袋", color: "#f97316" },
+  [SourceType.Crate]: { icon: "📦", label: "木箱獲得", color: "#eab308" },
+  [SourceType.Quest]: { icon: "📜", label: "任務獎勵", color: "#14b8a6" },
+  [SourceType.Other]: { icon: "⭐", label: "其他方式", color: "#6b7280" },
+};
 
-const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
+const config = typeConfig[props.source.type] || typeConfig[SourceType.Other];
 </script>
 
 <template>
-  <div 
-    class="source-item" 
-    :style="{ '--source-color': config.color }"
-  >
+  <div class="source-item" :style="{ '--source-color': config.color }">
     <!-- ==========================================
          Crafting - 製作配方
          ========================================== -->
@@ -52,9 +49,9 @@ const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
       <!-- 製作站標籤 -->
       <div class="source-item__tag">
         <Hammer :size="14" />
-        <span>{{ source.station || '工作台' }}</span>
+        <span>{{ source.station || "工作台" }}</span>
       </div>
-      
+
       <!-- 配方公式 -->
       <div class="source-item__formula">
         <!-- 素材群 -->
@@ -62,9 +59,9 @@ const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
           <template v-for="(item, index) in source.recipe" :key="index">
             <div class="source-slot">
               <div class="source-slot__icon-wrapper">
-                <img 
-                  v-if="item.icon" 
-                  :src="item.icon" 
+                <img
+                  v-if="item.icon"
+                  :src="item.icon"
                   :alt="item.name"
                   class="source-slot__icon"
                 />
@@ -73,18 +70,22 @@ const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
               <span class="source-slot__name">{{ item.name }}</span>
             </div>
             <!-- 加號分隔 -->
-            <span v-if="index < source.recipe.length - 1" class="source-item__plus">+</span>
+            <span
+              v-if="index < source.recipe.length - 1"
+              class="source-item__plus"
+              >+</span
+            >
           </template>
         </div>
-        
+
         <!-- 箭頭 -->
         <div class="source-item__arrow">→</div>
-        
+
         <!-- 成品 -->
         <div class="source-slot source-slot--result">
           <div class="source-slot__icon-wrapper">
-            <img 
-              :src="result.icon" 
+            <img
+              :src="result.icon"
               :alt="result.name"
               class="source-slot__icon"
             />
@@ -92,10 +93,14 @@ const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
           <span class="source-slot__name">{{ result.name }}</span>
         </div>
       </div>
-      
+
       <!-- 備註 -->
       <p v-if="source.note" class="source-item__note">
-        <img src="https://terraria.wiki.gg/images/e/e4/Torch.png" alt="提示" class="source-item__note-icon" />
+        <img
+          src="https://terraria.wiki.gg/images/e/e4/Torch.png"
+          alt="提示"
+          class="source-item__note-icon"
+        />
         {{ source.note }}
       </p>
     </template>
@@ -109,15 +114,15 @@ const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
         <span>💀</span>
         <span>怪物掉落</span>
       </div>
-      
+
       <!-- 掉落公式 -->
       <div class="source-item__formula">
         <!-- 怪物 -->
         <div class="source-slot source-slot--monster">
           <div class="source-slot__icon-wrapper">
-            <img 
-              v-if="source.dropFromIcon" 
-              :src="source.dropFromIcon" 
+            <img
+              v-if="source.dropFromIcon"
+              :src="source.dropFromIcon"
               :alt="source.dropFrom"
               class="source-slot__icon"
             />
@@ -125,17 +130,17 @@ const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
           </div>
           <span class="source-slot__name">{{ source.dropFrom }}</span>
         </div>
-        
+
         <!-- 箭頭 -->
         <div class="source-item__arrow">→</div>
-        
+
         <!-- 掉落武器 -->
         <div class="source-slot source-slot--result">
           <!-- 機率泡泡 -->
           <div class="source-slot__bubble">{{ source.dropChance }}</div>
           <div class="source-slot__icon-wrapper">
-            <img 
-              :src="result.icon" 
+            <img
+              :src="result.icon"
               :alt="result.name"
               class="source-slot__icon"
             />
@@ -143,10 +148,14 @@ const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
           <span class="source-slot__name">{{ result.name }}</span>
         </div>
       </div>
-      
+
       <!-- 備註 -->
       <p v-if="source.notes" class="source-item__note">
-        <img src="https://terraria.wiki.gg/images/e/e4/Torch.png" alt="提示" class="source-item__note-icon" />
+        <img
+          src="https://terraria.wiki.gg/images/e/e4/Torch.png"
+          alt="提示"
+          class="source-item__note-icon"
+        />
         {{ source.notes }}
       </p>
     </template>
@@ -159,13 +168,13 @@ const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
         <span>🛒</span>
         <span>NPC 購買</span>
       </div>
-      
+
       <div class="source-item__formula">
         <div class="source-slot source-slot--npc">
           <div class="source-slot__icon-wrapper">
-            <img 
-              v-if="source.npcIcon" 
-              :src="source.npcIcon" 
+            <img
+              v-if="source.npcIcon"
+              :src="source.npcIcon"
               :alt="source.npc"
               class="source-slot__icon"
             />
@@ -173,23 +182,31 @@ const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
           </div>
           <span class="source-slot__name">{{ source.npc }}</span>
         </div>
-        
+
         <div class="source-item__arrow">→</div>
-        
+
         <div class="source-slot source-slot--result">
           <div class="source-slot__icon-wrapper">
-            <img :src="result.icon" :alt="result.name" class="source-slot__icon" />
+            <img
+              :src="result.icon"
+              :alt="result.name"
+              class="source-slot__icon"
+            />
             <span class="source-slot__price">{{ source.price }}</span>
           </div>
           <span class="source-slot__name">{{ result.name }}</span>
         </div>
       </div>
-      
+
       <p v-if="source.condition" class="source-item__condition">
         ⚠️ {{ source.condition }}
       </p>
       <p v-if="source.notes" class="source-item__note">
-        <img src="https://terraria.wiki.gg/images/e/e4/Torch.png" alt="提示" class="source-item__note-icon" />
+        <img
+          src="https://terraria.wiki.gg/images/e/e4/Torch.png"
+          alt="提示"
+          class="source-item__note-icon"
+        />
         {{ source.notes }}
       </p>
     </template>
@@ -202,13 +219,13 @@ const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
         <span>📦</span>
         <span>寶箱獲得</span>
       </div>
-      
+
       <div class="source-item__formula">
         <div class="source-slot source-slot--chest">
           <div class="source-slot__icon-wrapper">
-            <img 
-              v-if="source.chestIcon" 
-              :src="source.chestIcon" 
+            <img
+              v-if="source.chestIcon"
+              :src="source.chestIcon"
               :alt="source.chestType"
               class="source-slot__icon"
             />
@@ -216,22 +233,30 @@ const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
           </div>
           <span class="source-slot__name">{{ source.chestType }}</span>
         </div>
-        
+
         <div class="source-item__arrow">→</div>
-        
+
         <div class="source-slot source-slot--result">
           <div class="source-slot__icon-wrapper">
-            <img :src="result.icon" :alt="result.name" class="source-slot__icon" />
+            <img
+              :src="result.icon"
+              :alt="result.name"
+              class="source-slot__icon"
+            />
           </div>
           <span class="source-slot__name">{{ result.name }}</span>
         </div>
       </div>
-      
+
       <p v-if="source.location" class="source-item__location">
         📍 {{ source.location }}
       </p>
       <p v-if="source.notes" class="source-item__note">
-        <img src="https://terraria.wiki.gg/images/e/e4/Torch.png" alt="提示" class="source-item__note-icon" />
+        <img
+          src="https://terraria.wiki.gg/images/e/e4/Torch.png"
+          alt="提示"
+          class="source-item__note-icon"
+        />
         {{ source.notes }}
       </p>
     </template>
@@ -244,13 +269,13 @@ const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
         <span>⚔️</span>
         <span>事件獎勵</span>
       </div>
-      
+
       <div class="source-item__formula">
         <div class="source-slot source-slot--event">
           <div class="source-slot__icon-wrapper">
-            <img 
-              v-if="source.eventIcon" 
-              :src="source.eventIcon" 
+            <img
+              v-if="source.eventIcon"
+              :src="source.eventIcon"
               :alt="source.eventName"
               class="source-slot__icon"
             />
@@ -258,24 +283,34 @@ const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
           </div>
           <span class="source-slot__name">{{ source.eventName }}</span>
         </div>
-        
+
         <div class="source-item__arrow">→</div>
-        
+
         <div class="source-slot source-slot--result">
           <!-- 機率泡泡 -->
-          <div v-if="source.dropChance" class="source-slot__bubble">{{ source.dropChance }}</div>
+          <div v-if="source.dropChance" class="source-slot__bubble">
+            {{ source.dropChance }}
+          </div>
           <div class="source-slot__icon-wrapper">
-            <img :src="result.icon" :alt="result.name" class="source-slot__icon" />
+            <img
+              :src="result.icon"
+              :alt="result.name"
+              class="source-slot__icon"
+            />
           </div>
           <span class="source-slot__name">{{ result.name }}</span>
         </div>
       </div>
-      
+
       <p v-if="source.dropFrom" class="source-item__from">
         👾 掉落自：{{ source.dropFrom }}
       </p>
       <p v-if="source.notes" class="source-item__note">
-        <img src="https://terraria.wiki.gg/images/e/e4/Torch.png" alt="提示" class="source-item__note-icon" />
+        <img
+          src="https://terraria.wiki.gg/images/e/e4/Torch.png"
+          alt="提示"
+          class="source-item__note-icon"
+        />
         {{ source.notes }}
       </p>
     </template>
@@ -288,13 +323,17 @@ const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
         <span>{{ config.icon }}</span>
         <span>{{ config.label }}</span>
       </div>
-      
+
       <div class="source-item__description">
-        <p>{{ (source as any).description || '特殊取得方式' }}</p>
+        <p>{{ (source as any).description || "特殊取得方式" }}</p>
       </div>
-      
+
       <p v-if="source.notes" class="source-item__note">
-        <img src="https://terraria.wiki.gg/images/e/e4/Torch.png" alt="提示" class="source-item__note-icon" />
+        <img
+          src="https://terraria.wiki.gg/images/e/e4/Torch.png"
+          alt="提示"
+          class="source-item__note-icon"
+        />
         {{ source.notes }}
       </p>
     </template>
@@ -383,27 +422,47 @@ const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
 }
 
 .source-slot--result {
-  background: linear-gradient(135deg, color-mix(in srgb, var(--source-color) 10%, transparent) 0%, color-mix(in srgb, var(--source-color) 5%, transparent) 100%);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--source-color) 10%, transparent) 0%,
+    color-mix(in srgb, var(--source-color) 5%, transparent) 100%
+  );
   border-color: var(--source-color);
 }
 
 .source-slot--monster {
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(249, 115, 22, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.08) 0%,
+    rgba(249, 115, 22, 0.05) 100%
+  );
   border-color: rgba(239, 68, 68, 0.3);
 }
 
 .source-slot--npc {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(99, 102, 241, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.08) 0%,
+    rgba(99, 102, 241, 0.05) 100%
+  );
   border-color: rgba(59, 130, 246, 0.3);
 }
 
 .source-slot--chest {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(234, 179, 8, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.08) 0%,
+    rgba(234, 179, 8, 0.05) 100%
+  );
   border-color: rgba(245, 158, 11, 0.3);
 }
 
 .source-slot--event {
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(168, 85, 247, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.08) 0%,
+    rgba(168, 85, 247, 0.05) 100%
+  );
   border-color: rgba(139, 92, 246, 0.3);
 }
 
@@ -457,7 +516,7 @@ const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
 
 /* 泡泡底部三角形 */
 .source-slot__bubble::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -4px;
   left: 50%;
@@ -552,11 +611,10 @@ const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .source-item__arrow {
     transform: rotate(90deg);
     margin: 0.25rem 0 0.25rem 2rem;
   }
 }
 </style>
-

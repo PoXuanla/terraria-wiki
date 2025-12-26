@@ -7,6 +7,24 @@ export * from './source'
 import type { WeaponSource } from './source'
 
 // ==========================================
+// 職業類型
+// ==========================================
+
+/**
+ * 武器職業分類
+ */
+export enum WeaponClass {
+  /** 遠程 */
+  Ranger = "Ranger",
+  /** 近戰 */
+  Melee = "Melee",
+  /** 法師 */
+  Mage = "Mage",
+  /** 召喚師 */
+  Summoner = "Summoner",
+}
+
+// ==========================================
 // 戰術資訊類型（StrategyGuide 使用）
 // ==========================================
 

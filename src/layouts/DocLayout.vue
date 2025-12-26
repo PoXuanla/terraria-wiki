@@ -17,7 +17,7 @@ import { List } from "lucide-vue-next";
 // Props
 interface Props {
   /** 頁面標題 (顯示在目錄上方) */
-  title?: string
+  title?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -30,9 +30,9 @@ const props = withDefaults(defineProps<Props>(), {
 
 /** TOC 項目類型 */
 interface TocItem {
-  id: string
-  text: string
-  element: HTMLElement
+  id: string;
+  text: string;
+  element: HTMLElement;
 }
 
 /** 內容容器的 ref */

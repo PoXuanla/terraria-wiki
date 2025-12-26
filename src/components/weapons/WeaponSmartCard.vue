@@ -1,11 +1,22 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { Swords, Target, Clock, Wind, Repeat, Crosshair, Heart, ArrowRight, Ghost, Zap } from 'lucide-vue-next'
-import type { WeaponData } from '@/data/weapons/types'
+import { computed } from "vue";
+import {
+  Swords,
+  Target,
+  Clock,
+  Wind,
+  Repeat,
+  Crosshair,
+  Heart,
+  ArrowRight,
+  Ghost,
+  Zap,
+} from "lucide-vue-next";
+import { WeaponClass, type WeaponData } from "@/data/weapons/types";
 
 /**
  * WeaponSmartCard - 武器數據整合卡片
- * 
+ *
  * 根據職業動態顯示不同內容：
  * - 魔法/遠程：彈道物理
  * - 召喚：召喚物特性 + 欄位消耗
@@ -13,16 +24,16 @@ import type { WeaponData } from '@/data/weapons/types'
  */
 
 interface Props {
-  weapon: WeaponData
+  weapon: WeaponData;
 }
 
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
 // 判斷武器類型
-const isMage = computed(() => props.weapon.class === 'Mage')
-const isRanger = computed(() => props.weapon.class === 'Ranger')
-const isSummoner = computed(() => props.weapon.class === 'Summoner')
-const isMelee = computed(() => props.weapon.class === 'Melee')
+const isMage = computed(() => props.weapon.class === WeaponClass.Mage);
+const isRanger = computed(() => props.weapon.class === WeaponClass.Ranger);
+const isSummoner = computed(() => props.weapon.class === WeaponClass.Summoner);
+const isMelee = computed(() => props.weapon.class === WeaponClass.Melee);
 
 // 是否有投射物（魔法/遠程）
 const hasProjectile = computed(() => isMage.value || isRanger.value)

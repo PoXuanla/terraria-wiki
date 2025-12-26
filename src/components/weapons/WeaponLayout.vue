@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ExternalLink, Star, Sparkles, Trophy } from 'lucide-vue-next'
-import DocLayout from '@/layouts/DocLayout.vue'
-import WeaponSmartCard from '@/components/weapons/WeaponSmartCard.vue'
-import WeaponSourceSection from '@/components/weapons/WeaponSourceSection.vue'
-import type { WeaponData } from '@/data/weapons/types'
+import { ExternalLink, Star, Sparkles, Trophy } from "lucide-vue-next";
+import DocLayout from "@/layouts/DocLayout.vue";
+import WeaponSmartCard from "@/components/weapons/WeaponSmartCard.vue";
+import WeaponSourceSection from "@/components/weapons/WeaponSourceSection.vue";
+import type { WeaponData } from "@/data/weapons/types";
 
 /**
  * WeaponLayout - 可重用的武器頁面佈局組件
- * 
+ *
  * 提供統一的武器詳情頁面結構，包含：
  * - Hero 區塊：武器圖示、名稱、稀有度
  * - 數據面板：傷害、擊退、暴擊率、使用時間
@@ -17,30 +17,30 @@ import type { WeaponData } from '@/data/weapons/types'
  */
 
 interface Props {
-  weapon: WeaponData
+  weapon: WeaponData;
 }
 
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
 // 稀有度等級對應的漸層背景
 const getRarityGradient = (level: number): string => {
   const gradients: Record<number, string> = {
-    4: 'from-red-600 to-orange-500',
-    5: 'from-pink-500 to-rose-400',
-    6: 'from-purple-500 to-violet-400',
-    7: 'from-lime-500 to-green-400',
-    8: 'from-yellow-500 to-amber-400',
-  }
-  return gradients[level] || gradients[5]
-}
+    4: "from-red-600 to-orange-500",
+    5: "from-pink-500 to-rose-400",
+    6: "from-purple-500 to-violet-400",
+    7: "from-lime-500 to-green-400",
+    8: "from-yellow-500 to-amber-400",
+  };
+  return gradients[level] || gradients[5];
+};
 
 // 職業圖示對應
 const classIcons: Record<string, string> = {
-  'Ranger': '🏹',
-  'Melee': '⚔️',
-  'Mage': '🔮',
-  'Summoner': '👻',
-}
+  Ranger: "🏹",
+  Melee: "⚔️",
+  Mage: "🔮",
+  Summoner: "👻",
+};
 </script>
 
 <template>
@@ -50,60 +50,60 @@ const classIcons: Record<string, string> = {
            Hero Section - 頂部展示區
            ======================================== -->
       <section class="hero" :style="{ '--rarity-color': weapon.rarity.color }">
-      <!-- 背景裝飾 -->
-      <div class="hero__bg">
-        <div class="hero__bg-pattern"></div>
-        <div class="hero__bg-glow"></div>
-      </div>
-      
-      <div class="hero__content">
-        <!-- 武器圖示 -->
-        <div class="hero__icon-wrapper">
-          <div class="hero__icon-glow"></div>
-          <div class="hero__icon-frame">
-            <img 
-              :src="weapon.icon" 
-              :alt="weapon.name"
-              class="hero__icon-img"
-            />
-          </div>
+        <!-- 背景裝飾 -->
+        <div class="hero__bg">
+          <div class="hero__bg-pattern"></div>
+          <div class="hero__bg-glow"></div>
         </div>
-        
-        <!-- 武器資訊 -->
-        <div class="hero__info">
-          <div class="hero__badges">
-            <span 
-              class="badge badge--rarity"
-              :style="{ backgroundColor: weapon.rarity.color }"
-            >
-              <Star :size="12" class="mr-1" />
-              {{ weapon.rarity.label }}
-            </span>
-            <span class="badge badge--class">
-              <span class="mr-1">{{ classIcons[weapon.class] || '⚔️' }}</span>
-              {{ weapon.classLabel }}
-            </span>
-          </div>
-          
-          <h1 class="hero__title">{{ weapon.name }}</h1>
-          <p class="hero__subtitle">{{ weapon.nameEn }}</p>
-          <p class="hero__description">{{ weapon.description }}</p>
-          
-          <a 
-            v-if="weapon.wikiUrl"
-            :href="weapon.wikiUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="hero__wiki-link"
-          >
-            <span>查看 Wiki 頁面</span>
-            <ExternalLink :size="16" />
-          </a>
-        </div>
-      </div>
-    </section>
 
-    <!-- ========================================
+        <div class="hero__content">
+          <!-- 武器圖示 -->
+          <div class="hero__icon-wrapper">
+            <div class="hero__icon-glow"></div>
+            <div class="hero__icon-frame">
+              <img
+                :src="weapon.icon"
+                :alt="weapon.name"
+                class="hero__icon-img"
+              />
+            </div>
+          </div>
+
+          <!-- 武器資訊 -->
+          <div class="hero__info">
+            <div class="hero__badges">
+              <span
+                class="badge badge--rarity"
+                :style="{ backgroundColor: weapon.rarity.color }"
+              >
+                <Star :size="12" class="mr-1" />
+                {{ weapon.rarity.label }}
+              </span>
+              <span class="badge badge--class">
+                <span class="mr-1">{{ classIcons[weapon.class] || "⚔️" }}</span>
+                {{ weapon.classLabel }}
+              </span>
+            </div>
+
+            <h1 class="hero__title">{{ weapon.name }}</h1>
+            <p class="hero__subtitle">{{ weapon.nameEn }}</p>
+            <p class="hero__description">{{ weapon.description }}</p>
+
+            <a
+              v-if="weapon.wikiUrl"
+              :href="weapon.wikiUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hero__wiki-link"
+            >
+              <span>查看 Wiki 頁面</span>
+              <ExternalLink :size="16" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================
          Smart Card - 數據卡片
          ======================================== -->
       <WeaponSmartCard :weapon="weapon" />
@@ -111,9 +111,9 @@ const classIcons: Record<string, string> = {
       <!-- ========================================
            Source Section - 取得方式
            ======================================== -->
-      <WeaponSourceSection 
-        :sources="weapon.sources" 
-        :result="{ icon: weapon.icon, name: weapon.name }" 
+      <WeaponSourceSection
+        :sources="weapon.sources"
+        :result="{ icon: weapon.icon, name: weapon.name }"
       />
 
       <!-- ========================================
@@ -124,7 +124,7 @@ const classIcons: Record<string, string> = {
           <Trophy :size="20" class="section-heading__icon" />
           <span>為何推薦？</span>
         </h2>
-      
+
         <div class="whygood-card">
           <Sparkles :size="24" class="whygood-card__icon" />
           <p class="whygood-card__text">{{ weapon.whyGood }}</p>
@@ -182,10 +182,21 @@ const classIcons: Record<string, string> = {
 .hero__bg-pattern {
   position: absolute;
   inset: 0;
-  background-image: 
-    radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.1) 0%, transparent 40%),
-    radial-gradient(circle at 60% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 40%);
+  background-image: radial-gradient(
+      circle at 20% 50%,
+      rgba(139, 92, 246, 0.15) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(236, 72, 153, 0.1) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 60% 80%,
+      rgba(59, 130, 246, 0.1) 0%,
+      transparent 40%
+    );
 }
 
 .hero__bg-glow {
@@ -194,15 +205,26 @@ const classIcons: Record<string, string> = {
   left: 30%;
   width: 300px;
   height: 300px;
-  background: radial-gradient(circle, var(--rarity-color, rgba(139, 92, 246, 0.3)) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    var(--rarity-color, rgba(139, 92, 246, 0.3)) 0%,
+    transparent 70%
+  );
   opacity: 0.4;
   transform: translate(-50%, -50%);
   animation: pulse-glow 4s ease-in-out infinite;
 }
 
 @keyframes pulse-glow {
-  0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
-  50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); }
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
 }
 
 .hero__content {
@@ -222,14 +244,23 @@ const classIcons: Record<string, string> = {
 .hero__icon-glow {
   position: absolute;
   inset: -20px;
-  background: radial-gradient(circle, var(--rarity-color, rgba(236, 72, 153, 0.4)) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    var(--rarity-color, rgba(236, 72, 153, 0.4)) 0%,
+    transparent 70%
+  );
   filter: blur(20px);
   animation: icon-glow 3s ease-in-out infinite;
 }
 
 @keyframes icon-glow {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 0.8; }
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
 }
 
 .hero__icon-frame {
@@ -239,7 +270,11 @@ const classIcons: Record<string, string> = {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
   border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 1rem;
   backdrop-filter: blur(8px);
@@ -374,12 +409,16 @@ const classIcons: Record<string, string> = {
 }
 
 :global(.dark) .whygood-card {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(251, 191, 36, 0.1) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.15) 0%,
+    rgba(251, 191, 36, 0.1) 100%
+  );
   border-color: rgba(251, 191, 36, 0.5);
 }
 
 .whygood-card::before {
-  content: '★';
+  content: "★";
   position: absolute;
   top: -10px;
   right: 10px;
@@ -581,41 +620,39 @@ const classIcons: Record<string, string> = {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .hero__badges {
     justify-content: center;
   }
-  
+
   .hero__title {
     font-size: 1.5rem;
   }
-  
+
   .whygood-card {
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
-  
+
   /* Smart Card 響應式 */
   .smart-card__header {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.75rem;
   }
-  
+
   .smart-card__cost {
     width: 100%;
     justify-content: flex-start;
   }
-  
+
   .smart-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .smart-module__value {
     font-size: 1.5rem;
   }
-  
 }
 </style>
-
