@@ -166,11 +166,10 @@ const clearSearch = () => {
               v-if="option.key"
               class="rarity-color-block"
               :style="{
-                backgroundColor: weaponStore.getRarityColor(option.key),
-                boxShadow:
+                backgroundColor:
                   weaponStore.selectedRarity === option.key
-                    ? `0 0 8px ${weaponStore.getRarityColor(option.key)}`
-                    : 'none',
+                    ? 'white'
+                    : weaponStore.getRarityColor(option.key),
               }"
             />
             <span>{{ option.label }}</span>
@@ -297,27 +296,40 @@ const clearSearch = () => {
 .filter-groups {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0;
 }
 
 .filter-group {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.625rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* 第一個篩選組：移除頂部內邊距 */
+.filter-group:first-child {
+  padding-top: 0;
+}
+
+/* 最後一個篩選組：移除底部邊框和內邊距 */
+.filter-group:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .filter-group__label {
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-text-secondary);
-  min-width: 60px;
 }
 
 .filter-pills {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  width: 100%;
 }
 
 /* 膠囊按鈕 */
@@ -366,6 +378,11 @@ const clearSearch = () => {
   flex-shrink: 0;
 }
 
+/* 激活狀態下的方塊增加陰影，讓白色更突出 */
+.filter-pill--active .rarity-color-block {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
 .filter-pill__icon {
   font-size: 0.875rem;
 }
@@ -374,14 +391,13 @@ const clearSearch = () => {
 .filter-footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding-top: 0.75rem;
   border-top: 1px solid var(--color-border);
 }
 
 .result-count {
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
+  display: none; /* 隱藏側邊欄中的計數，改在右側內容區顯示 */
 }
 
 .result-count strong {
@@ -392,8 +408,10 @@ const clearSearch = () => {
 .clear-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.375rem;
   padding: 0.5rem 0.875rem;
+  width: 100%;
   border: none;
   border-radius: 0.375rem;
   background: #fee2e2;
