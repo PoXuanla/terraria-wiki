@@ -101,3 +101,21 @@ export const RARITY_COLORS: Record<number, string> = {
  */
 export const DEFAULT_COLOR = "#6b7280";
 
+// ==========================================
+// 職業選項配置
+// ==========================================
+
+/**
+ * 職業配置（用於篩選器顯示）
+ */
+export const CLASS_CONFIG: Record<
+  string,
+  { label: string; icon: string }
+> = {
+  "": { label: "全部", icon: "🎯" },
+  Ranger: { label: "遠程", icon: "🏹" },
+  Melee: { label: "近戰", icon: "⚔️" },
+  Mage: { label: "魔法", icon: "🔮" },
+  Summoner: { label: "召喚", icon: "👻" },
+};
+
