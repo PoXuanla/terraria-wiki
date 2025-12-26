@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, nextTick } from "vue";
-import { List } from "lucide-vue-next";
+import { List, ArrowUp } from "lucide-vue-next";
 
 /**
  * DocLayout - 文檔佈局組件
@@ -133,6 +133,16 @@ const scrollToHeading = (id: string): void => {
  */
 const isActive = (id: string): boolean => activeId.value === id;
 
+/**
+ * 平滑捲動回到頁面頂部
+ */
+const scrollToTop = (): void => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
+
 // ==========================================
 // Lifecycle
 // ==========================================
@@ -162,9 +172,23 @@ onUnmounted(() => {
     <!-- 側邊目錄 -->
     <aside class="doc-toc">
       <div class="doc-toc__inner">
-        <div class="doc-toc__header">
-          <List :size="16" class="doc-toc__header-icon" />
-          <span class="doc-toc__title">{{ title }}</span>
+        <div
+          class="doc-toc__header"
+          @click="scrollToTop"
+          title="點擊回到最上面"
+          role="button"
+          tabindex="0"
+          @keydown.enter="scrollToTop"
+          @keydown.space.prevent="scrollToTop"
+        >
+          <div class="doc-toc__header-left">
+            <List :size="16" class="doc-toc__header-icon" />
+            <span class="doc-toc__title">{{ title }}</span>
+          </div>
+
+          <div class="doc-toc__back-to-top">
+            <ArrowUp :size="14" />
+          </div>
         </div>
 
         <nav class="doc-toc__nav">
@@ -218,7 +242,7 @@ onUnmounted(() => {
   flex-shrink: 0;
   width: 220px;
   position: sticky;
-  top:5.5rem
+  top: 5.5rem;
 }
 
 .doc-toc__inner {
@@ -242,10 +266,34 @@ onUnmounted(() => {
 .doc-toc__header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 0.5rem;
-  padding-bottom: 0.75rem;
-  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+  margin: -0.5rem -0.5rem 0.75rem;
   border-bottom: 1px solid var(--color-border);
+  border-radius: 0.5rem 0.5rem 0 0;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  user-select: none;
+}
+
+.doc-toc__header:hover {
+  background-color: var(--color-bg-main);
+}
+
+.doc-toc__header:hover .doc-toc__back-to-top {
+  color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.doc-toc__header:active .doc-toc__back-to-top {
+  transform: translateY(0);
+}
+
+.doc-toc__header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .doc-toc__header-icon {
@@ -258,6 +306,17 @@ onUnmounted(() => {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--color-text-muted);
+}
+
+.doc-toc__back-to-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--color-text-muted);
+  transition: all 0.15s ease;
+  flex-shrink: 0;
 }
 
 .doc-toc__nav {
