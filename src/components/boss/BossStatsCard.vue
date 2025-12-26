@@ -25,7 +25,11 @@ const cardColor = props.data.color || "#3b82f6";
 const dangerLevel = props.data.danger || "medium";
 
 const getDangerText = (danger: string): string => {
-  const map = { high: "高威脅", medium: "中等", low: "低威脅" };
+  const map: Record<string, string> = {
+    high: "高威脅",
+    medium: "中等",
+    low: "低威脅",
+  };
   return map[danger] || "";
 };
 
@@ -272,4 +276,3 @@ const formatValue = (value: number | string): string => {
   }
 }
 </style>
-
