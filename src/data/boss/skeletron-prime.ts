@@ -4,7 +4,9 @@
  * 機械 Boss - 困難模式
  * 來源：機械骷髏召喚物
  */
-export default {
+import type { SkeletronPrimeData } from "./types";
+
+export const skeletronPrime: SkeletronPrimeData = {
   // 識別碼
   slug: "skeletron-prime",
 
@@ -381,4 +383,6 @@ export default {
     },
   ],
 };
+
+export default skeletronPrime;
 

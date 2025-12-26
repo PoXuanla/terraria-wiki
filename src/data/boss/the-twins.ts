@@ -4,7 +4,9 @@
  * 機械 Boss - 困難模式
  * 來源：機械魔眼召喚物
  */
-export default {
+import type { TheTwinsData } from "./types";
+
+export const theTwins: TheTwinsData = {
   // 識別碼
   slug: "the-twins",
 
@@ -121,6 +123,20 @@ export default {
         description:
           "當任一眼血量低於 50% 時，該眼會進行變身。雷射眼變形後持續發射快速雷射。魔焰眼變形後會進行高頻率衝撞並噴射詛咒火焰，傷害極高且難以預測！",
         danger: "high",
+      },
+    ],
+    behavior: [
+      {
+        title: "第一階段",
+        description:
+          "兩隻眼睛同時存在，交替攻擊。雷射眼發射雷射，魔焰眼噴射詛咒焰彈。此階段相對容易，保持移動即可閃避多數攻擊。",
+        icon: "👁️",
+      },
+      {
+        title: "第二階段",
+        description:
+          "當任一眼血量低於 50% 時，該眼會進行變身。雷射眼變形後持續發射快速雷射。魔焰眼變形後會進行高頻率衝撞並噴射詛咒火焰，傷害極高且難以預測！",
+        icon: "💀",
       },
     ],
     coreStrategy: {
@@ -295,6 +311,8 @@ export default {
         icon: "https://terraria.wiki.gg/images/4/4f/Megashark.png",
         ammo: "水晶子彈 / 詛咒子彈",
         description: "高射速、穩定輸出，配合穿透彈藥效果極佳",
+        route: "/weapons",
+        hasPage: false,
       },
       {
         name: "代達羅斯風暴弓",
@@ -302,6 +320,8 @@ export default {
         icon: "https://terraria.wiki.gg/images/e/e6/Daedalus_Stormbow.png",
         ammo: "聖箭",
         description: "從天降落的箭矢能持續命中，搭配聖箭效果驚人",
+        route: "/weapons/daedalus",
+        hasPage: true,
       },
       {
         name: "黃金雨/水晶蛇",
@@ -309,6 +329,8 @@ export default {
         icon: "https://terraria.wiki.gg/images/0/08/Golden_Shower.png",
         ammo: "魔力",
         description: "魔法武器替代方案，黃金雨可降低敵人防禦",
+        route: "/weapons",
+        hasPage: false,
       },
     ],
     accessories: [
@@ -387,4 +409,6 @@ export default {
     },
   ],
 };
+
+export default theTwins;
 

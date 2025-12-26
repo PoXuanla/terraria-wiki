@@ -4,7 +4,9 @@
  * 機械 Boss - 困難模式
  * 來源：機械蠕蟲召喚物
  */
-export default {
+import type { TheDestroyerData } from "./types";
+
+export const theDestroyer: TheDestroyerData = {
   // 識別碼
   slug: "the-destroyer",
 
@@ -313,4 +315,6 @@ export default {
     },
   ],
 };
+
+export default theDestroyer;
 
