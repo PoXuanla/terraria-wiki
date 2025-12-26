@@ -1,4 +1,5 @@
 import type { WeaponData } from './types'
+import { SourceType } from './source'
 
 /**
  * 代達羅斯風暴弓 (Daedalus Stormbow)
@@ -61,7 +62,7 @@ const daedalusStormbow: WeaponData = {
   // 取得方式
   sources: [
     {
-      type: "drop",
+      type: SourceType.Drop,
       dropFrom: "神聖寶箱怪 (Hallowed Mimic)",
       dropFromIcon: "https://terraria.wiki.gg/images/7/7c/Hallowed_Mimic.png",
       dropChance: "25% (1/4)",

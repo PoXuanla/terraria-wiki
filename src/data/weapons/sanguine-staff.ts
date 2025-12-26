@@ -1,4 +1,5 @@
 import type { WeaponData } from './types'
+import { SourceType } from './source'
 
 /**
  * 血紅法杖 (Sanguine Staff)
@@ -56,7 +57,7 @@ const sanguineStaff: WeaponData = {
   // 取得方式
   sources: [
     {
-      type: "drop",
+      type: SourceType.Drop,
       dropFrom: "恐懼鸚鵡螺 (Dreadnautilus)",
       dropChance: "50% (1/2)",
       notes:

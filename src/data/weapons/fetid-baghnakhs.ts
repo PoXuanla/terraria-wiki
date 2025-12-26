@@ -1,4 +1,5 @@
 import type { WeaponData } from './types'
+import { SourceType } from './source'
 
 /**
  * 腐臭虎爪 (Fetid Baghnakhs)
@@ -57,7 +58,7 @@ const fetidBaghnakhs: WeaponData = {
   // 取得方式
   sources: [
     {
-      type: "drop",
+      type: SourceType.Drop,
       dropFrom: "血腥寶箱怪 (Crimson Mimic)",
       dropFromIcon: "https://terraria.wiki.gg/images/e/e9/Crimson_Mimic.png",
       dropChance: "20% (1/5)",

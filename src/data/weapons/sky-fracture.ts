@@ -1,4 +1,5 @@
 import type { WeaponData } from './types'
+import { SourceType } from './source'
 
 /**
  * 天裂 (Sky Fracture)
@@ -56,7 +57,7 @@ const skyFracture: WeaponData = {
   // 取得方式
   sources: [
     {
-      type: "crafting",
+      type: SourceType.Crafting,
       station: "秘銀砧 / 山銅砧",
       recipe: [
         {

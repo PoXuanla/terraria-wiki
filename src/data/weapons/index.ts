@@ -171,7 +171,7 @@ export const filterWeapons = (filters: WeaponFilters = {}): WeaponData[] => {
   return weapons.filter((w) => {
     if (filters.class && w.class !== filters.class) return false
     if (filters.rarity && w.rarity.level !== filters.rarity) return false
-    if (filters.sourceType && w.source.type !== filters.sourceType)
+    if (filters.sourceType && !w.sources.some((s) => s.type === filters.sourceType))
       return false
     return true
   })

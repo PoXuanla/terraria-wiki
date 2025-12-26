@@ -1,4 +1,5 @@
 import type { WeaponData } from './types'
+import { SourceType } from './source'
 
 /**
  * 刃杖 (Blade Staff)
@@ -61,7 +62,7 @@ const bladeStaff: WeaponData = {
   // 取得方式
   sources: [
     {
-      type: "drop",
+      type: SourceType.Drop,
       dropFrom: "史萊姆皇后 (Queen Slime)",
       dropFromIcon: "https://terraria.wiki.gg/images/9/91/Queen_Slime.png",
       dropChance: "25% (1/4)",

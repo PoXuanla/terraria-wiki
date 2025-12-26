@@ -1,6 +1,7 @@
-<script setup>
+<script setup lang="ts">
 import { Hammer } from 'lucide-vue-next'
 import { SourceType } from '@/data/weapons/source'
+import type { WeaponSource } from '@/data/weapons/types'
 
 /**
  * WeaponSourceItem - 單一取得方式卡片
@@ -8,19 +9,19 @@ import { SourceType } from '@/data/weapons/source'
  * 根據 source.type 渲染不同的視覺樣式
  */
 
-const props = defineProps({
+interface ResultInfo {
+  icon: string
+  name: string
+}
+
+interface Props {
   /** 取得方式資料 */
-  source: {
-    type: Object,
-    required: true,
-  },
+  source: WeaponSource
   /** 成品資訊 */
-  result: {
-    type: Object,
-    required: true,
-    // { icon: string, name: string }
-  },
-})
+  result: ResultInfo
+}
+
+const props = defineProps<Props>()
 
 // 根據 type 取得對應的樣式配置
 const typeConfig = {
@@ -289,7 +290,7 @@ const config = typeConfig[props.source.type] || typeConfig[SourceType.Other]
       </div>
       
       <div class="source-item__description">
-        <p>{{ source.description || '特殊取得方式' }}</p>
+        <p>{{ (source as any).description || '特殊取得方式' }}</p>
       </div>
       
       <p v-if="source.notes" class="source-item__note">

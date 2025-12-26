@@ -1,4 +1,5 @@
 import type { WeaponData } from './types'
+import { SourceType } from './source'
 
 /**
  * 黃金雨 (Golden Shower)
@@ -60,7 +61,7 @@ const goldenShower: WeaponData = {
   // 取得方式
   sources: [
     {
-      type: "crafting",
+      type: SourceType.Crafting,
       station: "書架",
       recipe: [
         {

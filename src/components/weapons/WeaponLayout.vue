@@ -1,8 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import { ExternalLink, Star, Sparkles, Trophy } from 'lucide-vue-next'
 import DocLayout from '@/layouts/DocLayout.vue'
 import WeaponSmartCard from '@/components/weapons/WeaponSmartCard.vue'
 import WeaponSourceSection from '@/components/weapons/WeaponSourceSection.vue'
+import type { WeaponData } from '@/data/weapons/types'
 
 /**
  * WeaponLayout - 可重用的武器頁面佈局組件
@@ -15,43 +16,15 @@ import WeaponSourceSection from '@/components/weapons/WeaponSourceSection.vue'
  * - 推薦理由：為何值得使用
  */
 
-const props = defineProps({
-  /**
-   * 武器資料物件
-   */
-  weapon: {
-    type: Object,
-    required: true,
-    default: () => ({
-      name: '',
-      nameEn: '',
-      class: '',
-      classLabel: '',
-      rarity: { level: 5, color: '#f472b6', label: '稀有度 5' },
-      icon: '',
-      wikiUrl: '',
-      stats: {
-        damage: { value: 0, label: '傷害' },
-        knockback: { value: 0, label: '擊退', description: '' },
-        critChance: { value: 4, label: '暴擊率' },
-        useTime: { value: 0, label: '使用時間', description: '' },
-      },
-      description: '',
-      source: {
-        type: 'crafting', // 'crafting' | 'drop'
-        station: '',
-        recipe: [], // for crafting
-        dropFrom: '', // for drop
-        dropChance: '', // for drop
-      },
-      whyGood: '',
-    }),
-  },
-})
+interface Props {
+  weapon: WeaponData
+}
+
+const props = defineProps<Props>()
 
 // 稀有度等級對應的漸層背景
-const getRarityGradient = (level) => {
-  const gradients = {
+const getRarityGradient = (level: number): string => {
+  const gradients: Record<number, string> = {
     4: 'from-red-600 to-orange-500',
     5: 'from-pink-500 to-rose-400',
     6: 'from-purple-500 to-violet-400',
@@ -62,7 +35,7 @@ const getRarityGradient = (level) => {
 }
 
 // 職業圖示對應
-const classIcons = {
+const classIcons: Record<string, string> = {
   'Ranger': '🏹',
   'Melee': '⚔️',
   'Mage': '🔮',

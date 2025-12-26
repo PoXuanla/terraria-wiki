@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import WeaponLayout from "@/components/weapons/WeaponLayout.vue";
 import StrategyGuide from "@/components/weapons/StrategyGuide.vue";
 import { fetidBaghnakhs as weaponData } from "@/data/weapons";

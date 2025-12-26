@@ -1,4 +1,5 @@
 import type { WeaponData } from './types'
+import { SourceType } from './source'
 
 /**
  * 飛鏢步槍 / 飛鏢手槍 (Dart Rifle / Dart Pistol)
@@ -56,7 +57,7 @@ const dartRifle: WeaponData = {
   // 取得方式
   sources: [
     {
-      type: "drop",
+      type: SourceType.Drop,
       dropFrom: "腐化/血腥寶箱怪 (Corrupt/Crimson Mimic)",
       dropFromIcon: "https://terraria.wiki.gg/images/2/23/Corrupt_Mimic.png",
       dropChance: "20% (1/5)",

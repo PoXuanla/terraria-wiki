@@ -1,4 +1,5 @@
 import type { WeaponData } from './types'
+import { SourceType } from './source'
 
 /**
  * 暗影焰飛刀 (Shadowflame Knife)
@@ -56,7 +57,7 @@ const shadowflameKnife: WeaponData = {
   // 取得方式
   sources: [
     {
-      type: "drop",
+      type: SourceType.Drop,
       dropFrom: "哥布林召喚師 (Goblin Summoner)",
       dropChance: "33.33% (1/3)",
       notes:

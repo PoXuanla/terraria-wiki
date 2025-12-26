@@ -1,6 +1,7 @@
-<script setup>
+<script setup lang="ts">
 import { Package } from 'lucide-vue-next'
 import WeaponSourceItem from './WeaponSourceItem.vue'
+import type { WeaponSource } from '@/data/weapons/types'
 
 /**
  * WeaponSourceSection - 取得方式區塊
@@ -8,18 +9,19 @@ import WeaponSourceItem from './WeaponSourceItem.vue'
  * 包含標題、容器與多個來源卡片
  */
 
-defineProps({
+interface ResultInfo {
+  icon: string
+  name: string
+}
+
+interface Props {
   /** 取得方式陣列 */
-  sources: {
-    type: Array,
-    required: true,
-  },
+  sources: WeaponSource[]
   /** 成品資訊 { icon, name } */
-  result: {
-    type: Object,
-    required: true,
-  },
-})
+  result: ResultInfo
+}
+
+defineProps<Props>()
 </script>
 
 <template>

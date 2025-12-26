@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, onUnmounted, nextTick } from "vue";
 import { List } from "lucide-vue-next";
 
@@ -15,31 +15,37 @@ import { List } from "lucide-vue-next";
  */
 
 // Props
-const props = defineProps({
-  /**
-   * 頁面標題 (顯示在目錄上方)
-   */
-  title: {
-    type: String,
-    default: "目錄",
-  },
+interface Props {
+  /** 頁面標題 (顯示在目錄上方) */
+  title?: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  title: "目錄",
 });
 
 // ==========================================
 // State
 // ==========================================
 
+/** TOC 項目類型 */
+interface TocItem {
+  id: string
+  text: string
+  element: HTMLElement
+}
+
 /** 內容容器的 ref */
-const contentRef = ref(null);
+const contentRef = ref<HTMLElement | null>(null);
 
 /** 目錄項目陣列 */
-const tocItems = ref([]);
+const tocItems = ref<TocItem[]>([]);
 
 /** 當前活動的標題 ID */
-const activeId = ref("");
+const activeId = ref<string>("");
 
 /** IntersectionObserver 實例 */
-let observer = null;
+let observer: IntersectionObserver | null = null;
 
 // ==========================================
 // Methods
@@ -49,11 +55,11 @@ let observer = null;
  * 掃描內容區域的所有 <h2> 標籤
  * 如果沒有 id，自動賦予唯一 id
  */
-const scanHeadings = () => {
+const scanHeadings = (): void => {
   if (!contentRef.value) return;
 
   const headings = contentRef.value.querySelectorAll("h2");
-  const items = [];
+  const items: TocItem[] = [];
 
   headings.forEach((heading, index) => {
     // 如果沒有 id，自動賦予
@@ -101,7 +107,7 @@ const setupScrollSpy = () => {
 
   // 觀察所有標題
   tocItems.value.forEach((item) => {
-    if (item.element) {
+    if (item.element && observer) {
       observer.observe(item.element);
     }
   });
@@ -110,7 +116,7 @@ const setupScrollSpy = () => {
 /**
  * 平滑捲動到指定標題
  */
-const scrollToHeading = (id) => {
+const scrollToHeading = (id: string): void => {
   const element = document.getElementById(id);
   if (element) {
     element.scrollIntoView({
@@ -125,7 +131,7 @@ const scrollToHeading = (id) => {
 /**
  * 判斷項目是否為當前活動項目
  */
-const isActive = (id) => activeId.value === id;
+const isActive = (id: string): boolean => activeId.value === id;
 
 // ==========================================
 // Lifecycle
