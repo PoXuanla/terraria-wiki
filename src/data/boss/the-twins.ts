@@ -260,6 +260,16 @@ export const theTwins: TheTwinsData = {
     classWeapons: {
       ranger: [
         {
+          name: "代達羅斯風暴弓",
+          nameEn: "Daedalus Stormbow",
+          icon: "https://terraria.wiki.gg/images/e/e6/Daedalus_Stormbow.png",
+          ammo: "聖箭",
+          description: "從天降落的箭矢能持續命中，搭配聖箭效果驚人",
+          route: "/weapons/daedalus-stormbow",
+          hasPage: true,
+          highlight: true,
+        },
+        {
           name: "大鯊魚",
           nameEn: "Megashark",
           icon: "https://terraria.wiki.gg/images/4/4f/Megashark.png",
@@ -267,15 +277,6 @@ export const theTwins: TheTwinsData = {
           description: "高射速、穩定輸出，配合穿透彈藥效果極佳",
           route: "/weapons",
           hasPage: false,
-        },
-        {
-          name: "代達羅斯風暴弓",
-          nameEn: "Daedalus Stormbow",
-          icon: "https://terraria.wiki.gg/images/e/e6/Daedalus_Stormbow.png",
-          ammo: "聖箭",
-          description: "從天降落的箭矢能持續命中，搭配聖箭效果驚人",
-          route: "/weapons/daedalus",
-          hasPage: true,
         },
         {
           name: "瑪瑙爆破槍",
@@ -296,6 +297,7 @@ export const theTwins: TheTwinsData = {
           description: "可在敵人間彈跳，附帶暗影焰減益，完美的風箏武器",
           route: "/weapons/shadowflame-knife",
           hasPage: true,
+          highlight: true,
         },
         {
           name: "冰鎌刀",
@@ -325,6 +327,7 @@ export const theTwins: TheTwinsData = {
           description: "法師版代達羅斯！從天降落流星，對大型目標極有效",
           route: "/weapons/meteor-staff",
           hasPage: true,
+          highlight: true,
         },
         {
           name: "天裂",
@@ -354,6 +357,7 @@ export const theTwins: TheTwinsData = {
           description: "召喚完美追蹤的血紅蝙蝠，機械 Boss 前最強召喚物",
           route: "/weapons/sanguine-staff",
           hasPage: true,
+          highlight: true,
         },
         {
           name: "蜘蛛法杖",
