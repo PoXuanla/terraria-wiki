@@ -86,21 +86,22 @@ const activeClassTab = ref("ranger");
 
     <!-- 飾品推薦 -->
     <h3 class="subsection-title subsection-title--stagger">💍 飾品</h3>
-    <div class="equipment-grid equipment-grid--accessories">
+    <div class="accessories-showcase">
       <div
         v-for="(accessory, index) in equipment.accessories"
         :key="accessory.name"
-        class="equipment-card equipment-card--compact equipment-card--stagger-in"
+        class="accessory-slot equipment-card--stagger-in"
         :style="{ '--stagger-index': index }"
       >
+        <div class="accessory-slot__glow"></div>
         <img
           :src="accessory.icon"
           :alt="accessory.name"
-          class="equipment-card__icon"
+          class="accessory-slot__icon"
         />
-        <div class="equipment-card__content">
-          <span class="equipment-card__name">{{ accessory.name }}</span>
-          <p class="equipment-card__desc">{{ accessory.description }}</p>
+        <span class="accessory-slot__name">{{ accessory.name }}</span>
+        <div class="accessory-slot__tooltip">
+          <p class="accessory-slot__tooltip-text">{{ accessory.description }}</p>
         </div>
       </div>
     </div>
@@ -540,12 +541,181 @@ const activeClassTab = ref("ranger");
   box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3);
 }
 
-.equipment-card--compact {
-  padding: 1rem;
+/* ==========================================
+   飾品展示區 - 精緻寶石插槽設計
+   ========================================== */
+.accessories-showcase {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 0.875rem;
+  margin-top: 1rem;
 }
 
-.equipment-grid--accessories {
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+.accessory-slot {
+  aspect-ratio: 1 / 1.1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 0.625rem;
+  background: rgba(20, 20, 30, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 20px rgba(168, 85, 247, 0.06),
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(168, 85, 247, 0.15);
+  animation: slot-shimmer 3s ease-in-out infinite;
+}
+
+@keyframes slot-shimmer {
+  0%, 100% {
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      inset 0 0 20px rgba(168, 85, 247, 0.06),
+      0 4px 12px rgba(0, 0, 0, 0.4),
+      0 0 20px rgba(168, 85, 247, 0.15);
+    border-color: rgba(168, 85, 247, 0.2);
+  }
+  50% {
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      inset 0 0 30px rgba(168, 85, 247, 0.1),
+      0 4px 12px rgba(0, 0, 0, 0.4),
+      0 0 30px rgba(168, 85, 247, 0.25);
+    border-color: rgba(168, 85, 247, 0.35);
+  }
+}
+
+.accessory-slot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(168, 85, 247, 0.12) 0%,
+    transparent 65%
+  );
+  opacity: 1;
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.accessory-slot__glow {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(
+    circle,
+    rgba(168, 85, 247, 0.2) 0%,
+    rgba(59, 130, 246, 0.1) 50%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  filter: blur(15px);
+  pointer-events: none;
+  animation: glow-breathe 4s ease-in-out infinite;
+}
+
+@keyframes glow-breathe {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+.accessory-slot__icon {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6))
+         drop-shadow(0 0 12px rgba(168, 85, 247, 0.4));
+  animation: icon-float 3s ease-in-out infinite;
+}
+
+@keyframes icon-float {
+  0%, 100% {
+    transform: translateY(0);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6))
+           drop-shadow(0 0 12px rgba(168, 85, 247, 0.4));
+  }
+  50% {
+    transform: translateY(-3px);
+    filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.6))
+           drop-shadow(0 0 16px rgba(168, 85, 247, 0.6));
+  }
+}
+
+.accessory-slot__name {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  line-height: 1.3;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.accessory-slot__tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.625rem 0.875rem;
+  background: rgba(10, 10, 15, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 6px;
+  min-width: 180px;
+  max-width: 240px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 100;
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(168, 85, 247, 0.2);
+}
+
+.accessory-slot__tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: rgba(168, 85, 247, 0.3);
+}
+
+.accessory-slot__tooltip-text {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: rgba(203, 213, 225, 0.95);
+  margin: 0;
+  text-align: center;
 }
 
 /* Armor Card - 聚光燈展示 */
@@ -745,8 +915,22 @@ const activeClassTab = ref("ranger");
     height: 40px;
   }
 
-  .equipment-grid--accessories {
-    grid-template-columns: 1fr;
+  .accessories-showcase {
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+    gap: 0.625rem;
+  }
+
+  .accessory-slot {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .accessory-slot__icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .accessory-slot__name {
+    font-size: 0.625rem;
   }
 
   .armor-card {
