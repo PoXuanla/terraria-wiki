@@ -7,6 +7,7 @@ import {
 import type { Component } from "vue";
 import { Home, BookOpen, Crosshair, FileText, Skull } from "lucide-vue-next";
 import { weapons } from "@/data/weapons";
+import { guides } from "@/data/guides";
 
 /**
  * 路由配置
@@ -71,11 +72,10 @@ const MainLayout = () => import("@/layouts/MainLayout.vue");
 // 首頁
 const HomePage = () => import("@/views/HomePage.vue");
 
-// 指南頁面
-const GuideMimic = () => import("@/views/guides/MimicGuide.vue");
-const GuideClentaminator = () =>
-  import("@/views/guides/ClentaminatorGuide.vue");
-const GuideMimicDoc = () => import("@/views/guides/MimicHuntingDoc.vue");
+// 指南頁面 - 使用 import.meta.glob 動態導入
+const guideModules = import.meta.glob<{ default: Component }>(
+  "@/views/guides/*.vue"
+);
 
 // 武器頁面 - 使用 import.meta.glob 動態導入
 const WeaponsIndex = () =>
@@ -94,6 +94,26 @@ const BossSkeletronPrime = () => import("@/views/boss/SkeletronPrime.vue");
 // ==========================================
 // 動態路由生成
 // ==========================================
+
+/**
+ * 動態生成指南路由
+ */
+const generateGuideRoutes = () => {
+  return guides.map((guide) => {
+    const componentPath = `/src/views/guides/${guide.componentName}.vue`;
+
+    return {
+      path: `guides/${guide.slug}`,
+      name: `Guide${guide.componentName}`,
+      component: guideModules[componentPath],
+      meta: {
+        title: guide.name,
+        icon: guide.icon,
+        group: "guides",
+      },
+    };
+  });
+};
 
 /**
  * 動態生成武器路由
@@ -147,38 +167,9 @@ const routes: RouteRecordRaw[] = [
       },
 
       // ==========================================
-      // 指南 (Guides)
+      // 指南 (Guides) - 動態生成
       // ==========================================
-      {
-        path: "guides/mimic",
-        name: "GuideMimic",
-        component: GuideMimic,
-        meta: {
-          title: "寶藏怪狩獵指南",
-          icon: "https://terraria.wiki.gg/images/f/f5/Mimic.png",
-          group: "guides",
-        },
-      },
-      {
-        path: "guides/clentaminator",
-        name: "GuideClentaminator",
-        component: GuideClentaminator,
-        meta: {
-          title: "環境治理指南",
-          icon: "https://terraria.wiki.gg/images/9/9b/Clentaminator.png",
-          group: "guides",
-        },
-      },
-      {
-        path: "guides/mimic-doc",
-        name: "GuideMimicDoc",
-        component: GuideMimicDoc,
-        meta: {
-          title: "寶箱怪指南 (文檔版)",
-          icon: FileText,
-          group: "guides",
-        },
-      },
+      ...generateGuideRoutes(),
 
       // ==========================================
       // 武器 (Weapons) - 動態生成
@@ -266,6 +257,17 @@ const router: Router = createRouter({
 // ==========================================
 
 /**
+ * 動態生成指南選單項目
+ */
+const generateGuideMenuItems = (): MenuItem[] => {
+  return guides.map((guide) => ({
+    title: guide.name,
+    path: `/guides/${guide.slug}`,
+    icon: guide.icon,
+  }));
+};
+
+/**
  * 動態生成武器選單項目
  */
 const generateWeaponMenuItems = (): MenuItem[] => {
@@ -304,23 +306,7 @@ export const menuConfig: MenuGroup[] = [
     group: "指南",
     groupKey: "guides",
     icon: BookOpen,
-    items: [
-      {
-        title: "寶藏怪狩獵指南",
-        path: "/guides/mimic",
-        icon: "https://terraria.wiki.gg/images/f/f5/Mimic.png",
-      },
-      {
-        title: "環境治理指南",
-        path: "/guides/clentaminator",
-        icon: "https://terraria.wiki.gg/images/9/9b/Clentaminator.png",
-      },
-      {
-        title: "寶箱怪指南 (文檔版)",
-        path: "/guides/mimic-doc",
-        icon: FileText,
-      },
-    ],
+    items: generateGuideMenuItems(),
   },
   {
     group: "武器圖鑑",
