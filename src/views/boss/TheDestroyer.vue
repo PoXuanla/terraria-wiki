@@ -17,9 +17,10 @@ import BossHero from "@/components/boss/BossHero.vue";
 import BossSummoning from "@/components/boss/BossSummoning.vue";
 import BossSwitcher from "@/components/boss/BossSwitcher.vue";
 import { theDestroyer as bossData, getBossSeriesConfig } from "@/data/boss";
+import { BossSlug } from "@/data/boss/boss-slug.enum";
 
 // 取得當前 Boss 所屬系列配置
-const seriesConfig = getBossSeriesConfig("the-destroyer");
+const seriesConfig = getBossSeriesConfig(BossSlug.THE_DESTROYER);
 
 // 當前選中的職業 Tab
 const activeClassTab = ref("ranger");
@@ -39,7 +40,7 @@ const activeClassTab = ref("ranger");
         <!-- 右上角切换器 -->
         <template v-if="seriesConfig" #switcher>
           <BossSwitcher
-            current-slug="the-destroyer"
+            :current-slug="BossSlug.THE_DESTROYER"
             :bosses="seriesConfig.bosses"
             :label="seriesConfig.label"
           />

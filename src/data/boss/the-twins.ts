@@ -5,10 +5,11 @@
  * 來源：機械魔眼召喚物
  */
 import type { TheTwinsData } from "./types";
+import { BossSlug } from "./boss-slug.enum";
 
 export const theTwins: TheTwinsData = {
   // 識別碼
-  slug: "the-twins",
+  slug: BossSlug.THE_TWINS,
 
   // 基本資訊
   name: "機械魔眼",
@@ -416,4 +417,3 @@ export const theTwins: TheTwinsData = {
 };
 
 export default theTwins;
-

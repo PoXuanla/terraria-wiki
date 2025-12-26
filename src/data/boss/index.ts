@@ -15,6 +15,9 @@ import type {
   DifficultyLabel,
 } from "./types";
 
+// 匯入 Boss Slug 枚舉
+import { BossSlug } from "./boss-slug.enum";
+
 // 匯入所有 Boss 資料
 import { theTwins } from "./the-twins";
 import { theDestroyer } from "./the-destroyer";
@@ -104,27 +107,27 @@ export const bossSeriesConfigs: Record<string, BossSeriesConfig> = {
     label: "機械三王",
     bosses: [
       {
-        slug: "the-twins",
+        slug: BossSlug.THE_TWINS,
         name: "機械魔眼",
         nameEn: "The Twins",
         icon: "https://terraria.wiki.gg/images/5/55/Retinazer.png",
-        route: "/boss/the-twins",
+        route: `/boss/${BossSlug.THE_TWINS}`,
         glowColor: "rgba(220, 38, 38, 0.5)", // 红色
       },
       {
-        slug: "the-destroyer",
+        slug: BossSlug.THE_DESTROYER,
         name: "毀滅者",
         nameEn: "The Destroyer",
         icon: "https://terraria.wiki.gg/images/a/a7/The_Destroyer.png",
-        route: "/boss/the-destroyer",
+        route: `/boss/${BossSlug.THE_DESTROYER}`,
         glowColor: "rgba(244, 114, 182, 0.5)", // 粉色
       },
       {
-        slug: "skeletron-prime",
+        slug: BossSlug.SKELETRON_PRIME,
         name: "機械骷髏王",
         nameEn: "Skeletron Prime",
         icon: "https://terraria.wiki.gg/images/2/2a/Skeletron_Prime.png",
-        route: "/boss/skeletron-prime",
+        route: `/boss/${BossSlug.SKELETRON_PRIME}`,
         glowColor: "rgba(168, 85, 247, 0.5)", // 紫色
       },
     ],

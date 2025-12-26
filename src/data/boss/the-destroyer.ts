@@ -5,10 +5,11 @@
  * 來源：機械蠕蟲召喚物
  */
 import type { TheDestroyerData } from "./types";
+import { BossSlug } from "./boss-slug.enum";
 
 export const theDestroyer: TheDestroyerData = {
   // 識別碼
-  slug: "the-destroyer",
+  slug: BossSlug.THE_DESTROYER,
 
   // 基本資訊
   name: "毀滅者",

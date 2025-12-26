@@ -2,6 +2,8 @@
  * Boss 資料 TypeScript 類型定義
  */
 
+import { BossSlug } from "./boss-slug.enum";
+
 // ==========================================
 // 基礎類型定義
 // ==========================================
@@ -288,21 +290,21 @@ export type BossData = TheTwinsData | TheDestroyerData | SkeletronPrimeData;
  * 檢查是否為 The Twins
  */
 export function isTheTwins(boss: BossData): boss is TheTwinsData {
-  return boss.slug === "the-twins";
+  return boss.slug === BossSlug.THE_TWINS;
 }
 
 /**
  * 檢查是否為 The Destroyer
  */
 export function isTheDestroyer(boss: BossData): boss is TheDestroyerData {
-  return boss.slug === "the-destroyer";
+  return boss.slug === BossSlug.THE_DESTROYER;
 }
 
 /**
  * 檢查是否為 Skeletron Prime
  */
 export function isSkeletronPrime(boss: BossData): boss is SkeletronPrimeData {
-  return boss.slug === "skeletron-prime";
+  return boss.slug === BossSlug.SKELETRON_PRIME;
 }
 
 // ==========================================

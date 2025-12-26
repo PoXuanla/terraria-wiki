@@ -14,6 +14,7 @@ import {
   Play,
   BookOpen,
 } from "lucide-vue-next";
+import { BossSlug } from "@/data/boss/boss-slug.enum";
 
 /**
  * HomePage - 專業首頁
@@ -84,7 +85,7 @@ const categories = [
     icon: Skull,
     color: "#ef4444",
     gradient: "from-red-500 to-orange-500",
-    link: "/boss/the-twins",
+    link: `/boss/${BossSlug.THE_TWINS}`,
     linkText: "查看攻略",
   },
   {
@@ -137,7 +138,7 @@ const featuredGuide = {
   ],
   image: "https://terraria.wiki.gg/images/5/55/Retinazer.png",
   image2: "https://terraria.wiki.gg/images/d/d2/Spazmatism.png",
-  link: "/boss/the-twins",
+  link: `/boss/${BossSlug.THE_TWINS}`,
 };
 </script>
 
@@ -189,7 +190,10 @@ const featuredGuide = {
 
         <!-- CTA 按鈕 -->
         <div class="hero__actions">
-          <RouterLink to="/boss/the-twins" class="hero__cta hero__cta--primary">
+          <RouterLink
+            :to="`/boss/${BossSlug.THE_TWINS}`"
+            class="hero__cta hero__cta--primary"
+          >
             <Play :size="20" />
             <span>Start Your Journey</span>
             <span class="hero__cta-zh">開始你的旅程</span>

@@ -16,9 +16,10 @@ import BossHero from "@/components/boss/BossHero.vue";
 import BossSummoning from "@/components/boss/BossSummoning.vue";
 import BossSwitcher from "@/components/boss/BossSwitcher.vue";
 import { skeletronPrime as bossData, getBossSeriesConfig } from "@/data/boss";
+import { BossSlug } from "@/data/boss/boss-slug.enum";
 
 // 取得當前 Boss 所屬系列配置
-const seriesConfig = getBossSeriesConfig("skeletron-prime");
+const seriesConfig = getBossSeriesConfig(BossSlug.SKELETRON_PRIME);
 
 // 當前選中的職業 Tab
 const activeClassTab = ref("ranger");
@@ -38,7 +39,7 @@ const activeClassTab = ref("ranger");
         <!-- 右上角切换器 -->
         <template v-if="seriesConfig" #switcher>
           <BossSwitcher
-            current-slug="skeletron-prime"
+            :current-slug="BossSlug.SKELETRON_PRIME"
             :bosses="seriesConfig.bosses"
             :label="seriesConfig.label"
           />

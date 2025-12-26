@@ -5,10 +5,11 @@
  * 來源：機械骷髏召喚物
  */
 import type { SkeletronPrimeData } from "./types";
+import { BossSlug } from "./boss-slug.enum";
 
 export const skeletronPrime: SkeletronPrimeData = {
   // 識別碼
-  slug: "skeletron-prime",
+  slug: BossSlug.SKELETRON_PRIME,
 
   // 基本資訊
   name: "機械骷髏王",
