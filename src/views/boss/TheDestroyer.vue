@@ -69,10 +69,7 @@ const statsCards = useDestroyerStats(bossData);
         :icon="Bug"
         :cards="statsCards"
         :grid-cols="2"
-        :warning="{
-          text: '<strong>💀 免疫所有減益效果：</strong>毀滅者免疫所有減益狀態（如中毒、著火等），因此減益武器對它無效。專注於純傷害輸出！',
-          type: 'info',
-        }"
+        :warning="bossData.statsWarning"
       />
 
       <!-- ========================================

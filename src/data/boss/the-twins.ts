@@ -105,6 +105,12 @@ export const theTwins: TheTwinsData = {
     },
   },
 
+  // 屬性警告
+  statsWarning: {
+    text: "<strong>⚠️ 重要警告：</strong>第二階段的衝撞與噴火傷害極高，是戰鬥的最大威脅！",
+    type: "danger",
+  },
+
   // 戰鬥資訊
   combat: {
     arena: {

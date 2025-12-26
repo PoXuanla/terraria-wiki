@@ -210,6 +210,7 @@ export interface BaseBossData {
   combat: BossCombat;
   equipment: BossEquipment;
   drops: BossDrop[];
+  statsWarning?: BossStatsWarning;
 }
 
 // ==========================================
@@ -228,6 +229,14 @@ export interface BossStats {
   damage: number;
   segments?: number;
   notes: string;
+}
+
+/**
+ * Boss 屬性警告
+ */
+export interface BossStatsWarning {
+  text: string;
+  type?: "info" | "warning" | "danger";
 }
 
 /**

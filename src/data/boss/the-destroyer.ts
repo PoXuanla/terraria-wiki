@@ -80,6 +80,12 @@ export const theDestroyer: TheDestroyerData = {
     },
   },
 
+  // 屬性警告
+  statsWarning: {
+    text: "<strong>💀 免疫所有減益效果：</strong>毀滅者免疫所有減益狀態（如中毒、著火等），因此減益武器對它無效。專注於純傷害輸出！",
+    type: "info",
+  },
+
   // 戰鬥資訊
   combat: {
     arena: {

@@ -92,10 +92,7 @@ const statsCards = useTwinsStats(bossData);
         :icon="Eye"
         :cards="statsCards"
         :grid-cols="2"
-        :warning="{
-          text: `<strong>⚠️ 重要警告：</strong>${bossData.twins.spazmatism.phase2.warning}`,
-          type: 'danger',
-        }"
+        :warning="bossData.statsWarning"
       />
 
       <!-- ========================================

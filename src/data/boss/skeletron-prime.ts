@@ -120,6 +120,12 @@ export const skeletronPrime: SkeletronPrimeData = {
     },
   ],
 
+  // 屬性警告
+  statsWarning: {
+    text: "<strong>⚠️ 致命警告：</strong>頭部旋轉時防禦降低但傷害暴增至 75+！若沒有足夠護甲，被旋轉中的頭部碰到幾乎是<strong>即死</strong>！務必優先閃避！",
+    type: "danger",
+  },
+
   // 戰鬥資訊
   combat: {
     arena: {
