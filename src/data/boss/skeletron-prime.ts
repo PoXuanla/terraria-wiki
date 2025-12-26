@@ -28,6 +28,8 @@ export const skeletronPrime: SkeletronPrimeData = {
     itemEn: "Mechanical Skull",
     itemIcon: "https://terraria.wiki.gg/images/4/4e/Mechanical_Skull.png",
     timeRestriction: "晚上 7:30 PM 後",
+    craftStation: "秘銀砧/山銅砧",
+    craftStationIcon: "https://terraria.wiki.gg/images/3/38/Mythril_Anvil.png",
     recipe: [
       {
         name: "骨頭",
@@ -40,6 +42,8 @@ export const skeletronPrime: SkeletronPrimeData = {
         nameEn: "Iron/Lead Bar",
         amount: 5,
         icon: "https://terraria.wiki.gg/images/f/fc/Iron_Bar.png",
+        alternativeIcon: "https://terraria.wiki.gg/images/5/5c/Lead_Bar.png",
+        tooltip: "鐵錠或鉛錠，取決於世界生成時的礦石",
       },
       {
         name: "光明之魂",
@@ -54,7 +58,6 @@ export const skeletronPrime: SkeletronPrimeData = {
         icon: "https://terraria.wiki.gg/images/7/77/Soul_of_Night.png",
       },
     ],
-    craftStation: "秘銀/山銅砧",
   },
 
   // 各部位屬性

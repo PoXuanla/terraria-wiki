@@ -31,6 +31,8 @@ export const theTwins: TheTwinsData = {
     itemEn: "Mechanical Eye",
     itemIcon: "https://terraria.wiki.gg/images/0/01/Mechanical_Eye.png",
     timeRestriction: "晚上 7:30 PM 後",
+    craftStation: "秘銀砧/山銅砧",
+    craftStationIcon: "https://terraria.wiki.gg/images/3/38/Mythril_Anvil.png",
     recipe: [
       {
         name: "晶狀體",
@@ -43,6 +45,8 @@ export const theTwins: TheTwinsData = {
         nameEn: "Iron/Lead Bar",
         amount: 5,
         icon: "https://terraria.wiki.gg/images/f/fc/Iron_Bar.png",
+        alternativeIcon: "https://terraria.wiki.gg/images/5/5c/Lead_Bar.png",
+        tooltip: "鐵錠或鉛錠，取決於世界生成時的礦石",
       },
       {
         name: "光明之魂",
@@ -51,7 +55,6 @@ export const theTwins: TheTwinsData = {
         icon: "https://terraria.wiki.gg/images/3/39/Soul_of_Light.png",
       },
     ],
-    craftStation: "秘銀/山銅砧",
   },
 
   // 雙眼屬性比較

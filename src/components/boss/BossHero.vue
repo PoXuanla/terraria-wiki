@@ -40,10 +40,7 @@ const props = defineProps({
     <div class="hero__bg">
       <div class="hero__bg-pattern"></div>
       <!-- 动态背景 glow -->
-      <div
-        v-if="glowVariants.length === 0"
-        class="hero__bg-glow"
-      ></div>
+      <div v-if="glowVariants.length === 0" class="hero__bg-glow"></div>
       <div
         v-for="(variant, index) in glowVariants"
         :key="index"
@@ -167,7 +164,8 @@ const props = defineProps({
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.5;
     transform: scale(1);
   }
@@ -203,7 +201,8 @@ const props = defineProps({
 }
 
 @keyframes icon-glow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.6;
   }
   50% {
@@ -349,4 +348,3 @@ const props = defineProps({
   margin-right: 0.25rem;
 }
 </style>
-

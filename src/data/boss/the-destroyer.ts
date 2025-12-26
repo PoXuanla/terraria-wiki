@@ -28,18 +28,24 @@ export const theDestroyer: TheDestroyerData = {
     itemEn: "Mechanical Worm",
     itemIcon: "https://terraria.wiki.gg/images/d/d0/Mechanical_Worm.png",
     timeRestriction: "晚上 7:30 PM 後",
+    craftStation: "秘銀砧/山銅砧",
+    craftStationIcon: "https://terraria.wiki.gg/images/3/38/Mythril_Anvil.png",
     recipe: [
       {
         name: "腐肉/脊椎",
         nameEn: "Rotten Chunk/Vertebrae",
         amount: 6,
         icon: "https://terraria.wiki.gg/images/b/b8/Rotten_Chunk.png",
+        alternativeIcon: "https://terraria.wiki.gg/images/e/eb/Vertebra.png",
+        tooltip: "腐化之地使用腐肉；猩紅之地使用脊椎",
       },
       {
         name: "鐵錠/鉛錠",
         nameEn: "Iron/Lead Bar",
         amount: 5,
         icon: "https://terraria.wiki.gg/images/f/fc/Iron_Bar.png",
+        alternativeIcon: "https://terraria.wiki.gg/images/5/5c/Lead_Bar.png",
+        tooltip: "鐵錠或鉛錠，取決於世界生成時的礦石",
       },
       {
         name: "暗影之魂",
@@ -48,7 +54,6 @@ export const theDestroyer: TheDestroyerData = {
         icon: "https://terraria.wiki.gg/images/7/77/Soul_of_Night.png",
       },
     ],
-    craftStation: "秘銀/山銅砧",
   },
 
   // 屬性數據

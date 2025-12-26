@@ -14,6 +14,8 @@ export interface SummoningRecipeItem {
   nameEn: string;
   amount: number;
   icon: string;
+  alternativeIcon?: string; // 可選的替代圖標（用於"或"邏輯）
+  tooltip?: string; // 可選的說明文字
 }
 
 /**
@@ -26,6 +28,7 @@ export interface BossSummoning {
   timeRestriction: string;
   recipe: SummoningRecipeItem[];
   craftStation: string;
+  craftStationIcon?: string; // 制作站图标（可选）
 }
 
 /**
