@@ -44,7 +44,16 @@ const getDisplayIcon = (
 </script>
 
 <template>
-  <section class="section-card">
+  <section class="section-card section-card--ambient">
+    <!-- 极光/烟雾背景层 -->
+    <div class="ambient-mesh">
+      <div class="ambient-mesh__blob ambient-mesh__blob--1"></div>
+      <div class="ambient-mesh__blob ambient-mesh__blob--2"></div>
+    </div>
+    
+    <!-- 噪点材质层 -->
+    <div class="noise-overlay"></div>
+
     <h2 id="summoning" class="section-heading">
       <span class="section-heading__accent-line"></span>
       <Moon :size="20" class="section-heading__icon" />
@@ -104,6 +113,11 @@ const getDisplayIcon = (
         </div>
       </div>
 
+      <!-- 连接符：素材 + 工作台 -->
+      <div class="crafting-flow__connector">
+        <span class="connector-plus">+</span>
+      </div>
+
       <!-- 中央：制作站能量枢纽 -->
       <div class="crafting-flow__station">
         <!-- 深色金属容器 + 蓝紫色发光边框 -->
@@ -155,6 +169,104 @@ const getDisplayIcon = (
 </template>
 
 <style scoped>
+/* ==========================================
+   Section Card with Ambient Background
+   ========================================== */
+.section-card--ambient {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* 极光/烟雾背景 - Ambient Mesh Gradient */
+.ambient-mesh {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.ambient-mesh__blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  mix-blend-mode: screen;
+}
+
+.ambient-mesh__blob--1 {
+  width: 600px;
+  height: 600px;
+  top: -200px;
+  right: -150px;
+  background: radial-gradient(
+    circle,
+    rgba(220, 38, 38, 0.4) 0%,
+    rgba(185, 28, 28, 0.2) 50%,
+    transparent 70%
+  );
+  animation: ambient-float-1 20s ease-in-out infinite;
+}
+
+.ambient-mesh__blob--2 {
+  width: 500px;
+  height: 500px;
+  bottom: -150px;
+  left: -100px;
+  background: radial-gradient(
+    circle,
+    rgba(34, 197, 94, 0.3) 0%,
+    rgba(22, 163, 74, 0.15) 50%,
+    transparent 70%
+  );
+  animation: ambient-float-2 25s ease-in-out infinite;
+}
+
+@keyframes ambient-float-1 {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0.15;
+  }
+  33% {
+    transform: translate(-30px, 40px) rotate(120deg);
+    opacity: 0.12;
+  }
+  66% {
+    transform: translate(40px, -30px) rotate(240deg);
+    opacity: 0.18;
+  }
+}
+
+@keyframes ambient-float-2 {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0.12;
+  }
+  40% {
+    transform: translate(50px, -40px) rotate(-140deg);
+    opacity: 0.15;
+  }
+  80% {
+    transform: translate(-40px, 30px) rotate(-280deg);
+    opacity: 0.1;
+  }
+}
+
+/* 噪点材质层 - Noise Texture */
+.noise-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+}
+
 /* ==========================================
    Section Heading - 区块标题
    ========================================== */
@@ -309,12 +421,20 @@ const getDisplayIcon = (
   min-width: 22px;
   height: 22px;
   padding: 0 0.25rem;
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  color: white;
+  
+  /* 幽灵样式 - 透明背景 + 有色边框 */
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1.5px solid rgba(245, 158, 11, 0.6);
+  
   font-size: 0.625rem;
   font-weight: 700;
   border-radius: 0.25rem;
-  box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+  
+  /* 柔和光晕 */
+  box-shadow: 
+    0 0 8px rgba(245, 158, 11, 0.2),
+    inset 0 0 8px rgba(245, 158, 11, 0.1);
 }
 
 /* Tooltip */
@@ -363,6 +483,24 @@ const getDisplayIcon = (
   opacity: 0;
 }
 
+/* 连接符：素材 + 工作台 */
+.crafting-flow__connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0 0.5rem;
+}
+
+.connector-plus {
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: var(--color-text-secondary);
+  opacity: 0.3;
+  user-select: none;
+  text-shadow: 0 0 8px rgba(139, 92, 246, 0.2);
+}
+
 /* 中央：制作站能量枢纽 */
 .crafting-flow__station {
   position: relative;
@@ -372,7 +510,7 @@ const getDisplayIcon = (
   padding: 0 1.5rem;
 }
 
-/* 深色金属容器 + 发光边框 */
+/* 深色金属容器 + 发光边框 - 降低光晕强度（配角） */
 .station-container {
   position: relative;
   display: flex;
@@ -384,20 +522,20 @@ const getDisplayIcon = (
   /* 深色金属质感背景 */
   background: linear-gradient(135deg, #1e1b2e 0%, #2d2640 50%, #1a1a2e 100%);
 
-  /* 发光的蓝紫色边框 */
+  /* 发光的蓝紫色边框 - 减弱一半光晕 */
   border: 2px solid transparent;
   background-clip: padding-box;
   border-radius: 0.75rem;
-  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.4),
-    0 0 20px rgba(139, 92, 246, 0.3), 0 8px 24px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.25),
+    0 0 10px rgba(139, 92, 246, 0.15), 0 8px 24px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 
   /* 细微金属纹理 */
   position: relative;
   overflow: visible;
 }
 
-/* 脉冲发光动画 */
+/* 脉冲发光动画 - 降低透明度 */
 .station-container::before {
   content: "";
   position: absolute;
@@ -406,9 +544,9 @@ const getDisplayIcon = (
   padding: 2px;
   background: linear-gradient(
     135deg,
-    rgba(139, 92, 246, 0.6),
-    rgba(59, 130, 246, 0.6),
-    rgba(139, 92, 246, 0.6)
+    rgba(139, 92, 246, 0.35),
+    rgba(59, 130, 246, 0.35),
+    rgba(139, 92, 246, 0.35)
   );
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -421,10 +559,10 @@ const getDisplayIcon = (
 @keyframes pulse-border {
   0%,
   100% {
-    opacity: 0.6;
+    opacity: 0.4;
   }
   50% {
-    opacity: 1;
+    opacity: 0.7;
   }
 }
 
@@ -461,14 +599,14 @@ const getDisplayIcon = (
   text-shadow: 0 2px 8px rgba(139, 92, 246, 0.6);
 }
 
-/* 从容器右侧流出的能量箭头 */
+/* 从容器右侧流出的能量箭头 - 进阶能量流 */
 .energy-arrow {
   position: absolute;
   right: -60px;
   top: 50%;
   transform: translateY(-50%);
   width: 60px;
-  height: 4px;
+  height: 6px;
   display: flex;
   align-items: center;
 }
@@ -476,55 +614,100 @@ const getDisplayIcon = (
 .energy-arrow__glow {
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    rgba(59, 130, 246, 0.8) 0%,
-    rgba(139, 92, 246, 0.9) 50%,
-    rgba(168, 85, 247, 1) 100%
-  );
-  border-radius: 2px;
-  box-shadow: 0 0 12px rgba(139, 92, 246, 0.8), 0 0 24px rgba(139, 92, 246, 0.4);
+  border-radius: 3px;
   position: relative;
   overflow: hidden;
+  
+  /* 多层次渐层 - 从素材色到成品色 */
+  background: linear-gradient(
+    90deg,
+    rgba(59, 130, 246, 0.6) 0%,
+    rgba(139, 92, 246, 0.8) 30%,
+    rgba(168, 85, 247, 0.95) 70%,
+    rgba(220, 38, 38, 1) 100%
+  );
+  
+  /* 多重光晕 */
+  box-shadow: 
+    0 0 8px rgba(139, 92, 246, 0.8),
+    0 0 16px rgba(139, 92, 246, 0.5),
+    0 0 24px rgba(168, 85, 247, 0.3);
+  
+  /* 让整条线有呼吸感 */
+  animation: energy-pulse 2s ease-in-out infinite;
 }
 
-/* 能量流动动画 */
+@keyframes energy-pulse {
+  0%, 100% {
+    opacity: 0.8;
+    box-shadow: 
+      0 0 8px rgba(139, 92, 246, 0.8),
+      0 0 16px rgba(139, 92, 246, 0.5),
+      0 0 24px rgba(168, 85, 247, 0.3);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 
+      0 0 12px rgba(139, 92, 246, 1),
+      0 0 24px rgba(139, 92, 246, 0.7),
+      0 0 36px rgba(168, 85, 247, 0.5);
+  }
+}
+
+/* 能量流动动画 - 更明显的粒子流 */
 .energy-arrow__glow::after {
   content: "";
   position: absolute;
   top: 0;
   left: -100%;
-  width: 50%;
+  width: 60%;
   height: 100%;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.4) 30%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0.4) 70%,
     transparent 100%
   );
-  animation: energy-flow 1.5s ease-in-out infinite;
+  animation: energy-flow 2s ease-in-out infinite;
 }
 
 @keyframes energy-flow {
   to {
-    left: 150%;
+    left: 140%;
   }
 }
 
+/* 渐层色箭头头部 */
 .energy-arrow__head {
   width: 0;
   height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 14px solid rgba(168, 85, 247, 1);
+  border-top: 11px solid transparent;
+  border-bottom: 11px solid transparent;
+  border-left: 16px solid rgba(220, 38, 38, 0.95);
   margin-left: -1px;
-  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.8));
+  filter: drop-shadow(0 0 10px rgba(220, 38, 38, 0.9)) 
+          drop-shadow(0 0 20px rgba(168, 85, 247, 0.5));
+  animation: arrow-glow 2s ease-in-out infinite;
 }
 
-/* 右侧：成品区 */
+@keyframes arrow-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(220, 38, 38, 0.9)) 
+            drop-shadow(0 0 20px rgba(168, 85, 247, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 14px rgba(220, 38, 38, 1)) 
+            drop-shadow(0 0 28px rgba(168, 85, 247, 0.7));
+  }
+}
+
+/* 右侧：成品区 - 稀有度光环 */
 .crafting-flow__result {
   flex: 1;
   min-width: 0;
+  position: relative;
 }
 
 .result-card {
@@ -532,14 +715,102 @@ const getDisplayIcon = (
   align-items: center;
   gap: 1rem;
   padding: 1rem;
+  position: relative;
+  
+  /* 深色金属质感背景 */
   background: linear-gradient(
     135deg,
-    rgba(59, 130, 246, 0.1) 0%,
-    var(--color-bg-card) 100%
+    rgba(30, 27, 46, 0.9) 0%,
+    rgba(45, 38, 64, 0.8) 50%,
+    rgba(26, 26, 46, 0.9) 100%
   );
-  border: 2px solid var(--color-primary);
+  
+  border: 2px solid transparent;
   border-radius: 0.75rem;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+  
+  /* 多层次阴影 - 营造深度 + 内发光 */
+  box-shadow: 
+    0 0 0 1px rgba(168, 85, 247, 0.3),
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    /* 内发光 - 凹槽透出的能量感 */
+    inset 0 0 20px rgba(168, 85, 247, 0.15),
+    inset 0 0 40px rgba(220, 38, 38, 0.08);
+}
+
+/* 呼吸光晕效果 */
+.result-card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 0.75rem;
+  padding: 2px;
+  background: linear-gradient(
+    135deg,
+    rgba(168, 85, 247, 0.6),
+    rgba(220, 38, 38, 0.7),
+    rgba(34, 197, 94, 0.5),
+    rgba(168, 85, 247, 0.6)
+  );
+  background-size: 200% 200%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  animation: breathing-glow 4s ease-in-out infinite, gradient-shift 8s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* 外部光晕 - 呼吸阴影 */
+.result-card::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 1rem;
+  background: radial-gradient(
+    circle at center,
+    rgba(168, 85, 247, 0.25) 0%,
+    rgba(220, 38, 38, 0.15) 50%,
+    transparent 70%
+  );
+  filter: blur(12px);
+  animation: breathing-shadow 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -2;
+}
+
+@keyframes breathing-glow {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes breathing-shadow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .result-card__icon-wrapper {
@@ -548,10 +819,14 @@ const getDisplayIcon = (
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
   border-radius: 0.5rem;
-  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 
+    inset 0 2px 8px rgba(0, 0, 0, 0.3),
+    0 0 16px rgba(168, 85, 247, 0.15);
   flex-shrink: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .result-card__icon {
@@ -559,6 +834,7 @@ const getDisplayIcon = (
   height: 56px;
   object-fit: contain;
   image-rendering: pixelated;
+  filter: drop-shadow(0 2px 8px rgba(168, 85, 247, 0.3));
 }
 
 .result-card__info {
@@ -567,6 +843,8 @@ const getDisplayIcon = (
   gap: 0.25rem;
   flex: 1;
   min-width: 0;
+  position: relative;
+  z-index: 1;
 }
 
 .result-card__name {
@@ -606,6 +884,14 @@ const getDisplayIcon = (
 
   .materials-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .crafting-flow__connector {
+    padding: 0;
+  }
+
+  .connector-plus {
+    transform: rotate(90deg);
   }
 
   .crafting-flow__station {
