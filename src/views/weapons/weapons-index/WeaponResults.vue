@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PackageOpen, X } from "lucide-vue-next";
+import { PackageOpen, X, ArrowUpDown } from "lucide-vue-next";
 import { useWeaponStore } from "@/stores/weapon";
 import WeaponCard from "@/components/weapons/WeaponCard.vue";
 
@@ -13,9 +13,52 @@ import WeaponCard from "@/components/weapons/WeaponCard.vue";
 // ==========================================
 
 const weaponStore = useWeaponStore();
+
+// ==========================================
+// 排序選項
+// ==========================================
+
+const sortOptions = [
+  { key: "damage", label: "傷害" },
+  { key: "rarity", label: "稀有度" },
+  { key: "name", label: "名稱" },
+];
 </script>
 
 <template>
+  <!-- 結果標題列 + 排序控制 -->
+  <div v-if="weaponStore.filteredWeapons.length > 0" class="results-header">
+    <span class="result-count">
+      顯示 <strong>{{ weaponStore.weaponCount }}</strong> 件武器
+    </span>
+    
+    <!-- 排序控制 -->
+    <div class="sort-controls">
+      <label class="sort-label">排序：</label>
+      <select 
+        :value="weaponStore.sortBy"
+        @change="weaponStore.setSortBy(($event.target as HTMLSelectElement).value)"
+        class="sort-select"
+      >
+        <option 
+          v-for="option in sortOptions" 
+          :key="option.key" 
+          :value="option.key"
+        >
+          {{ option.label }}
+        </option>
+      </select>
+      <button
+        @click="weaponStore.toggleSortOrder"
+        class="sort-order-btn"
+        :class="{ 'sort-order-btn--desc': weaponStore.sortOrder === 'desc' }"
+        :title="weaponStore.sortOrder === 'desc' ? '降序' : '升序'"
+      >
+        <ArrowUpDown :size="16" />
+      </button>
+    </div>
+  </div>
+
   <!-- 武器網格 -->
   <TransitionGroup
     v-if="weaponStore.filteredWeapons.length > 0"
@@ -45,6 +88,103 @@ const weaponStore = useWeaponStore();
 </template>
 
 <style scoped>
+/* ==========================================
+   結果標題列
+   ========================================== */
+.results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 0;
+  margin-bottom: 0.75rem;
+}
+
+.result-count {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.result-count strong {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* 排序控制 */
+.sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sort-label {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.sort-select {
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background: var(--color-bg-card);
+  color: var(--color-text-primary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  transition: all 0.2s ease;
+}
+
+.sort-select:hover {
+  border-color: var(--color-primary-light);
+}
+
+.sort-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.sort-order-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background: var(--color-bg-card);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sort-order-btn:hover {
+  border-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.sort-order-btn--desc {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 640px) {
+  .results-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .sort-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
 /* ==========================================
    武器網格
    ========================================== */

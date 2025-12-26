@@ -287,10 +287,16 @@ const summonSlots = computed(() => props.weapon.mechanics?.summon?.slots)
 }
 
 .weapon-card__name-en {
-  font-size: 0.6875rem;
-  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
   margin: -0.25rem 0 0;
   font-style: italic;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+:global(.dark) .weapon-card__name-en {
+  opacity: 0.9;
 }
 
 /* 雙核心數據 */

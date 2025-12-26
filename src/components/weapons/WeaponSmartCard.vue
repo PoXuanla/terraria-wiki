@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { ref, computed } from "vue";
 import {
   Swords,
   Target,
@@ -28,6 +28,9 @@ interface Props {
 }
 
 const props = defineProps<Props>();
+
+// 懸停狀態
+const showTooltip = ref(false);
 
 // 判斷武器類型
 const isMage = computed(() => props.weapon.class === WeaponClass.Mage);
@@ -88,10 +91,30 @@ const trackingLabel = computed(() => {
   if (t === "perfect") return "完美追蹤";
   return null;
 });
+
+// 傷害相對值計算（以同階武器為基準）
+const damagePercentage = computed(() => {
+  const dmg = props.weapon.stats.damage.value;
+  // 困難模式 Tier 1 的傷害範圍大約是 40-100
+  const maxDamage = 100;
+  return Math.min((dmg / maxDamage) * 100, 100);
+});
+
+// 傷害等級顏色
+const damageColor = computed(() => {
+  const dmg = props.weapon.stats.damage.value;
+  if (dmg >= 70) return "#22c55e"; // 綠色 - 高傷
+  if (dmg >= 50) return "#eab308"; // 黃色 - 中傷
+  return "#94a3b8"; // 灰色 - 低傷
+});
 </script>
 
 <template>
-  <section class="smart-card">
+  <section
+    class="smart-card"
+    @mouseenter="showTooltip = true"
+    @mouseleave="showTooltip = false"
+  >
     <!-- Header: 身份與代價 -->
     <header class="smart-card__header">
       <div class="smart-card__identity">
@@ -149,6 +172,18 @@ const trackingLabel = computed(() => {
           }}</span>
           <span class="smart-module__label">{{ weapon.classLabel }}傷害</span>
         </div>
+
+        <!-- 傷害進度條 -->
+        <div class="damage-bar">
+          <div
+            class="damage-bar__fill"
+            :style="{
+              width: damagePercentage + '%',
+              backgroundColor: damageColor,
+            }"
+          />
+        </div>
+
         <div class="smart-module__sub">
           <span class="smart-module__stat">
             <Target :size="12" />
@@ -386,6 +421,46 @@ const trackingLabel = computed(() => {
         ✦ {{ weapon.mechanics.summon.specialAbility }}
       </span>
     </footer>
+
+    <!-- 懸停時顯示的詳細數據 -->
+    <Transition name="tooltip">
+      <div v-if="showTooltip" class="weapon-tooltip">
+        <div class="tooltip-section">
+          <div class="tooltip-row">
+            <span class="tooltip-label">擊退力</span>
+            <strong class="tooltip-value"
+              >{{ weapon.stats.knockback.value }} ({{
+                weapon.stats.knockback.description
+              }})</strong
+            >
+          </div>
+          <div class="tooltip-row">
+            <span class="tooltip-label">使用時間</span>
+            <strong class="tooltip-value"
+              >{{ weapon.stats.useTime.value }} ({{
+                weapon.stats.useTime.description
+              }})</strong
+            >
+          </div>
+          <div
+            v-if="weapon.mechanics?.projectile?.velocity"
+            class="tooltip-row"
+          >
+            <span class="tooltip-label">彈道速度</span>
+            <strong class="tooltip-value">{{
+              weapon.mechanics.projectile.velocity
+            }}</strong>
+          </div>
+          <div v-if="weapon.mechanics?.resource?.manaCost" class="tooltip-row">
+            <span class="tooltip-label">魔力消耗</span>
+            <strong class="tooltip-value">{{
+              weapon.mechanics.resource.manaCost
+            }}</strong>
+          </div>
+        </div>
+        <div class="tooltip-hint">💡 點擊查看完整資訊</div>
+      </div>
+    </Transition>
   </section>
 </template>
 
@@ -398,11 +473,42 @@ const trackingLabel = computed(() => {
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.12);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* 稀有度光暈效果 - 頂部邊框 */
+.smart-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    v-bind("weapon.rarity.color") 50%,
+    transparent 100%
+  );
+  opacity: 0.7;
+  z-index: 1;
+}
+
+.smart-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.15),
+    0 0 0 2px v-bind('weapon.rarity.color + "30"');
 }
 
 :global(.dark) .smart-card {
   box-shadow: none;
   border: 1px solid var(--color-border);
+}
+
+:global(.dark) .smart-card:hover {
+  border-color: v-bind("weapon.rarity.color");
+  box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.3);
 }
 
 /* Header */
@@ -445,9 +551,15 @@ const trackingLabel = computed(() => {
 }
 
 .smart-card__name-en {
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
   font-style: italic;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+:global(.dark) .smart-card__name-en {
+  opacity: 0.9;
 }
 
 .smart-card__cost {
@@ -581,6 +693,23 @@ const trackingLabel = computed(() => {
   margin-top: 0.25rem;
 }
 
+/* 傷害進度條 */
+.damage-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--color-bg-main);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 0.25rem 0;
+}
+
+.damage-bar__fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 8px currentColor;
+}
+
 /* Smart Tags */
 .smart-tag {
   display: inline-flex;
@@ -673,6 +802,78 @@ const trackingLabel = computed(() => {
 .smart-card__special {
   font-size: 0.75rem;
   color: var(--color-text-secondary);
+}
+
+/* ==========================================
+   懸停詳細數據
+   ========================================== */
+.weapon-tooltip {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-top: none;
+  border-radius: 0 0 1rem 1rem;
+  padding: 1rem 1.25rem;
+  z-index: 10;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.15);
+}
+
+:global(.dark) .weapon-tooltip {
+  background: var(--color-bg-main);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.3);
+}
+
+.tooltip-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.tooltip-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  font-size: 0.8125rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.tooltip-row:last-child {
+  border-bottom: none;
+}
+
+.tooltip-label {
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.tooltip-value {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.tooltip-hint {
+  text-align: center;
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Tooltip 動畫 */
+.tooltip-enter-active,
+.tooltip-leave-active {
+  transition: all 0.3s ease;
+}
+
+.tooltip-enter-from,
+.tooltip-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 
 /* ==========================================

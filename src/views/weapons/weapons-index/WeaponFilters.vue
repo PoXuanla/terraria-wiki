@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { Search, X, ArrowUpDown, Star } from "lucide-vue-next";
+import { Search, X } from "lucide-vue-next";
 import { useWeaponStore } from "@/stores/weapon";
 import { WeaponClass } from "@/data/weapons/types";
 import { SourceType } from "@/data/weapons/source";
-import type {
-  ClassOption,
-  RarityOption,
-  SourceOption,
-  SortOption,
-} from "./types";
+import type { ClassOption, RarityOption, SourceOption } from "./types";
 import { CLASS_CONFIG, SOURCE_CONFIG } from "./types";
 
 /**
@@ -66,13 +61,6 @@ const sourceOptions = computed<SourceOption[]>(() => {
     })),
   ];
 });
-
-// 排序選項
-const sortOptions: SortOption[] = [
-  { key: "damage", label: "傷害" },
-  { key: "rarity", label: "稀有度" },
-  { key: "name", label: "名稱" },
-];
 
 // ==========================================
 // 搜尋框本地狀態（用於即時輸入回饋）
@@ -162,6 +150,9 @@ const clearSearch = () => {
                 ? {
                     backgroundColor: weaponStore.getRarityColor(option.key),
                     borderColor: weaponStore.getRarityColor(option.key),
+                    boxShadow: `0 4px 12px -2px ${weaponStore.getRarityColor(
+                      option.key
+                    )}`,
                   }
                 : option.key
                 ? {
@@ -170,14 +161,16 @@ const clearSearch = () => {
                 : {}
             "
           >
-            <Star
+            <!-- 改用顏色方塊替代星星 -->
+            <span
               v-if="option.key"
-              :size="12"
+              class="rarity-color-block"
               :style="{
-                color:
+                backgroundColor: weaponStore.getRarityColor(option.key),
+                boxShadow:
                   weaponStore.selectedRarity === option.key
-                    ? 'white'
-                    : weaponStore.getRarityColor(option.key),
+                    ? `0 0 8px ${weaponStore.getRarityColor(option.key)}`
+                    : 'none',
               }"
             />
             <span>{{ option.label }}</span>
@@ -200,34 +193,6 @@ const clearSearch = () => {
           >
             <span class="filter-pill__icon">{{ option.icon }}</span>
             <span>{{ option.label }}</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- 排序 -->
-      <div class="filter-group">
-        <span class="filter-group__label">排序</span>
-        <div class="filter-pills">
-          <button
-            v-for="option in sortOptions"
-            :key="option.key"
-            @click="weaponStore.setSortBy(option.key)"
-            class="filter-pill"
-            :class="{
-              'filter-pill--active': weaponStore.sortBy === option.key,
-            }"
-          >
-            <span>{{ option.label }}</span>
-          </button>
-          <button
-            @click="weaponStore.toggleSortOrder"
-            class="sort-order-btn"
-            :title="weaponStore.sortOrder === 'desc' ? '降序' : '升序'"
-          >
-            <ArrowUpDown :size="16" />
-            <span>{{
-              weaponStore.sortOrder === "desc" ? "降序" : "升序"
-            }}</span>
           </button>
         </div>
       </div>
@@ -383,32 +348,26 @@ const clearSearch = () => {
 }
 
 .filter-pill--rarity {
+  border-width: 2px;
   border-color: var(--pill-border, var(--color-border));
+  transition: all 0.2s ease;
+}
+
+.filter-pill--rarity.filter-pill--active {
+  color: white;
+  font-weight: 600;
+}
+
+.rarity-color-block {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .filter-pill__icon {
   font-size: 0.875rem;
-}
-
-/* 排序按鈕 */
-.sort-order-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid var(--color-border);
-  border-radius: 9999px;
-  background: var(--color-bg-main);
-  color: var(--color-text-secondary);
-  font-size: 0.8125rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.sort-order-btn:hover {
-  border-color: var(--color-primary-light);
-  color: var(--color-text-primary);
 }
 
 /* 篩選底部 */
