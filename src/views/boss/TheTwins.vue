@@ -17,6 +17,7 @@ import BossSummoning from "@/components/boss/BossSummoning.vue";
 import BossArena from "@/components/boss/BossArena.vue";
 import BossSwitcher from "@/components/boss/BossSwitcher.vue";
 import BossStatsSection from "@/components/boss/BossStatsSection.vue";
+import StrategyHighlight from "@/components/boss/StrategyHighlight.vue";
 import { theTwins as bossData, getBossSeriesConfig } from "@/data/boss";
 import { BossSlug } from "@/data/boss/boss-slug.enum";
 import { useTwinsStats } from "@/components/boss/composables/useBossStats";
@@ -130,36 +131,10 @@ const statsCards = useTwinsStats(bossData);
       <!-- ========================================
          Core Strategy - 核心戰術
          ======================================== -->
-      <section class="strategy-highlight">
-        <div class="strategy-highlight__header">
-          <Target :size="24" class="strategy-highlight__icon" />
-          <h2 id="strategy" class="strategy-highlight__title">
-            {{ bossData.combat.coreStrategy.title }}
-          </h2>
-        </div>
-
-        <div class="strategy-highlight__priority">
-          <span class="priority-badge">🎯 關鍵戰術</span>
-          <p class="priority-text">
-            {{ bossData.combat.coreStrategy.priority }}
-          </p>
-        </div>
-
-        <p class="strategy-highlight__reason">
-          {{ bossData.combat.coreStrategy.reason }}
-        </p>
-
-        <ol class="strategy-steps">
-          <li
-            v-for="(step, index) in bossData.combat.coreStrategy.steps"
-            :key="index"
-            class="strategy-step"
-          >
-            <span class="strategy-step__number">{{ index + 1 }}</span>
-            <span class="strategy-step__text">{{ step }}</span>
-          </li>
-        </ol>
-      </section>
+      <StrategyHighlight
+        :core-strategy="bossData.combat.coreStrategy"
+        :watermark-icon="bossData.icons.spazmatism"
+      />
 
       <!-- ========================================
          Equipment Section - 推薦裝備
@@ -668,112 +643,6 @@ const statsCards = useTwinsStats(bossData);
   font-size: 0.875rem;
   color: var(--color-text-secondary);
   line-height: 1.6;
-}
-
-/* ==========================================
-   Strategy Highlight - 核心戰術
-   ========================================== */
-.strategy-highlight {
-  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-  border: 2px solid #34d399;
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.strategy-highlight::before {
-  content: "⚔️";
-  position: absolute;
-  top: -20px;
-  right: 20px;
-  font-size: 4rem;
-  opacity: 0.1;
-}
-
-.strategy-highlight__header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.strategy-highlight__icon {
-  color: #059669;
-}
-
-.strategy-highlight__title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #065f46;
-  margin: 0;
-}
-
-.strategy-highlight__priority {
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 0.5rem;
-  padding: 1rem;
-  margin-bottom: 1rem;
-}
-
-.priority-badge {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #059669;
-  margin-bottom: 0.5rem;
-}
-
-.priority-text {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #047857;
-}
-
-.strategy-highlight__reason {
-  font-size: 0.875rem;
-  color: #065f46;
-  margin: 0 0 1rem;
-  line-height: 1.6;
-}
-
-.strategy-steps {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.strategy-step {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  padding: 0.625rem 0.75rem;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 0.375rem;
-}
-
-.strategy-step__number {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background: #059669;
-  color: white;
-  border-radius: 50%;
-  font-size: 0.75rem;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-.strategy-step__text {
-  font-size: 0.875rem;
-  color: #065f46;
-  line-height: 1.5;
 }
 
 /* ==========================================

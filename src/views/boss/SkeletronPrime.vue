@@ -16,6 +16,7 @@ import BossArena from "@/components/boss/BossArena.vue";
 import BossSwitcher from "@/components/boss/BossSwitcher.vue";
 import BossStatsSection from "@/components/boss/BossStatsSection.vue";
 import BossBehavior from "@/components/boss/BossBehavior.vue";
+import StrategyHighlight from "@/components/boss/StrategyHighlight.vue";
 import { skeletronPrime as bossData, getBossSeriesConfig } from "@/data/boss";
 import { BossSlug } from "@/data/boss/boss-slug.enum";
 import { useSkeletronPrimeStats } from "@/components/boss/composables/useBossStats";
@@ -80,36 +81,10 @@ const statsCards = useSkeletronPrimeStats(bossData);
       <!-- ========================================
          Core Strategy - 核心戰術
          ======================================== -->
-      <section class="strategy-highlight">
-        <div class="strategy-highlight__header">
-          <Target :size="24" class="strategy-highlight__icon" />
-          <h2 id="strategy" class="strategy-highlight__title">
-            {{ bossData.combat.coreStrategy.title }}
-          </h2>
-        </div>
-
-        <div class="strategy-highlight__priority">
-          <span class="priority-badge">🎯 關鍵戰術</span>
-          <p class="priority-text">
-            {{ bossData.combat.coreStrategy.priority }}
-          </p>
-        </div>
-
-        <p class="strategy-highlight__reason">
-          {{ bossData.combat.coreStrategy.reason }}
-        </p>
-
-        <ol class="strategy-steps">
-          <li
-            v-for="(step, index) in bossData.combat.coreStrategy.steps"
-            :key="index"
-            class="strategy-step"
-          >
-            <span class="strategy-step__number">{{ index + 1 }}</span>
-            <span class="strategy-step__text">{{ step }}</span>
-          </li>
-        </ol>
-      </section>
+      <StrategyHighlight
+        :core-strategy="bossData.combat.coreStrategy"
+        :watermark-icon="bossData.icon"
+      />
 
       <!-- ========================================
          Equipment Section - 推薦裝備
@@ -546,107 +521,6 @@ const statsCards = useSkeletronPrimeStats(bossData);
   font-size: 0.875rem;
   color: var(--color-text-primary);
   line-height: 1.6;
-}
-
-/* ==========================================
-   Strategy Highlight
-   ========================================== */
-.strategy-highlight {
-  background: linear-gradient(135deg, #3f3f46 0%, #27272a 100%);
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  color: white;
-}
-
-.strategy-highlight__header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.strategy-highlight__icon {
-  color: #f472b6;
-}
-
-.strategy-highlight__title {
-  font-size: 1.125rem;
-  font-weight: 600;
-  margin: 0;
-  scroll-margin-top: 6rem;
-}
-
-.strategy-highlight__priority {
-  background: rgba(244, 114, 182, 0.2);
-  border: 1px solid rgba(244, 114, 182, 0.4);
-  border-radius: 0.5rem;
-  padding: 1rem;
-  margin-bottom: 1rem;
-}
-
-.priority-badge {
-  display: inline-block;
-  padding: 0.25rem 0.625rem;
-  background: linear-gradient(135deg, #f472b6 0%, #ec4899 100%);
-  border-radius: 9999px;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.5rem;
-}
-
-.priority-text {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #f9a8d4;
-  margin: 0;
-}
-
-.strategy-highlight__reason {
-  font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
-  margin: 0 0 1rem;
-}
-
-.strategy-steps {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.strategy-step {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 0.375rem;
-}
-
-.strategy-step__number {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background: rgba(244, 114, 182, 0.2);
-  border: 1px solid rgba(244, 114, 182, 0.4);
-  border-radius: 50%;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #f472b6;
-  flex-shrink: 0;
-}
-
-.strategy-step__text {
-  font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.5;
 }
 
 /* ==========================================

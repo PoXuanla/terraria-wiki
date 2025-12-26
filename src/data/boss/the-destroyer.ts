@@ -179,15 +179,15 @@ export const theDestroyer: TheDestroyerData = {
     ],
     coreStrategy: {
       title: "核心戰術",
-      priority: "穿透武器是王道！禁止使用單體攻擊！",
+      priority: '<strong>穿透武器</strong>是王道！禁止使用單體攻擊！',
       reason:
-        "毀滅者擁有 82 個體節，穿透攻擊可以同時命中多個體節造成驚人的傷害疊加。單體武器只能打一節，效率極低。",
+        '<span class="enemy-primary">毀滅者</span>擁有 <strong>82 個體節</strong>，穿透攻擊可以同時命中多個體節造成驚人的傷害疊加。單體武器只能打一節，效率極低。',
       steps: [
-        "在天空平台上等待毀滅者，保持與地面的距離",
-        "使用代達羅斯風暴弓 + 聖箭，讓落星雨傾瀉在蟲身上",
-        "清理探測器來獲取心和星星補給",
-        "利用庇護箱躲避密集的雷射彈幕",
-        "保持持續輸出，穿透傷害會讓戰鬥非常快速",
+        '在<span class="highlight">天空平台</span>上等待毀滅者，保持與地面的距離',
+        '使用<span class="weapon">代達羅斯風暴弓</span> + <span class="weapon">聖箭</span>，讓落星雨傾瀉在蟲身上',
+        '清理<span class="enemy-secondary">探測器</span>來獲取心和星星補給',
+        '利用庇護箱躲避密集的<strong>雷射彈幕</strong>',
+        '保持持續輸出，<strong>穿透傷害</strong>會讓戰鬥非常快速',
       ],
     },
   },

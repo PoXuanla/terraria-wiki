@@ -212,15 +212,15 @@ export const theTwins: TheTwinsData = {
     ],
     coreStrategy: {
       title: "核心戰術",
-      priority: "優先集火擊殺魔焰眼（綠眼）！",
+      priority: '優先集火擊殺<span class="enemy-primary">魔焰眼（綠眼）</span>！',
       reason:
-        "魔焰眼第二階段的瘋狂衝撞與持續噴火是本戰最危險的部分。優先擊殺可大幅降低戰鬥難度。",
+        '<span class="enemy-primary">魔焰眼</span>第二階段的<strong>瘋狂衝撞</strong>與持續噴火是本戰最危險的部分。優先擊殺可大幅降低戰鬥難度。',
       steps: [
-        "開戰後立即對魔焰眼（綠眼）集中輸出",
-        "保持在平台上水平移動，利用高度差閃避攻擊",
-        "魔焰眼進入第二階段時，預判衝撞方向並反向移動",
-        "擊殺魔焰眼後，雷射眼相對容易處理",
-        "注意觀察眼睛的瞳孔方向，預判攻擊來源",
+        '開戰後立即對<span class="enemy-primary">魔焰眼（綠眼）</span>集中輸出',
+        '保持在平台上<strong>水平移動</strong>，利用高度差閃避攻擊',
+        '<span class="enemy-primary">魔焰眼</span>進入第二階段時，預判衝撞方向並<strong>反向移動</strong>',
+        '擊殺<span class="enemy-primary">魔焰眼</span>後，<span class="enemy-secondary">雷射眼</span>相對容易處理',
+        '注意觀察眼睛的瞳孔方向，預判攻擊來源',
       ],
     },
   },
