@@ -207,6 +207,8 @@ onUnmounted(() => {
   gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  /* overflow-x: hidden; */
+  align-items: flex-start;
 }
 
 /* ==========================================
@@ -215,6 +217,8 @@ onUnmounted(() => {
 .doc-toc {
   flex-shrink: 0;
   width: 220px;
+  position: sticky;
+  top:5.5rem
 }
 
 .doc-toc__inner {

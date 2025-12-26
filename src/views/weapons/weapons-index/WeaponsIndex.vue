@@ -111,7 +111,6 @@ import WeaponResults from "./WeaponResults.vue";
   top: 1.5rem;
   max-height: calc(100vh - 3rem);
   overflow-y: auto;
-  overflow-x: hidden;
 }
 
 /* 自定義滾動條樣式 */

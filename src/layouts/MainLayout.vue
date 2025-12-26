@@ -154,7 +154,7 @@ const pageTitle = computed(() => route.meta?.title || 'Terraria Wiki')
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   max-width: calc(100vw - 260px);
 }
 
