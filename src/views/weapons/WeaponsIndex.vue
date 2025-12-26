@@ -6,6 +6,7 @@ import {
   X,
   ArrowUpDown,
   PackageOpen,
+  Star,
 } from "lucide-vue-next";
 import { weapons as weaponData, classColors } from "@/data/weapons";
 import WeaponCard from "@/components/weapons/WeaponCard.vue";
@@ -35,7 +36,6 @@ const weapons = weaponData.map((w) => ({
       ? w.stats.damage.value
       : parseInt(String(w.stats.damage.value).match(/\d+/)?.[0] || "0"),
 }));
-
 
 // 職業選項
 const classOptions = [
@@ -120,7 +120,9 @@ const filteredWeapons = computed(() => {
 
   // 取得方式過濾
   if (selectedSource.value) {
-    result = result.filter((w) => w.source.type === selectedSource.value);
+    result = result.filter((w) =>
+      w.sources.some((s) => s.type === selectedSource.value)
+    );
   }
 
   // 排序
