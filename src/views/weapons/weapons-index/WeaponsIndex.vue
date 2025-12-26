@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from "vue";
 import {
   Crosshair,
@@ -10,6 +10,16 @@ import {
 } from "lucide-vue-next";
 import { weapons as weaponData, classColors } from "@/data/weapons";
 import WeaponCard from "@/components/weapons/WeaponCard.vue";
+import type {
+  WeaponListItem,
+  ClassOption,
+  RarityOption,
+  SourceOption,
+  SortOption,
+  SortKey,
+  SortOrder,
+} from "./types";
+import { RARITY_COLORS, DEFAULT_COLOR } from "./types";
 
 /**
  * 武器圖鑑 - 索引頁面
@@ -27,7 +37,7 @@ import WeaponCard from "@/components/weapons/WeaponCard.vue";
 // ==========================================
 
 // 將武器資料轉換為列表顯示格式
-const weapons = weaponData.map((w) => ({
+const weapons: WeaponListItem[] = weaponData.map((w) => ({
   ...w,
   id: w.slug,
   // 提取數值用於排序（處理 "28 (步槍) / 28 (手槍)" 這類格式）
@@ -38,7 +48,7 @@ const weapons = weaponData.map((w) => ({
 }));
 
 // 職業選項
-const classOptions = [
+const classOptions: ClassOption[] = [
   { key: "", label: "全部", icon: "🎯" },
   { key: "Ranger", label: "遠程", icon: "🏹" },
   { key: "Melee", label: "近戰", icon: "⚔️" },
@@ -50,20 +60,20 @@ const classOptions = [
 const rarityLevels = [...new Set(weapons.map((w) => w.rarity.level))].sort(
   (a, b) => a - b
 );
-const rarityOptions = [
+const rarityOptions: RarityOption[] = [
   { key: "", label: "全部" },
   ...rarityLevels.map((level) => ({ key: level, label: `${level}` })),
 ];
 
 // 取得方式選項
-const sourceOptions = [
+const sourceOptions: SourceOption[] = [
   { key: "", label: "全部", icon: "📦" },
   { key: "crafting", label: "製作", icon: "🔨" },
   { key: "drop", label: "掉落", icon: "💀" },
 ];
 
 // 排序選項
-const sortOptions = [
+const sortOptions: SortOption[] = [
   { key: "damage", label: "傷害" },
   { key: "rarity", label: "稀有度" },
   { key: "name", label: "名稱" },
@@ -73,29 +83,29 @@ const sortOptions = [
 // 篩選狀態
 // ==========================================
 
-const searchQuery = ref("");
-const selectedClass = ref("");
-const selectedRarity = ref("");
-const selectedSource = ref("");
-const sortBy = ref("damage");
-const sortOrder = ref("desc"); // 'asc' | 'desc'
+const searchQuery = ref<string>("");
+const selectedClass = ref<string>("");
+const selectedRarity = ref<number | "">("");
+const selectedSource = ref<string>("");
+const sortBy = ref<SortKey>("damage");
+const sortOrder = ref<SortOrder>("desc");
 
 // ==========================================
 // 計算屬性
 // ==========================================
 
 // 是否有任何篩選條件
-const hasFilters = computed(() => {
-  return (
+const hasFilters = computed<boolean>(() => {
+  return Boolean(
     searchQuery.value ||
-    selectedClass.value ||
-    selectedRarity.value ||
-    selectedSource.value
+      selectedClass.value ||
+      selectedRarity.value ||
+      selectedSource.value
   );
 });
 
 // 篩選後的武器列表
-const filteredWeapons = computed(() => {
+const filteredWeapons = computed<WeaponListItem[]>(() => {
   let result = [...weapons];
 
   // 搜尋過濾
@@ -152,27 +162,22 @@ const filteredWeapons = computed(() => {
 // ==========================================
 
 // 取得職業顏色
-const getClassColor = (className) => classColors[className]?.hex || "#6b7280";
+const getClassColor = (className: string): string =>
+  classColors[className]?.hex || DEFAULT_COLOR;
 
 // 取得稀有度顏色
-const getRarityColor = (level) => {
-  const colors = {
-    4: "#f59e0b",
-    5: "#f472b6",
-    6: "#a855f7",
-    7: "#22c55e",
-    8: "#fbbf24",
-  };
-  return colors[level] || "#6b7280";
+const getRarityColor = (level: number | ""): string => {
+  if (level === "") return DEFAULT_COLOR;
+  return RARITY_COLORS[level] || DEFAULT_COLOR;
 };
 
 // 切換排序順序
-const toggleSortOrder = () => {
+const toggleSortOrder = (): void => {
   sortOrder.value = sortOrder.value === "desc" ? "asc" : "desc";
 };
 
 // 清除所有篩選
-const clearFilters = () => {
+const clearFilters = (): void => {
   searchQuery.value = "";
   selectedClass.value = "";
   selectedRarity.value = "";
@@ -258,10 +263,10 @@ const clearFilters = () => {
                       borderColor: getRarityColor(option.key),
                     }
                   : option.key
-                  ? {
-                      '--pill-border': getRarityColor(option.key),
-                    }
-                  : {}
+                    ? {
+                        '--pill-border': getRarityColor(option.key),
+                      }
+                    : {}
               "
             >
               <Star
@@ -790,3 +795,4 @@ const clearFilters = () => {
   }
 }
 </style>
+

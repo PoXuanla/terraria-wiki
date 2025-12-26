@@ -20,7 +20,8 @@ const GuideClentaminator = () =>
 const GuideMimicDoc = () => import("@/views/guides/MimicHuntingDoc.vue");
 
 // 武器頁面
-const WeaponsIndex = () => import("@/views/weapons/WeaponsIndex.vue");
+const WeaponsIndex = () =>
+  import("@/views/weapons/weapons-index/WeaponsIndex.vue");
 const WeaponDaedalus = () => import("@/views/weapons/DaedalusStormbow.vue");
 const WeaponOnyxBlaster = () => import("@/views/weapons/OnyxBlaster.vue");
 const WeaponShadowflameKnife = () =>
