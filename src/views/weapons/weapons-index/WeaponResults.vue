@@ -2,6 +2,7 @@
 import { PackageOpen, X, ArrowUpDown } from "lucide-vue-next";
 import { useWeaponStore } from "@/stores/weapon";
 import WeaponCard from "@/components/weapons/WeaponCard.vue";
+import type { SortKey } from "./types";
 
 /**
  * 武器結果顯示組件
@@ -38,7 +39,9 @@ const sortOptions = [
       <select
         :value="weaponStore.sortBy"
         @change="
-          weaponStore.setSortBy(($event.target as HTMLSelectElement).value)
+          weaponStore.setSortBy(
+            ($event.target as HTMLSelectElement).value as SortKey
+          )
         "
         class="sort-select"
       >
