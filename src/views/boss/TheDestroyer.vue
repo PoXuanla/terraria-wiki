@@ -15,14 +15,19 @@ import BossHero from "@/components/boss/BossHero.vue";
 import BossSummoning from "@/components/boss/BossSummoning.vue";
 import BossArena from "@/components/boss/BossArena.vue";
 import BossSwitcher from "@/components/boss/BossSwitcher.vue";
+import BossStatsSection from "@/components/boss/BossStatsSection.vue";
 import { theDestroyer as bossData, getBossSeriesConfig } from "@/data/boss";
 import { BossSlug } from "@/data/boss/boss-slug.enum";
+import { useDestroyerStats } from "@/components/boss/composables/useBossStats";
 
 // 取得當前 Boss 所屬系列配置
 const seriesConfig = getBossSeriesConfig(BossSlug.THE_DESTROYER);
 
 // 當前選中的職業 Tab
 const activeClassTab = ref("ranger");
+
+// 屬性數據
+const statsCards = useDestroyerStats(bossData);
 </script>
 
 <template>
@@ -59,99 +64,16 @@ const activeClassTab = ref("ranger");
       <!-- ========================================
          Stats Section - 屬性數據
          ======================================== -->
-      <section class="section-card">
-        <h2 id="stats" class="section-heading">
-          <Bug :size="20" class="section-heading__icon" />
-          <span>屬性數據</span>
-        </h2>
-
-        <div class="stats-table-wrapper">
-          <table class="stats-table">
-            <thead>
-              <tr>
-                <th class="stats-table__header stats-table__header--attr">
-                  屬性
-                </th>
-                <th class="stats-table__header stats-table__header--main">
-                  <div class="table-header-content">
-                    <img
-                      :src="bossData.stats.main.icon"
-                      alt="The Destroyer"
-                      class="table-icon"
-                    />
-                    <span>毀滅者本體</span>
-                  </div>
-                </th>
-                <th class="stats-table__header stats-table__header--probe">
-                  <div class="table-header-content">
-                    <img
-                      :src="bossData.stats.probe.icon"
-                      alt="Probe"
-                      class="table-icon"
-                    />
-                    <span>探測器</span>
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="stats-table__label">
-                  <Heart :size="14" class="mr-1" /> 血量
-                </td>
-                <td class="stats-table__value stats-table__value--highlight">
-                  {{ bossData.stats.main.hp.toLocaleString() }}
-                </td>
-                <td class="stats-table__value">
-                  {{ bossData.stats.probe.hp }}
-                </td>
-              </tr>
-              <tr>
-                <td class="stats-table__label">
-                  <Shield :size="14" class="mr-1" /> 防禦
-                </td>
-                <td class="stats-table__value">
-                  {{ bossData.stats.main.defense }}
-                </td>
-                <td class="stats-table__value">
-                  {{ bossData.stats.probe.defense }}
-                </td>
-              </tr>
-              <tr>
-                <td class="stats-table__label">
-                  <Swords :size="14" class="mr-1" /> 傷害
-                </td>
-                <td class="stats-table__value">
-                  {{ bossData.stats.main.damage }}
-                </td>
-                <td class="stats-table__value">
-                  {{ bossData.stats.probe.damage }}
-                </td>
-              </tr>
-              <tr>
-                <td class="stats-table__label">
-                  <AlertTriangle :size="14" class="mr-1" /> 備註
-                </td>
-                <td class="stats-table__value stats-table__value--text">
-                  {{ bossData.stats.main.notes }}
-                </td>
-                <td class="stats-table__value stats-table__value--text">
-                  {{ bossData.stats.probe.notes }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- 免疫狀態警告 -->
-        <div class="warning-box warning-box--info">
-          <AlertTriangle :size="20" class="warning-box__icon" />
-          <p class="warning-box__text">
-            <strong>💀 免疫所有減益效果：</strong
-            >毀滅者免疫所有減益狀態（如中毒、著火等），因此減益武器對它無效。專注於純傷害輸出！
-          </p>
-        </div>
-      </section>
+      <BossStatsSection
+        title="屬性數據"
+        :icon="Bug"
+        :cards="statsCards"
+        :grid-cols="2"
+        :warning="{
+          text: '<strong>💀 免疫所有減益效果：</strong>毀滅者免疫所有減益狀態（如中毒、著火等），因此減益武器對它無效。專注於純傷害輸出！',
+          type: 'info',
+        }"
+      />
 
       <!-- ========================================
          Behavior Section - 行為模式

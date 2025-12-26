@@ -16,14 +16,19 @@ import BossHero from "@/components/boss/BossHero.vue";
 import BossSummoning from "@/components/boss/BossSummoning.vue";
 import BossArena from "@/components/boss/BossArena.vue";
 import BossSwitcher from "@/components/boss/BossSwitcher.vue";
+import BossStatsSection from "@/components/boss/BossStatsSection.vue";
 import { theTwins as bossData, getBossSeriesConfig } from "@/data/boss";
 import { BossSlug } from "@/data/boss/boss-slug.enum";
+import { useTwinsStats } from "@/components/boss/composables/useBossStats";
 
 // 取得當前 Boss 所屬系列配置
 const seriesConfig = getBossSeriesConfig(BossSlug.THE_TWINS);
 
 // 當前選中的職業 Tab
 const activeClassTab = ref("ranger");
+
+// 屬性數據
+const statsCards = useTwinsStats(bossData);
 </script>
 
 <template>
@@ -82,123 +87,16 @@ const activeClassTab = ref("ranger");
       <!-- ========================================
          Stats Comparison Table - 屬性比較表格
          ======================================== -->
-      <section class="section-card">
-        <h2 id="stats" class="section-heading">
-          <Eye :size="20" class="section-heading__icon" />
-          <span>雙眼屬性比較</span>
-        </h2>
-
-        <div class="stats-table-wrapper">
-          <table class="stats-table">
-            <thead>
-              <tr>
-                <th class="stats-table__header stats-table__header--attr">
-                  屬性
-                </th>
-                <th class="stats-table__header stats-table__header--retinazer">
-                  <div class="table-header-content">
-                    <img
-                      :src="bossData.twins.retinazer.icon"
-                      alt="Retinazer"
-                      class="table-icon"
-                    />
-                    <span>雷射眼 <small>(Retinazer)</small></span>
-                  </div>
-                </th>
-                <th class="stats-table__header stats-table__header--spazmatism">
-                  <div class="table-header-content">
-                    <img
-                      :src="bossData.twins.spazmatism.icon"
-                      alt="Spazmatism"
-                      class="table-icon"
-                    />
-                    <span>魔焰眼 <small>(Spazmatism)</small></span>
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="stats-table__label">
-                  <Heart :size="14" class="mr-1" /> 血量
-                </td>
-                <td class="stats-table__value">
-                  {{ bossData.twins.retinazer.stats.maxLife.toLocaleString() }}
-                </td>
-                <td class="stats-table__value">
-                  {{ bossData.twins.spazmatism.stats.maxLife.toLocaleString() }}
-                </td>
-              </tr>
-              <tr>
-                <td class="stats-table__label">
-                  <Shield :size="14" class="mr-1" /> 防禦
-                </td>
-                <td class="stats-table__value">
-                  {{ bossData.twins.retinazer.stats.defense }}
-                </td>
-                <td class="stats-table__value">
-                  {{ bossData.twins.spazmatism.stats.defense }}
-                </td>
-              </tr>
-              <tr>
-                <td class="stats-table__label">
-                  <Swords :size="14" class="mr-1" /> 傷害
-                </td>
-                <td class="stats-table__value">
-                  {{ bossData.twins.retinazer.stats.damage }}
-                </td>
-                <td class="stats-table__value">
-                  {{ bossData.twins.spazmatism.stats.damage }}
-                </td>
-              </tr>
-              <tr>
-                <td class="stats-table__label">
-                  <Zap :size="14" class="mr-1" /> 第一階段攻擊
-                </td>
-                <td class="stats-table__value stats-table__value--text">
-                  {{ bossData.twins.retinazer.phase1.attack }}
-                </td>
-                <td class="stats-table__value stats-table__value--text">
-                  {{ bossData.twins.spazmatism.phase1.attack }}
-                </td>
-              </tr>
-              <tr>
-                <td class="stats-table__label">
-                  <Flame :size="14" class="mr-1" /> 第二階段攻擊
-                </td>
-                <td class="stats-table__value stats-table__value--text">
-                  {{ bossData.twins.retinazer.phase2.attack }}
-                </td>
-                <td
-                  class="stats-table__value stats-table__value--text stats-table__value--danger"
-                >
-                  {{ bossData.twins.spazmatism.phase2.attack }}
-                </td>
-              </tr>
-              <tr>
-                <td class="stats-table__label">
-                  <AlertTriangle :size="14" class="mr-1" /> 危險等級
-                </td>
-                <td class="stats-table__value">
-                  <span class="danger-badge danger-badge--medium">中等</span>
-                </td>
-                <td class="stats-table__value">
-                  <span class="danger-badge danger-badge--high">極高</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- 魔焰眼警告 -->
-        <div class="warning-box">
-          <AlertTriangle :size="20" class="warning-box__icon" />
-          <p class="warning-box__text">
-            <strong>⚠️ 重要警告：</strong
-            >{{ bossData.twins.spazmatism.phase2.warning }}
-          </p>
-        </div>
-      </section>
+      <BossStatsSection
+        title="雙眼屬性比較"
+        :icon="Eye"
+        :cards="statsCards"
+        :grid-cols="2"
+        :warning="{
+          text: `<strong>⚠️ 重要警告：</strong>${bossData.twins.spazmatism.phase2.warning}`,
+          type: 'danger',
+        }"
+      />
 
       <!-- ========================================
          Combat Phases - 戰鬥階段

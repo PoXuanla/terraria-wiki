@@ -8,20 +8,26 @@ import {
   AlertTriangle,
   Package,
   Crosshair,
+  Skull,
 } from "lucide-vue-next";
 import DocLayout from "@/layouts/DocLayout.vue";
 import BossHero from "@/components/boss/BossHero.vue";
 import BossSummoning from "@/components/boss/BossSummoning.vue";
 import BossArena from "@/components/boss/BossArena.vue";
 import BossSwitcher from "@/components/boss/BossSwitcher.vue";
+import BossStatsSection from "@/components/boss/BossStatsSection.vue";
 import { skeletronPrime as bossData, getBossSeriesConfig } from "@/data/boss";
 import { BossSlug } from "@/data/boss/boss-slug.enum";
+import { useSkeletronPrimeStats } from "@/components/boss/composables/useBossStats";
 
 // 取得當前 Boss 所屬系列配置
 const seriesConfig = getBossSeriesConfig(BossSlug.SKELETRON_PRIME);
 
 // 當前選中的職業 Tab
 const activeClassTab = ref("ranger");
+
+// 屬性數據
+const statsCards = useSkeletronPrimeStats(bossData);
 </script>
 
 <template>
@@ -58,61 +64,16 @@ const activeClassTab = ref("ranger");
       <!-- ========================================
          Stats Section - 各部位屬性
          ======================================== -->
-      <section class="section-card">
-        <h2 id="stats" class="section-heading">
-          <Skull :size="20" class="section-heading__icon" />
-          <span>各部位屬性</span>
-        </h2>
-
-        <div class="parts-grid">
-          <div
-            v-for="part in bossData.parts"
-            :key="part.nameEn"
-            :class="['part-card', `part-card--${part.danger}`]"
-            :style="{ '--part-color': part.color }"
-          >
-            <div class="part-card__header">
-              <img :src="part.icon" :alt="part.name" class="part-card__icon" />
-              <div class="part-card__title">
-                <span class="part-card__name">{{ part.name }}</span>
-                <span class="part-card__name-en">{{ part.nameEn }}</span>
-              </div>
-              <span
-                :class="[
-                  'part-card__danger',
-                  `part-card__danger--${part.danger}`,
-                ]"
-              >
-                {{ part.danger === "high" ? "高威脅" : "中等" }}
-              </span>
-            </div>
-            <div class="part-card__stats">
-              <div class="part-stat">
-                <Heart :size="14" />
-                <span>{{ part.hp.toLocaleString() }}</span>
-              </div>
-              <div class="part-stat">
-                <Shield :size="14" />
-                <span>{{ part.defense }}</span>
-              </div>
-              <div class="part-stat">
-                <Swords :size="14" />
-                <span>{{ part.damage }}</span>
-              </div>
-            </div>
-            <p class="part-card__notes">{{ part.notes }}</p>
-          </div>
-        </div>
-
-        <!-- 頭部警告 -->
-        <div class="warning-box">
-          <AlertTriangle :size="20" class="warning-box__icon" />
-          <p class="warning-box__text">
-            <strong>⚠️ 致命警告：</strong>頭部旋轉時防禦降低但傷害暴增至 75+！
-            若沒有足夠護甲，被旋轉中的頭部碰到幾乎是<strong>即死</strong>！務必優先閃避！
-          </p>
-        </div>
-      </section>
+      <BossStatsSection
+        title="各部位屬性"
+        :icon="Skull"
+        :cards="statsCards"
+        :grid-cols="3"
+        :warning="{
+          text: '<strong>⚠️ 致命警告：</strong>頭部旋轉時防禦降低但傷害暴增至 75+！若沒有足夠護甲，被旋轉中的頭部碰到幾乎是<strong>即死</strong>！務必優先閃避！',
+          type: 'danger',
+        }"
+      />
 
       <!-- ========================================
          Behavior Section - 行為模式
