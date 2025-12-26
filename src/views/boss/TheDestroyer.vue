@@ -4,7 +4,6 @@ import {
   Swords,
   Shield,
   AlertTriangle,
-  Package,
   Crosshair,
   Bug,
 } from "lucide-vue-next";
@@ -17,6 +16,7 @@ import BossStatsSection from "@/components/boss/BossStatsSection.vue";
 import BossBehavior from "@/components/boss/BossBehavior.vue";
 import StrategyHighlight from "@/components/boss/StrategyHighlight.vue";
 import BossEquipment from "@/components/boss/BossEquipment.vue";
+import BossDrops from "@/components/boss/BossDrops.vue";
 import { theDestroyer as bossData, getBossSeriesConfig } from "@/data/boss";
 import { BossSlug } from "@/data/boss/boss-slug.enum";
 import { useDestroyerStats } from "@/components/boss/composables/useBossStats";
@@ -92,35 +92,7 @@ const statsCards = useDestroyerStats(bossData);
       <!-- ========================================
          Drops Section - 掉落物
          ======================================== -->
-      <section class="section-card">
-        <h2 id="drops" class="section-heading">
-          <span class="section-heading__accent-line"></span>
-          <Package :size="20" class="section-heading__icon" />
-          <span class="section-heading__text">掉落物</span>
-        </h2>
-
-        <div class="drops-grid">
-          <div
-            v-for="drop in bossData.drops"
-            :key="drop.name"
-            :class="['drop-card', { 'drop-card--highlight': drop.highlight }]"
-          >
-            <img :src="drop.icon" :alt="drop.name" class="drop-card__icon" />
-            <div class="drop-card__content">
-              <div class="drop-card__header">
-                <span class="drop-card__name">
-                  {{ drop.name }}
-                  <span v-if="drop.highlight" class="drop-card__star">⭐</span>
-                </span>
-                <span class="drop-card__chance">{{ drop.chance }}</span>
-              </div>
-              <span class="drop-card__name-en">{{ drop.nameEn }}</span>
-              <span class="drop-card__amount">數量：{{ drop.amount }}</span>
-              <p class="drop-card__desc">{{ drop.description }}</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <BossDrops :drops="bossData.drops" />
     </div>
   </DocLayout>
 </template>
@@ -401,99 +373,6 @@ const statsCards = useDestroyerStats(bossData);
   font-size: 0.875rem;
   color: var(--color-text-primary);
   line-height: 1.6;
-}
-
-/* ==========================================
-   Drops Section
-   ========================================== */
-.drops-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
-}
-
-.drop-card {
-  display: flex;
-  gap: 0.75rem;
-  padding: 1rem;
-  background: var(--color-bg-main);
-  border: 1px solid var(--color-border);
-  border-radius: 0.5rem;
-}
-
-.drop-card--highlight {
-  border-color: #f59e0b;
-  background: linear-gradient(
-    135deg,
-    rgba(245, 158, 11, 0.1) 0%,
-    var(--color-bg-main) 100%
-  );
-}
-
-.drop-card__icon {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-  image-rendering: pixelated;
-  flex-shrink: 0;
-}
-
-.drop-card__content {
-  flex: 1;
-  min-width: 0;
-}
-
-.drop-card__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 0.5rem;
-}
-
-.drop-card__name {
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
-.drop-card__star {
-  color: #f59e0b;
-}
-
-.drop-card__chance {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-primary);
-  padding: 0.125rem 0.375rem;
-  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
-  border-radius: 9999px;
-}
-
-.drop-card__name-en {
-  display: block;
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-}
-
-.drop-card__amount {
-  display: block;
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-  margin-top: 0.25rem;
-}
-
-.drop-card__desc {
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-  margin: 0.375rem 0 0;
-  line-height: 1.4;
-}
-
-/* ==========================================
-   Responsive
-   ========================================== */
-@media (max-width: 640px) {
-  /* Responsive adjustments */
 }
 
 /* ==========================================

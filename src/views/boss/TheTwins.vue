@@ -6,7 +6,6 @@ import {
   Zap,
   Flame,
   AlertTriangle,
-  Package,
   Crosshair,
   Eye,
 } from "lucide-vue-next";
@@ -18,6 +17,7 @@ import BossSwitcher from "@/components/boss/BossSwitcher.vue";
 import BossStatsSection from "@/components/boss/BossStatsSection.vue";
 import StrategyHighlight from "@/components/boss/StrategyHighlight.vue";
 import BossEquipment from "@/components/boss/BossEquipment.vue";
+import BossDrops from "@/components/boss/BossDrops.vue";
 import { theTwins as bossData, getBossSeriesConfig } from "@/data/boss";
 import { BossSlug } from "@/data/boss/boss-slug.enum";
 import { useTwinsStats } from "@/components/boss/composables/useBossStats";
@@ -141,32 +141,7 @@ const statsCards = useTwinsStats(bossData);
       <!-- ========================================
          Drops Section - 掉落物
          ======================================== -->
-      <section class="section-card">
-        <h2 id="drops" class="section-heading">
-          <span class="section-heading__accent-line"></span>
-          <Package :size="20" class="section-heading__icon" />
-          <span class="section-heading__text">掉落物</span>
-        </h2>
-
-        <div class="drops-grid">
-          <div
-            v-for="drop in bossData.drops"
-            :key="drop.name"
-            class="drop-card"
-          >
-            <img :src="drop.icon" :alt="drop.name" class="drop-card__icon" />
-            <div class="drop-card__content">
-              <div class="drop-card__header">
-                <span class="drop-card__name">{{ drop.name }}</span>
-                <span class="drop-card__chance">{{ drop.chance }}</span>
-              </div>
-              <span class="drop-card__name-en">{{ drop.nameEn }}</span>
-              <span class="drop-card__amount">數量：{{ drop.amount }}</span>
-              <p class="drop-card__desc">{{ drop.description }}</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <BossDrops :drops="bossData.drops" />
     </div>
   </DocLayout>
 </template>
@@ -529,78 +504,6 @@ const statsCards = useTwinsStats(bossData);
 }
 
 /* ==========================================
-   Drops Section - 掉落物
-   ========================================== */
-.drops-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1rem;
-}
-
-.drop-card {
-  display: flex;
-  gap: 0.75rem;
-  padding: 1rem;
-  background: var(--color-bg-main);
-  border-radius: 0.625rem;
-  border: 1px solid var(--color-border);
-}
-
-.drop-card__icon {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-  image-rendering: pixelated;
-  flex-shrink: 0;
-}
-
-.drop-card__content {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.drop-card__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.drop-card__name {
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
-.drop-card__chance {
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.125rem 0.375rem;
-  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
-  color: #166534;
-  border-radius: 0.25rem;
-}
-
-.drop-card__name-en {
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-}
-
-.drop-card__amount {
-  font-size: 0.75rem;
-  color: var(--color-primary);
-  font-weight: 500;
-  margin-top: 0.25rem;
-}
-
-.drop-card__desc {
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-  margin: 0.25rem 0 0;
-  line-height: 1.4;
-}
-
-/* ==========================================
    響應式設計
    ========================================== */
 @media (max-width: 640px) {
@@ -628,8 +531,7 @@ const statsCards = useTwinsStats(bossData);
     padding: 0.625rem 0.5rem;
   }
 
-  .phases-grid,
-  .drops-grid {
+  .phases-grid {
     grid-template-columns: 1fr;
   }
 
