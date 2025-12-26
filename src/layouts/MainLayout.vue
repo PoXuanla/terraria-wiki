@@ -26,10 +26,13 @@ const cachedViews = computed(() => tagsViewStore.cachedViewNames)
 
 // 當前頁面標題
 const pageTitle = computed(() => route.meta?.title || 'Terraria Wiki')
+
+// 當前頁面主題（用於 Boss Gallery 等特殊頁面）
+const currentTheme = computed(() => route.meta?.theme || '')
 </script>
 
 <template>
-  <div class="main-layout">
+  <div class="main-layout" :class="{ [`theme-${currentTheme}`]: currentTheme }">
     <!-- 側邊欄 -->
     <aside class="sidebar">
       <!-- Logo / 網站標題 -->
@@ -99,7 +102,7 @@ const pageTitle = computed(() => route.meta?.title || 'Terraria Wiki')
   flex-direction: column;
   box-shadow: var(--shadow-sidebar, 4px 0 24px -8px rgba(0, 0, 0, 0.3));
   z-index: 100;
-  transition: background-color 0.3s ease;
+  transition: background-color var(--transition-normal, 0.3s) ease;
 }
 
 .sidebar__header {
@@ -165,7 +168,9 @@ const pageTitle = computed(() => route.meta?.title || 'Terraria Wiki')
   position: sticky;
   top: 0;
   z-index: 50;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: 
+    background-color var(--transition-normal, 0.3s) ease, 
+    border-color var(--transition-normal, 0.3s) ease;
 }
 
 .header__breadcrumb {
@@ -178,14 +183,14 @@ const pageTitle = computed(() => route.meta?.title || 'Terraria Wiki')
   font-weight: 600;
   color: var(--color-text-primary);
   margin: 0;
-  transition: color 0.3s ease;
+  transition: color var(--transition-normal, 0.3s) ease;
 }
 
 .content {
   flex: 1;
   padding: 1.5rem;
   background-color: var(--color-bg-main);
-  transition: background-color 0.3s ease;
+  transition: background-color var(--transition-normal, 0.3s) ease;
 }
 
 /* ==========================================

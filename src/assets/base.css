@@ -93,6 +93,86 @@
 }
 
 /* ==========================================
+   Boss Gallery 主題 - 恐怖深邃風格
+   ========================================== */
+
+.theme-boss-gallery {
+  /* 主色調 - 暗紅色調 */
+  --color-primary: #dc2626;           /* Red 600 - Boss 警告色 */
+  --color-primary-hover: #b91c1c;     /* Red 700 */
+  --color-primary-light: #ef4444;     /* Red 500 */
+  
+  /* 強調色 - 紫色神秘感 */
+  --color-accent: #a855f7;            /* Purple 500 */
+  --color-accent-hover: #9333ea;      /* Purple 600 */
+  
+  /* 背景色系 - 極深黑色 */
+  --color-bg-sidebar: #0a0a0f;        /* 接近純黑 - 與 Boss Gallery 一致 */
+  --color-bg-main: #0a0a0f;           /* 接近純黑 */
+  --color-bg-header: #0f0f14;         /* 稍微亮一點的黑 */
+  --color-bg-card: #14141a;           /* 卡片背景 */
+  
+  /* 文字色系 - 灰白色 */
+  --color-text-primary: #e0e0e0;      /* 淺灰白 */
+  --color-text-secondary: #a0a0a0;    /* 中灰 */
+  --color-text-muted: #606060;        /* 暗灰 */
+  --color-text-inverse: #0a0a0f;      /* 黑色 */
+  
+  /* 邊框色系 - 極暗 */
+  --color-border: rgba(255, 255, 255, 0.08);    /* 半透明白邊框 */
+  --color-border-light: rgba(255, 255, 255, 0.05);
+  
+  /* 側欄選單專用 - Boss 主題色 */
+  --color-sidebar-text: rgba(255, 255, 255, 0.5);
+  --color-sidebar-text-active: #ffffff;
+  --color-sidebar-hover: rgba(220, 38, 38, 0.15);    /* 暗紅 hover */
+  --color-sidebar-active: rgba(220, 38, 38, 0.25);   /* 暗紅 active */
+  
+  /* 歷史標籤專用 - Boss 主題 */
+  --color-tag-bg: rgba(20, 20, 30, 0.8);
+  --color-tag-bg-active: #dc2626;     /* 暗紅 active */
+  --color-tag-text: rgba(255, 255, 255, 0.6);
+  --color-tag-text-active: #ffffff;
+  
+  /* 過渡時間 - Boss 主題立即切換，無過渡 */
+  --transition-fast: 0ms;
+  --transition-normal: 0ms;
+}
+
+/* Boss Gallery 主題的側邊欄增強效果 */
+.theme-boss-gallery .sidebar {
+  box-shadow: 
+    4px 0 24px -8px rgba(0, 0, 0, 0.8),
+    inset -1px 0 0 rgba(220, 38, 38, 0.2);  /* 內側紅色光暈 */
+}
+
+/* Boss Gallery 主題的 Header 增強效果 */
+.theme-boss-gallery .header {
+  box-shadow: 0 1px 0 rgba(220, 38, 38, 0.2);  /* 底部紅色光暈 */
+  backdrop-filter: blur(10px);
+}
+
+/* Boss Gallery 主題的標題文字增強 */
+.theme-boss-gallery .header__title {
+  text-shadow: 0 0 20px rgba(220, 38, 38, 0.3);  /* 紅色發光 */
+}
+
+/* Boss Gallery 主題的 Logo 增強 */
+.theme-boss-gallery .sidebar__logo-text {
+  text-shadow: 0 0 15px rgba(220, 38, 38, 0.4);
+}
+
+/* Boss Gallery 主題的選單項目 active 狀態 */
+.theme-boss-gallery .menu-item--active::before {
+  background: linear-gradient(
+    to bottom,
+    #dc2626,
+    #a855f7
+  );  /* 紅紫漸變 */
+  box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+}
+
+/* ==========================================
    基礎樣式重置與設定
    ========================================== */
 

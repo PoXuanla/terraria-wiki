@@ -91,6 +91,9 @@ const bossModules = import.meta.glob<{ default: Component }>(
   "@/views/boss/*.vue"
 );
 
+// Boss Gallery 頁面
+const BossGallery = () => import("@/views/boss/BossGallery.vue");
+
 // ==========================================
 // 動態路由生成
 // ==========================================
@@ -178,6 +181,7 @@ const generateBossRoutes = () => {
         title: `${boss.name} (${boss.nameEn})`,
         icon: getBossIcon(boss),
         group: "boss",
+        theme: "boss-gallery", // 所有 Boss 頁面使用相同主題
       },
     };
   });
@@ -237,6 +241,17 @@ const routes: RouteRecordRaw[] = [
       // ==========================================
       // BOSS - 動態生成
       // ==========================================
+      {
+        path: "boss",
+        name: "BossGallery",
+        component: BossGallery,
+        meta: {
+          title: "Boss 圖鑑",
+          icon: Skull,
+          group: "boss",
+          theme: "boss-gallery", // 特殊主題標記
+        },
+      },
       ...generateBossRoutes(),
     ],
   },
@@ -307,11 +322,18 @@ const generateWeaponMenuItems = (): MenuItem[] => {
  * 動態生成 Boss 選單項目
  */
 const generateBossMenuItems = (): MenuItem[] => {
-  return bosses.map((boss) => ({
-    title: `${boss.name} (${boss.nameEn})`,
-    path: `/boss/${boss.slug}`,
-    icon: getBossIcon(boss),
-  }));
+  return [
+    {
+      title: "Boss 圖鑑",
+      path: "/boss",
+      icon: Skull,
+    },
+    ...bosses.map((boss) => ({
+      title: `${boss.name} (${boss.nameEn})`,
+      path: `/boss/${boss.slug}`,
+      icon: getBossIcon(boss),
+    })),
+  ];
 };
 
 /**
