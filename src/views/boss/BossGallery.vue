@@ -109,7 +109,9 @@ const handleBossHover = (slug: string | null) => {
   width: 100%;
   height: 100%;
   opacity: 0.3;
-  filter: blur(100px);
+  filter: blur(80px);
+  will-change: transform, opacity;
+  transform: translateZ(0); /* GPU 加速 */
   animation: nebula-drift 30s ease-in-out infinite;
 }
 
@@ -142,13 +144,13 @@ const handleBossHover = (slug: string | null) => {
 
 @keyframes nebula-drift {
   0%, 100% {
-    transform: translate(0, 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
   }
   33% {
-    transform: translate(50px, -30px) scale(1.1);
+    transform: translate3d(50px, -30px, 0) scale(1.1);
   }
   66% {
-    transform: translate(-30px, 50px) scale(0.9);
+    transform: translate3d(-30px, 50px, 0) scale(0.9);
   }
 }
 
@@ -167,6 +169,7 @@ const handleBossHover = (slug: string | null) => {
   background-position: 0% 0%;
   animation: particles-float 60s linear infinite;
   opacity: 0.15;
+  will-change: background-position;
 }
 
 @keyframes particles-float {

@@ -3,6 +3,7 @@ import { ExternalLink, Star, Sparkles, Trophy } from "lucide-vue-next";
 import DocLayout from "@/layouts/DocLayout.vue";
 import WeaponSmartCard from "@/components/weapons/WeaponSmartCard.vue";
 import WeaponSourceSection from "@/components/weapons/WeaponSourceSection.vue";
+import { useWeaponTheme } from "@/composables/useWeaponTheme";
 import type { WeaponData } from "@/data/weapons/types";
 
 /**
@@ -22,25 +23,8 @@ interface Props {
 
 const props = defineProps<Props>();
 
-// 稀有度等級對應的漸層背景
-const getRarityGradient = (level: number): string => {
-  const gradients: Record<number, string> = {
-    4: "from-red-600 to-orange-500",
-    5: "from-pink-500 to-rose-400",
-    6: "from-purple-500 to-violet-400",
-    7: "from-lime-500 to-green-400",
-    8: "from-yellow-500 to-amber-400",
-  };
-  return gradients[level] || gradients[5];
-};
-
-// 職業圖示對應
-const classIcons: Record<string, string> = {
-  Ranger: "🏹",
-  Melee: "⚔️",
-  Mage: "🔮",
-  Summoner: "👻",
-};
+// 使用主題 composable
+const { getClassIcon } = useWeaponTheme();
 </script>
 
 <template>
@@ -80,7 +64,7 @@ const classIcons: Record<string, string> = {
                 {{ weapon.rarity.label }}
               </span>
               <span class="badge badge--class">
-                <span class="mr-1">{{ classIcons[weapon.class] || "⚔️" }}</span>
+                <span class="mr-1">{{ getClassIcon(weapon.class) }}</span>
                 {{ weapon.classLabel }}
               </span>
             </div>

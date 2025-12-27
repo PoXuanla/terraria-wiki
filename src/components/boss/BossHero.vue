@@ -2,9 +2,9 @@
 import { ExternalLink, Skull, Star } from "lucide-vue-next";
 
 /**
- * Boss 基础数据接口
+ * Boss Hero 显示所需的基础数据接口
  */
-interface BossData {
+interface BossHeroData {
   /** Boss 中文名称 */
   name: string;
   /** Boss 英文名称 */
@@ -17,8 +17,8 @@ interface BossData {
   description: string;
   /** Wiki 链接 */
   wikiUrl: string;
-  /** Boss 图标 URL */
-  icon: string;
+  /** Boss 图标 URL（可选，某些 Boss 如 The Twins 使用 icons 而非 icon） */
+  icon?: string;
 }
 
 /**
@@ -31,7 +31,7 @@ type GlowVariant = "red" | "green";
  */
 interface Props {
   /** Boss 基础数据 */
-  bossData: BossData;
+  bossData: BossHeroData;
   /** 背景 glow 颜色变体（可选，支持多个） */
   glowVariants?: GlowVariant[];
 }
@@ -59,7 +59,7 @@ const props = withDefaults(defineProps<Props>(), {
       <!-- BOSS 图标区域 (通过 slot 自定义) -->
       <slot name="icon">
         <!-- 默认单图标样式 -->
-        <div class="hero__icon-wrapper">
+        <div v-if="bossData.icon" class="hero__icon-wrapper">
           <div class="hero__icon-glow"></div>
           <div class="hero__icon-frame">
             <img

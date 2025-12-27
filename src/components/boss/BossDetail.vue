@@ -1,5 +1,6 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
+import type { Component } from "vue";
 import BossHero from "@/components/boss/BossHero.vue";
 import BossSummoning from "@/components/boss/BossSummoning.vue";
 import BossArena from "@/components/boss/BossArena.vue";
@@ -9,111 +10,129 @@ import BossBehavior from "@/components/boss/BossBehavior.vue";
 import StrategyHighlight from "@/components/boss/StrategyHighlight.vue";
 import BossEquipment from "@/components/boss/BossEquipment.vue";
 import BossDrops from "@/components/boss/BossDrops.vue";
+import type { BossData } from "@/data/boss/types";
 
-const props = defineProps({
+/**
+ * Boss 切換器配置項
+ */
+interface BossSwitcherItem {
+  slug: string;
+  name: string;
+  nameEn: string;
+  icon: string;
+  route: string;
+  glowColor: string;
+}
+
+/**
+ * 系列配置（用於 Boss 切換器）
+ */
+interface SeriesConfig {
+  label: string;
+  bosses: BossSwitcherItem[];
+}
+
+/**
+ * 屬性卡片數據
+ */
+interface StatsCard {
+  name: string;
+  nameEn: string;
+  icon: string;
+  hp: number | string;
+  defense: number | string;
+  damage: number | string;
+  notes: string;
+  color?: string;
+  danger?: "low" | "medium" | "high";
+  highlight?: boolean;
+}
+
+/**
+ * Hero 發光顏色變體
+ */
+type GlowVariant = "red" | "green";
+
+/**
+ * BossDetail 組件 Props
+ */
+interface Props {
   // ==================== 必需數據 ====================
-  // Boss 數據
-  bossData: {
-    type: Object,
-    required: true,
-  },
-  // 當前 Boss slug
-  currentSlug: {
-    type: String,
-    required: true,
-  },
+  /** Boss 數據 */
+  bossData: BossData;
+  /** 當前 Boss slug */
+  currentSlug: string;
 
   // ==================== 可選配置 ====================
-  // 系列配置
-  seriesConfig: {
-    type: Object,
-    default: null,
-  },
+  /** 系列配置（用於顯示切換器） */
+  seriesConfig?: SeriesConfig | null;
 
   // ==================== Stats Section ====================
-  // 屬性卡片數據
-  statsCards: {
-    type: Array,
-    default: () => [],
-  },
-  // Stats Section 標題
-  statsTitle: {
-    type: String,
-    default: "屬性數據",
-  },
-  // Stats Section Icon
-  statsIcon: {
-    type: [Object, Function],
-    default: null,
-  },
-  // Stats Section Grid Columns
-  statsGridCols: {
-    type: Number,
-    default: 2,
-  },
+  /** 屬性卡片數據 */
+  statsCards?: StatsCard[];
+  /** Stats Section 標題 */
+  statsTitle?: string;
+  /** Stats Section Icon */
+  statsIcon?: Component | null;
+  /** Stats Section Grid Columns */
+  statsGridCols?: 1 | 2 | 3;
 
   // ==================== Hero Section ====================
-  // Hero 發光顏色變體
-  glowVariants: {
-    type: Array,
-    default: undefined,
-  },
+  /** Hero 發光顏色變體 */
+  glowVariants?: GlowVariant[];
 
   // ==================== Strategy Section ====================
-  // 水印圖示（用於 StrategyHighlight）
-  watermarkIcon: {
-    type: String,
-    default: undefined,
-  },
-  // 水印是否橫向
-  watermarkHorizontal: {
-    type: Boolean,
-    default: false,
-  },
+  /** 水印圖示（用於 StrategyHighlight） */
+  watermarkIcon?: string;
+  /** 水印是否橫向 */
+  watermarkHorizontal?: boolean;
 
   // ==================== 區塊顯示控制 ====================
-  // 是否顯示 Summoning Section
-  showSummoning: {
-    type: Boolean,
-    default: true,
-  },
-  // 是否顯示 Arena Section
-  showArena: {
-    type: Boolean,
-    default: true,
-  },
-  // 是否顯示 Stats Section
-  showStats: {
-    type: Boolean,
-    default: true,
-  },
-  // 是否顯示 Behavior Section
-  showBehavior: {
-    type: Boolean,
-    default: true,
-  },
-  // 是否顯示 Strategy Section
-  showStrategy: {
-    type: Boolean,
-    default: true,
-  },
-  // 是否顯示 Equipment Section
-  showEquipment: {
-    type: Boolean,
-    default: true,
-  },
-  // 是否顯示 Drops Section
-  showDrops: {
-    type: Boolean,
-    default: true,
-  },
+  /** 是否顯示 Summoning Section */
+  showSummoning?: boolean;
+  /** 是否顯示 Arena Section */
+  showArena?: boolean;
+  /** 是否顯示 Stats Section */
+  showStats?: boolean;
+  /** 是否顯示 Behavior Section */
+  showBehavior?: boolean;
+  /** 是否顯示 Strategy Section */
+  showStrategy?: boolean;
+  /** 是否顯示 Equipment Section */
+  showEquipment?: boolean;
+  /** 是否顯示 Drops Section */
+  showDrops?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  seriesConfig: null,
+  statsCards: () => [],
+  statsTitle: "屬性數據",
+  statsIcon: null,
+  statsGridCols: 2,
+  glowVariants: undefined,
+  watermarkIcon: undefined,
+  watermarkHorizontal: false,
+  showSummoning: true,
+  showArena: true,
+  showStats: true,
+  showBehavior: true,
+  showStrategy: true,
+  showEquipment: true,
+  showDrops: true,
 });
 
-// 計算水印圖示，優先使用 prop，否則使用 bossData.icon
+// 計算水印圖示，優先使用 prop，否則嘗試從 bossData 取得 icon
 const computedWatermarkIcon = computed(() => {
-  return props.watermarkIcon !== undefined
-    ? props.watermarkIcon
-    : props.bossData.icon;
+  if (props.watermarkIcon !== undefined) {
+    return props.watermarkIcon;
+  }
+  // TheDestroyerData 和 SkeletronPrimeData 有 icon 屬性
+  // TheTwinsData 有 icons 屬性（但不適用於水印）
+  if ('icon' in props.bossData) {
+    return props.bossData.icon;
+  }
+  return '';
 });
 </script>
 

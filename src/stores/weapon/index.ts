@@ -71,40 +71,45 @@ export const useWeaponStore = defineStore("weapon", () => {
   });
 
   /**
-   * 篩選後的武器列表
+   * 篩選後的武器列表（優化版：合併過濾條件，減少迭代次數）
    */
   const filteredWeapons = computed<WeaponListItem[]>(() => {
-    let result = [...weapons.value];
+    // 預先計算搜尋關鍵字（避免重複 toLowerCase）
+    const query = searchQuery.value ? searchQuery.value.toLowerCase() : null;
 
-    // 搜尋過濾
-    if (searchQuery.value) {
-      const query = searchQuery.value.toLowerCase();
-      result = result.filter(
-        (w) =>
-          w.name.toLowerCase().includes(query) ||
-          w.nameEn.toLowerCase().includes(query)
-      );
-    }
+    // 單次過濾：合併所有條件
+    const filtered = weapons.value.filter((weapon) => {
+      // 搜尋過濾
+      if (query) {
+        const matchesSearch =
+          weapon.name.toLowerCase().includes(query) ||
+          weapon.nameEn.toLowerCase().includes(query);
+        if (!matchesSearch) return false;
+      }
 
-    // 職業過濾
-    if (selectedClass.value) {
-      result = result.filter((w) => w.class === selectedClass.value);
-    }
+      // 職業過濾
+      if (selectedClass.value && weapon.class !== selectedClass.value) {
+        return false;
+      }
 
-    // 稀有度過濾
-    if (selectedRarity.value) {
-      result = result.filter((w) => w.rarity.level === selectedRarity.value);
-    }
+      // 稀有度過濾
+      if (selectedRarity.value && weapon.rarity.level !== selectedRarity.value) {
+        return false;
+      }
 
-    // 取得方式過濾
-    if (selectedSource.value) {
-      result = result.filter((w) =>
-        w.sources.some((s) => s.type === selectedSource.value)
-      );
-    }
+      // 取得方式過濾
+      if (selectedSource.value) {
+        const hasMatchingSource = weapon.sources.some(
+          (s) => s.type === selectedSource.value
+        );
+        if (!hasMatchingSource) return false;
+      }
 
-    // 排序
-    result.sort((a, b) => {
+      return true;
+    });
+
+    // 排序（使用 toSorted 避免修改原陣列，Vue 3.3+ 支援）
+    return filtered.slice().sort((a, b) => {
       let comparison = 0;
 
       switch (sortBy.value) {
@@ -121,8 +126,6 @@ export const useWeaponStore = defineStore("weapon", () => {
 
       return sortOrder.value === "desc" ? -comparison : comparison;
     });
-
-    return result;
   });
 
   /**

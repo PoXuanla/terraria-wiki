@@ -34,9 +34,9 @@ const classOptions = computed<ClassOption[]>(() => {
 });
 
 // 稀有度選項（動態生成）
-const rarityOptions = ref<RarityOption[]>([
+const rarityOptions = computed<RarityOption[]>(() => [
   { key: "", label: "全部" },
-  ...weaponStore.rarityLevels.map((level: number) => ({
+  ...weaponStore.rarityLevels.map((level) => ({
     key: level,
     label: `${level}`,
   })),
@@ -47,37 +47,32 @@ const sourceOptions = computed<SourceOption[]>(() => {
   // 從所有武器中提取實際使用的取得方式類型
   const usedTypes = [
     ...new Set(
-      weaponStore.weapons.flatMap((w: any) =>
-        w.sources.map((s: any) => s.type as string)
+      weaponStore.weapons.flatMap((w) =>
+        w.sources.map((s) => s.type)
       )
     ),
-  ].sort() as string[];
+  ].sort();
 
   return [
     { key: "", ...SOURCE_CONFIG[""] },
-    ...usedTypes.map((sourceType: string) => ({
+    ...usedTypes.map((sourceType) => ({
       key: sourceType,
-      ...SOURCE_CONFIG[sourceType],
+      ...SOURCE_CONFIG[sourceType] ?? { label: sourceType, icon: '📦' },
     })),
   ];
 });
 
 // ==========================================
-// 搜尋框本地狀態（用於即時輸入回饋）
+// 搜尋框邏輯（使用 computed 實現雙向綁定）
 // ==========================================
 
-const localSearchQuery = ref(weaponStore.searchQuery);
-
-// 監聽輸入並使用 debounce 更新 store
-const handleSearchInput = (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  localSearchQuery.value = target.value;
-  weaponStore.setSearchQuery(target.value);
-};
+const searchQuery = computed({
+  get: () => weaponStore.searchQuery,
+  set: (value: string) => weaponStore.setSearchQuery(value)
+});
 
 // 清除搜尋
 const clearSearch = () => {
-  localSearchQuery.value = "";
   weaponStore.setSearchQueryImmediate("");
 };
 </script>
@@ -88,14 +83,13 @@ const clearSearch = () => {
     <div class="search-box">
       <Search :size="18" class="search-box__icon" />
       <input
-        :value="localSearchQuery"
-        @input="handleSearchInput"
+        v-model="searchQuery"
         type="text"
         placeholder="搜尋武器名稱..."
         class="search-box__input"
       />
       <button
-        v-if="localSearchQuery"
+        v-if="searchQuery"
         @click="clearSearch"
         class="search-box__clear"
       >
@@ -204,10 +198,7 @@ const clearSearch = () => {
       </span>
       <button
         v-if="weaponStore.hasFilters"
-        @click="
-          weaponStore.clearFilters();
-          localSearchQuery = '';
-        "
+        @click="weaponStore.clearFilters()"
         class="clear-btn"
       >
         <X :size="14" />
