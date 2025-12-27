@@ -30,11 +30,11 @@ const biomeThreats = [
     nameEn: "Corruption",
     icon: "https://terraria.wiki.gg/images/f/f7/Ebonstone_Block.png",
     colors: {
-      bg: "bg-purple-50",
-      border: "border-purple-300",
-      text: "text-purple-900",
+      bg: "#2e1065",
+      border: "#a78bfa",
+      text: "#e9d5ff",
       accent: "#7c3aed",
-      gradient: "from-purple-600 to-violet-500",
+      gradient: "linear-gradient(to bottom right, #7c3aed, #8b5cf6)",
     },
     spreadRate: "快速",
     affectedBlocks: ["石塊", "沙塊", "冰塊", "草地"],
@@ -47,11 +47,11 @@ const biomeThreats = [
     nameEn: "Crimson",
     icon: "https://terraria.wiki.gg/images/a/a8/Crimstone_Block.png",
     colors: {
-      bg: "bg-red-50",
-      border: "border-red-300",
-      text: "text-red-900",
+      bg: "#7f1d1d",
+      border: "#fca5a5",
+      text: "#fecaca",
       accent: "#dc2626",
-      gradient: "from-red-600 to-rose-500",
+      gradient: "linear-gradient(to bottom right, #dc2626, #f43f5e)",
     },
     spreadRate: "快速",
     affectedBlocks: ["石塊", "沙塊", "冰塊", "草地"],
@@ -64,11 +64,11 @@ const biomeThreats = [
     nameEn: "The Hallow",
     icon: "https://terraria.wiki.gg/images/d/d1/Pearlstone_Block.png",
     colors: {
-      bg: "bg-pink-50",
-      border: "border-pink-300",
-      text: "text-pink-900",
+      bg: "#831843",
+      border: "#f9a8d4",
+      text: "#fbcfe8",
       accent: "#ec4899",
-      gradient: "from-pink-500 to-rose-400",
+      gradient: "linear-gradient(to bottom right, #ec4899, #fb7185)",
     },
     spreadRate: "快速",
     affectedBlocks: ["石塊", "沙塊", "冰塊", "草地"],
@@ -270,7 +270,11 @@ const operationTips = [
           <article
             v-for="biome in biomeThreats"
             :key="biome.id"
-            :class="['biome-card', biome.colors.bg, biome.colors.border]"
+            class="biome-card"
+            :style="{ 
+              backgroundColor: biome.colors.bg,
+              borderColor: biome.colors.border
+            }"
           >
             <div class="biome-card__header">
               <BaseIcon
@@ -279,7 +283,10 @@ const operationTips = [
                 class="biome-card__icon"
               />
               <div class="biome-card__title-group">
-                <h3 :class="['biome-card__name', biome.colors.text]">
+                <h3 
+                  class="biome-card__name"
+                  :style="{ color: biome.colors.text }"
+                >
                   {{ biome.name }}
                 </h3>
                 <span class="biome-card__name-en">{{ biome.nameEn }}</span>
@@ -293,7 +300,10 @@ const operationTips = [
               </span>
             </div>
 
-            <p :class="['biome-card__desc', biome.colors.text]">
+            <p 
+              class="biome-card__desc"
+              :style="{ color: biome.colors.text }"
+            >
               {{ biome.description }}
             </p>
 
@@ -376,24 +386,20 @@ const operationTips = [
         <h2 id="jungle-warning">緊急警告：叢林</h2>
 
         <!-- 叢林危機警告區塊 -->
-        <div class="jungle-alert dark:bg-yellow-950/40 dark:border-yellow-600">
+        <div class="jungle-alert">
           <div class="jungle-alert__header">
-            <div
-              class="jungle-alert__icon-wrapper dark:bg-gradient-to-br dark:from-green-800 dark:to-green-900"
-            >
+            <div class="jungle-alert__icon-wrapper">
               <BaseIcon
                 icon="https://terraria.wiki.gg/images/5/52/Jungle_Spores.png"
                 :size="48"
               />
             </div>
             <div class="jungle-alert__title-group">
-              <span
-                class="jungle-alert__badge dark:bg-yellow-800/50 dark:text-yellow-200"
-              >
+              <span class="jungle-alert__badge">
                 <AlertTriangle :size="14" />
                 緊急警告
               </span>
-              <h3 class="jungle-alert__title dark:text-yellow-100">
+              <h3 class="jungle-alert__title">
                 叢林危機：不可逆的破壞
               </h3>
             </div>
@@ -401,16 +407,16 @@ const operationTips = [
 
           <div class="jungle-alert__content">
             <div class="jungle-alert__main">
-              <h4 class="jungle-alert__subtitle dark:text-green-300">
+              <h4 class="jungle-alert__subtitle">
                 <TreePine :size="18" />
                 為什麼必須保護叢林？
               </h4>
-              <p class="jungle-alert__text dark:text-gray-200">
+              <p class="jungle-alert__text">
                 叢林是由<strong>淤泥 (Mud)</strong>
                 構成的。當腐化或猩紅侵蝕到叢林邊緣時：
               </p>
-              <div class="jungle-alert__formula dark:bg-black/30">
-                <div class="formula-step dark:text-gray-300">
+              <div class="jungle-alert__formula">
+                <div class="formula-step">
                   <BaseIcon
                     icon="https://terraria.wiki.gg/images/d/d5/Mud_Block.png"
                     :size="32"
@@ -419,9 +425,9 @@ const operationTips = [
                 </div>
                 <ArrowRight
                   :size="24"
-                  class="formula-arrow dark:text-yellow-400"
+                  class="formula-arrow"
                 />
-                <div class="formula-step dark:text-gray-300">
+                <div class="formula-step">
                   <BaseIcon
                     icon="https://terraria.wiki.gg/images/1/10/Dirt_Block.png"
                     :size="32"
@@ -430,11 +436,9 @@ const operationTips = [
                 </div>
                 <ArrowRight
                   :size="24"
-                  class="formula-arrow dark:text-yellow-400"
+                  class="formula-arrow"
                 />
-                <div
-                  class="formula-step formula-step--danger dark:bg-red-900/40 dark:border-red-500 dark:text-red-300"
-                >
+                <div class="formula-step formula-step--danger">
                   <BaseIcon
                     icon="https://terraria.wiki.gg/images/f/f7/Ebonstone_Block.png"
                     :size="32"
@@ -442,19 +446,17 @@ const operationTips = [
                   <span>邪惡方塊</span>
                 </div>
               </div>
-              <p
-                class="jungle-alert__text jungle-alert__text--emphasis dark:text-yellow-100 dark:bg-yellow-900/30"
-              >
+              <p class="jungle-alert__text jungle-alert__text--emphasis">
                 ⚠️ <strong>淤泥 → 泥土 的轉化是不可逆的！</strong>
                 即使你用綠色溶液淨化，泥土也不會變回淤泥。
               </p>
             </div>
 
-            <div class="jungle-alert__consequence dark:bg-red-900/30">
-              <h4 class="jungle-alert__consequence-title dark:text-red-300">
+            <div class="jungle-alert__consequence">
+              <h4 class="jungle-alert__consequence-title">
                 後果
               </h4>
-              <ul class="jungle-alert__list dark:text-red-200">
+              <ul class="jungle-alert__list">
                 <li>
                   <XCircle :size="16" class="list-icon--danger" />
                   <span>叢林面積永久縮小</span>
@@ -471,9 +473,7 @@ const operationTips = [
             </div>
           </div>
 
-          <div
-            class="jungle-alert__solution dark:bg-green-900/20 dark:border-green-700 dark:text-green-200"
-          >
+          <div class="jungle-alert__solution">
             <Info :size="18" />
             <p>
               <strong>解決方案：</strong>在叢林周圍建立

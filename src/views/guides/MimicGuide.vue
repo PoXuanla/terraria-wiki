@@ -29,7 +29,7 @@ const mimicTypes = [
     nameEn: "Hallowed Mimic",
     biome: "神聖之地",
     biomeColor: "#fbbf24",
-    cardGradient: "from-amber-500 to-yellow-400",
+    cardGradient: "linear-gradient(to bottom right, #f59e0b, #facc15)",
     borderColor: "#fbbf24",
     mimicIcon: "https://terraria.wiki.gg/images/7/7c/Hallowed_Mimic.png",
     keyRequired: {
@@ -62,7 +62,7 @@ const mimicTypes = [
     nameEn: "Corrupt Mimic",
     biome: "腐化之地",
     biomeColor: "#a855f7",
-    cardGradient: "from-purple-600 to-violet-500",
+    cardGradient: "linear-gradient(to bottom right, #9333ea, #8b5cf6)",
     borderColor: "#a855f7",
     mimicIcon: "https://terraria.wiki.gg/images/4/44/Corrupt_Mimic.png",
     keyRequired: {
@@ -95,7 +95,7 @@ const mimicTypes = [
     nameEn: "Crimson Mimic",
     biome: "猩紅之地",
     biomeColor: "#ef4444",
-    cardGradient: "from-red-600 to-rose-500",
+    cardGradient: "linear-gradient(to bottom right, #dc2626, #f43f5e)",
     borderColor: "#ef4444",
     mimicIcon: "https://terraria.wiki.gg/images/b/bc/Crimson_Mimic.png",
     keyRequired: {
@@ -343,7 +343,7 @@ const completionPercent = computed(() => {
             <!-- 卡片頂部 - 寶箱怪資訊 -->
             <div
               class="mimic-card__header"
-              :class="`bg-gradient-to-br ${mimic.cardGradient}`"
+              :style="{ background: mimic.cardGradient }"
             >
               <img
                 :src="mimic.mimicIcon"

@@ -4,3 +4,5 @@ alwaysApply: true
 每次要做 type-check
 
 commit 精簡到三行就好
+
+使用 pnpm 打指令

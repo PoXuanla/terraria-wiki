@@ -31,8 +31,16 @@ const weaponData = computed(() => {
       />
     </WeaponLayout>
   </div>
-  <div v-else class="p-8 text-center">
-    <p class="text-gray-500 dark:text-gray-400">武器資料不存在</p>
+  <div v-else class="error-state">
+    <p>武器資料不存在</p>
   </div>
 </template>
+
+<style scoped>
+.error-state {
+  padding: 2rem;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+</style>
 

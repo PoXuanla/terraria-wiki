@@ -84,7 +84,7 @@ const categories = [
     description: "詳細的戰鬥策略、競技場設計與攻擊模式分析",
     icon: Skull,
     color: "#ef4444",
-    gradient: "from-red-500 to-orange-500",
+    gradient: "linear-gradient(to bottom right, #ef4444, #f97316)",
     link: `/boss/${BossSlug.THE_TWINS}`,
     linkText: "查看攻略",
   },
@@ -95,7 +95,7 @@ const categories = [
     description: "武器評級、製作配方與數值資料",
     icon: Crosshair,
     color: "#22c55e",
-    gradient: "from-green-500 to-emerald-500",
+    gradient: "linear-gradient(to bottom right, #22c55e, #10b981)",
     link: "/weapons",
     linkText: "瀏覽武器",
   },
@@ -106,7 +106,7 @@ const categories = [
     description: "近戰、遠程、魔法、召喚師的最佳裝備搭配",
     icon: Shield,
     color: "#8b5cf6",
-    gradient: "from-violet-500 to-purple-500",
+    gradient: "linear-gradient(to bottom right, #8b5cf6, #a855f7)",
     link: "#",
     linkText: "即將推出",
     disabled: true,
@@ -118,7 +118,7 @@ const categories = [
     description: "狩獵技巧、農場設計與遊戲機制解析",
     icon: BookOpen,
     color: "#06b6d4",
-    gradient: "from-cyan-500 to-blue-500",
+    gradient: "linear-gradient(to bottom right, #06b6d4, #3b82f6)",
     link: "/guides/mimic",
     linkText: "閱讀指南",
   },
@@ -301,11 +301,8 @@ const featuredGuide = {
         >
           <!-- 背景漸層 -->
           <div
-            :class="[
-              'category-card__bg',
-              `bg-gradient-to-br`,
-              category.gradient,
-            ]"
+            class="category-card__bg"
+            :style="{ background: category.gradient }"
           ></div>
 
           <!-- 圖示 -->

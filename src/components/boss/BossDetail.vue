@@ -43,7 +43,7 @@ const props = defineProps({
   },
   // Stats Section Icon
   statsIcon: {
-    type: Object,
+    type: [Object, Function],
     default: null,
   },
   // Stats Section Grid Columns

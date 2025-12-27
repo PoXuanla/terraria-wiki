@@ -253,14 +253,8 @@ onUnmounted(() => {
   padding: 1rem;
   background: var(--color-bg-card);
   border-radius: 0.75rem;
-  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* 深色模式：改用邊框取代陰影 */
-:global(.dark) .doc-toc__inner {
-  box-shadow: none;
   border: 1px solid var(--color-border);
+  transition: background-color 0.3s ease;
 }
 
 .doc-toc__header {
@@ -418,13 +412,8 @@ onUnmounted(() => {
   background: var(--color-bg-card);
   border-radius: 0.75rem;
   padding: 2rem;
-  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.08);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.dark .content-card {
-  box-shadow: none;
   border: 1px solid var(--color-border);
+  transition: background-color 0.3s ease;
 }
 
 @media (max-width: 640px) {
@@ -524,8 +513,8 @@ onUnmounted(() => {
   font-size: 0.875rem;
 }
 
-/* 深色模式 h2 邊框顏色調整 */
-.dark .content-prose h2 {
+/* h2 邊框顏色調整（深色風格） */
+.content-prose h2 {
   border-bottom-color: #4f46e5;
 }
 
@@ -555,48 +544,30 @@ onUnmounted(() => {
 
 /* 特殊樣式：提示框 */
 .content-prose .tip {
-  background: #eff6ff;
-  border: 1px solid #93c5fd;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
   border-radius: 0.5rem;
   padding: 1rem 1.25rem;
   margin: 1.5rem 0;
-}
-
-.dark .content-prose .tip {
-  background: rgba(59, 130, 246, 0.1);
-  border-color: rgba(59, 130, 246, 0.3);
 }
 
 .content-prose .tip-title {
   font-weight: 600;
-  color: #1e40af;
+  color: #93c5fd;
   margin-bottom: 0.5rem;
 }
 
-.dark .content-prose .tip-title {
-  color: #93c5fd;
-}
-
 .content-prose .warning {
-  background: #fef3c7;
-  border: 1px solid #fcd34d;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
   border-radius: 0.5rem;
   padding: 1rem 1.25rem;
   margin: 1.5rem 0;
 }
 
-.dark .content-prose .warning {
-  background: rgba(245, 158, 11, 0.1);
-  border-color: rgba(245, 158, 11, 0.3);
-}
-
 .content-prose .warning-title {
   font-weight: 600;
-  color: #92400e;
-  margin-bottom: 0.5rem;
-}
-
-.dark .content-prose .warning-title {
   color: #fcd34d;
+  margin-bottom: 0.5rem;
 }
 </style>
